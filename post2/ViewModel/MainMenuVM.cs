@@ -5,7 +5,10 @@ using post2.view;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Collections.Specialized;
+using System.ComponentModel.Design;
 using System.Linq;
+using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
@@ -18,30 +21,35 @@ namespace post2.ViewModel
     public class MainMenuVM : BaseVM
     {
         Pop3Client pop3Client;
-        private Popemail email;
-        public Popemail pOPEmail
+        private ObservableCollection<Popemail> email;
+        private Popemail newEmail;
+        public Popemail selectedEmail = new();
+        public CommandVm UpgratePost { get; }
+        public CommandVm Search { get; }
+        public CommandVm Edit { get; }
+        public CommandVm Delete { get; }
+        public CommandVm SendWindow { get; }
+        public CommandVm OpenDeleteMenu { get; }
+        private DispatcherTimer timer = null;
+        string sql = "select e.id, e.subject, e.body, e.datesend from email e";
+        //Popemail = ObservableCollection<Popemail>(PostRepository.Instance.GetAllEmail);
+        public Popemail SelectedEmail
         {
-            get => email;
+            get => selectedEmail;
             set
             {
-                email = value;
+                selectedEmail = value;
                 Signal();
             }
         }
-        public ObservableCollection<Popemail> Email { get; set; } = new();
-        public CommandVm UpgratePost { get; set; }
-        public CommandVm Search { get; set; }
-        public CommandVm Delete { get; set; }
-        public CommandVm Send { get; set; }
-        public CommandVm OpenDeleteMenu { get; set; }
-
-        private DispatcherTimer timer = null;
-        public MainMenuVM()
+        public Popemail NewEmail
         {
-            UpgratePost = new CommandVm(() =>
+            get => newEmail; 
+            set
             {
-                GetMail(email);
-            });
+                selectedEmail = value;
+                Signal();
+            }
         }
         private void timerStart()
         {
@@ -49,19 +57,66 @@ namespace post2.ViewModel
             timer.Tick += new EventHandler(timerTick);
             timer.Interval = new TimeSpan(0, 0, 2);
             timer.Start();
-        }
+        } 
         private void timerTick(object sender, EventArgs e)
         {
             Thread thread = new Thread(GetMail);
             thread.Start();
         }
-        private static Pop3Client ConnectMail()
+        public MainMenuVM()
+        {
+            UpgratePost = new CommandVm(() =>
+            {
+                GetMail(email);
+            });
+
+            //Edit = new CommandVm(() =>
+            //{
+            //    if (SelectedEmail == null)
+            //        return;
+            //    else
+            //    {
+            //        PostRepository.Instance.Edit(NewEmail);
+            //        Signal();
+            //    }
+            //});
+            //Delete = new CommandVm(() =>
+            //{
+            //    if (SelectedEmail == null)
+            //        return;
+            //    else
+            //    {
+            //       PostRepository.Instance.RemoveEmail(Email);
+            //        Signal();
+            //    }
+            //});
+            //Search = new CommandVm(() =>
+            //{
+            //    if (selectedEmail == null)
+            //        return;
+            //    else
+            //    {
+            //        PostRepository.Instance.Search(Email);
+            //        Signal();
+            //    }
+            //});
+
+            SendWindow = new CommandVm(() => 
+            {
+                SendWindow sendWindow = new SendWindow();
+                sendWindow.Show();
+            });
+
+        
+        }
+        public static Pop3Client ConnectMail()
         {
             Pop3Client pop3Client = new Pop3Client();
             var username = "alina1125@suz-ppk.ru";
             var password = "D35de%TJ";
             pop3Client.Connect("pop3.beget.com", 110, false);
             pop3Client.Authenticate(username, password, AuthenticationMethod.UsernameAndPassword);
+           //var user = ActiveUser.Instance.GetUser();
             return pop3Client;
         }
         bool first = true;
@@ -124,14 +179,14 @@ namespace post2.ViewModel
                         Content = part.Body
                     });
                 }
-                email.Dispatcher.Invoke(() =>
-                {
-                    if (first)
-                        Email.Add(email);
-                    else
-                        Email.Insert(0, email);
-                });
-                counter++;
+                //email.Dispatcher.Invoke(() =>
+                //{
+                //    if (first)
+                //        newEmail.Add(email);
+                //    else
+                //        newEmail.Insert(0, email);
+                //});
+                //counter++;
             }
             first = false;
             try

@@ -8,6 +8,17 @@ namespace post2.model
 {
     public class UserRepository
     {
+        private UserRepository() { }
+        static UserRepository instance;
+        public static UserRepository Instance
+        {
+            get
+            {
+                if (instance == null)
+                    instance = new UserRepository();
+                return instance;
+            }
+        }
     }
 }
   

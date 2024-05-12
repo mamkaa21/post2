@@ -34,6 +34,7 @@ namespace post2.view
         public MainMenu()
         {
             InitializeComponent();
+          
             //DataContext = new MainMenuVM();
         }
         //private DispatcherTimer timer = null;
