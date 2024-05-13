@@ -4,8 +4,14 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:post2.view"
+        xmlns:m="clr-namespace:post2.model"
+        xmlns:vm ="clr-namespace:post2.ViewModel"
         mc:Ignorable="d"
+          DataContext="{DynamicResource EnterWindowVM}"
         Title="EnterWindow" Height="450" Width="800"  Background="CornflowerBlue">
+    <Window.Resources >
+        <vm:EnterWindowVM x:Key ="vm"/>
+    </Window.Resources >
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition/>
@@ -29,6 +35,6 @@
         <TextBox Text="{Binding Login}" Grid.Column="2" Grid.Row="1" Margin="0 10 0 30"/>
         <Label Grid.Column="1" Grid.Row="2" Content="Password" FontSize="35" Foreground="Beige" HorizontalAlignment="Center"/>
         <PasswordBox x:Name="passwordBox" Grid.Column="2" Grid.Row="2" Margin="0 10 0 30" />
-        <Button Grid.Column="2" Grid.Row="3" Content="OK🐾" FontSize="30" Click="Button_Click2" Margin="20" Foreground="Beige" Background="CornflowerBlue"/>
+        <Button Grid.Column="2" Grid.Row="3" Content="OK🐾" FontSize="30"  Margin="20" Foreground="Beige" Background="CornflowerBlue"/>
     </Grid>
 </Window>

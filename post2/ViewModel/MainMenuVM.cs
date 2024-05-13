@@ -30,9 +30,9 @@ namespace post2.ViewModel
         public CommandVm Delete { get; }
         public CommandVm SendWindow { get; }
         public CommandVm OpenDeleteMenu { get; }
+        public CommandVm OpenUserWindow { get; }
         private DispatcherTimer timer = null;
-        string sql = "select e.id, e.subject, e.body, e.datesend from email e";
-        //Popemail = ObservableCollection<Popemail>(PostRepository.Instance.GetAllEmail);
+        string sql = "select e.id, e.subject, e.body, e.datesend from email e"; 
         public Popemail SelectedEmail
         {
             get => selectedEmail;
@@ -63,13 +63,15 @@ namespace post2.ViewModel
             Thread thread = new Thread(GetMail);
             thread.Start();
         }
+
+        public AdressBook SelectedAdress { get; set; }
+        public string TextSearch { get; set; }
         public MainMenuVM()
         {
             UpgratePost = new CommandVm(() =>
             {
                 GetMail(email);
             });
-
             //Edit = new CommandVm(() =>
             //{
             //    if (SelectedEmail == null)
@@ -80,35 +82,39 @@ namespace post2.ViewModel
             //        Signal();
             //    }
             //});
-            //Delete = new CommandVm(() =>
-            //{
-            //    if (SelectedEmail == null)
-            //        return;
-            //    else
-            //    {
-            //       PostRepository.Instance.RemoveEmail(Email);
-            //        Signal();
-            //    }
-            //});
-            //Search = new CommandVm(() =>
-            //{
-            //    if (selectedEmail == null)
-            //        return;
-            //    else
-            //    {
-            //        PostRepository.Instance.Search(Email);
-            //        Signal();
-            //    }
-            //});
-
+            Delete = new CommandVm(() =>
+            {
+                if (SelectedEmail == null)
+                    return;
+                else
+                {
+                    PostRepository.Instance.RemovePOPEmail(NewEmail);
+                    Signal();
+                }
+            });
+            Search = new CommandVm(() =>
+            {
+                if (selectedEmail == null)
+                    return;
+                else
+                {
+                    PostRepository.Instance.Search(TextSearch, SelectedAdress);
+                    Signal();
+                }
+            });
             SendWindow = new CommandVm(() => 
             {
                 SendWindow sendWindow = new SendWindow();
                 sendWindow.Show();
             });
-
-        
+            OpenUserWindow = new CommandVm(() =>
+            {
+                UserWindow userWindow = new UserWindow();
+                userWindow.Show();
+            });
         }
+        private void AddPOPEmail() { }
+        private void GetAllPOPEmail() { var email = PostRepository.Instance.GetAllPOPEmails(); }
         public static Pop3Client ConnectMail()
         {
             Pop3Client pop3Client = new Pop3Client();
@@ -116,7 +122,7 @@ namespace post2.ViewModel
             var password = "D35de%TJ";
             pop3Client.Connect("pop3.beget.com", 110, false);
             pop3Client.Authenticate(username, password, AuthenticationMethod.UsernameAndPassword);
-           //var user = ActiveUser.Instance.GetUser();
+            var user = ActiveUser.Instance.GetUser();
             return pop3Client;
         }
         bool first = true;
@@ -151,9 +157,9 @@ namespace post2.ViewModel
                     Subject = message.Headers.Subject,
                     DateSent = message.Headers.DateSent,
                     EmailFrom = message.Headers.From.Address,
-                    //ID_AdressTo = ActiveUser.Instance.GetUser().IDAddress
+                    ID_AdressTo = ActiveUser.Instance.GetUser().IDAddress
                 };
-                //PostRepository.Instance.Popemail(email);
+                PostRepository.Instance.AddPOPEmail(email);
 
                 MessagePart body = message.FindFirstHtmlVersion();
                 if (body != null)
@@ -179,14 +185,14 @@ namespace post2.ViewModel
                         Content = part.Body
                     });
                 }
-                //email.Dispatcher.Invoke(() =>
-                //{
-                //    if (first)
-                //        newEmail.Add(email);
-                //    else
-                //        newEmail.Insert(0, email);
-                //});
-                //counter++;
+                mainMenu.Dispatcher.Invoke(() =>
+                {
+                    if (first)
+                        this.email.Add(email);
+                    else
+                        this.email.Insert(0, email);
+                });
+                counter++;
             }
             first = false;
             try
@@ -195,9 +201,11 @@ namespace post2.ViewModel
             }
             catch { }
         }
-
-      
-
+        MainMenu mainMenu;
+        internal void SetWindow(MainMenu mainMenu)
+        {
+            this.mainMenu = mainMenu;
+        }
     }
 
 }

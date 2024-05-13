@@ -1,5 +1,4 @@
-﻿using post2.ViewModel;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -16,14 +15,13 @@ using System.Windows.Shapes;
 namespace post2.view
 {
     /// <summary>
-    /// Логика взаимодействия для EnterWindow.xaml
+    /// Логика взаимодействия для UserWindow.xaml
     /// </summary>
-    public partial class EnterWindow : Window
+    public partial class UserWindow : Window
     {
-        public EnterWindow()
+        public UserWindow()
         {
             InitializeComponent();
-            ((EnterWindowVM)this.DataContext).SetWindow(this);
         }
     }
 }

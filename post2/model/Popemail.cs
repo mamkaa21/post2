@@ -19,7 +19,7 @@ namespace post2.model
         public int ID_AdressFrom { get; set; }
         public int ID_AdressTo { get; set; }
         public int MessageNumber { get; set; }
-        //public string From { get; set; }
+        public string From { get; set; }
         public string Subject { get; set; }
         public string Body { get; set; }
         public DateTime DateSent { get; set; }
@@ -28,7 +28,6 @@ namespace post2.model
         public string EmailFrom { get; internal set; }
         public string TitleFrom { get; internal set; }
     }
-
     [Serializable]
     public class Attachments
     {

@@ -21,6 +21,8 @@ using System.ComponentModel;
 using System.Text.RegularExpressions;
 using System.Web;
 using System.Windows.Threading;
+using post2.ViewModel;
+
 
 
 namespace post2.view
@@ -29,13 +31,11 @@ namespace post2.view
     /// Логика взаимодействия для MainMenu.xaml
     /// </summary>
     public partial class MainMenu : Window
-    {
-        Pop3Client pop3Client;
+    {     
         public MainMenu()
         {
             InitializeComponent();
-          
-            //DataContext = new MainMenuVM();
+            ((MainMenuVM)this.DataContext).SetWindow(this);
         }
         //private DispatcherTimer timer = null;
         //private void timerStart()
