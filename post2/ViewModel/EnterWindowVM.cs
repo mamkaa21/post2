@@ -16,13 +16,13 @@ namespace post2.ViewModel
 
         public EnterWindowVM()
         {
-            var user = UserRepository.Instance.GetUserByLoginPassword(Login, passwordBox.Password);
-            if (user.ID != 0)
-            {
-                ActiveUser.Instance.SetUser(user);
+            //var user = UserRepository.Instance.GetUserByLoginPassword(Login, passwordBox.Password);
+            //if (user.ID != 0)
+            //{
+            //    ActiveUser.Instance.SetUser(user);
                 MainMenu mainMenu = new MainMenu();
                 mainMenu.Show();
-            }          
+            //}          
         }
 
         EnterWindow enterWindow;
