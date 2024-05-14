@@ -81,6 +81,7 @@ namespace post2.model
                 mc.Parameters.Add(new MySqlParameter("datesent", pOPEmail.DateSent));
                 mc.ExecuteNonQuery();
             }
+            pOPEmail.ID = id;
             return pOPEmail;
         }
 

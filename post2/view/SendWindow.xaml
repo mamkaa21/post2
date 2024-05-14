@@ -36,8 +36,8 @@
             <Label Grid.Column="1" Grid.Row="4" Content="Тема:"/>
             <TextBox Grid.Column="1" Grid.Row="5" Height="100" Text="{Binding bbody}"  />
             <Image Grid.Column="1" Grid.Row="6"  x:Name="SelectedImage" Stretch="UniformToFill" Margin="1,0,0,0"/>
-            <Button Grid.Column="1" Grid.Row="7" Content="🧷" Margin="5 5 5 0" Foreground="Beige" Background="SteelBlue"/>
-            <Button  Grid.Column="1" Grid.Row="8" Content="Отправить" FontSize="20" Foreground="Beige" Background="SteelBlue" Margin="5 5 5 0"/>
+            <Button Grid.Column="1" Grid.Row="7" Content="🧷" Margin="5 5 5 0" Foreground="Beige" Background="SteelBlue" Command="{Binding Image}"/>
+            <Button  Grid.Column="1" Grid.Row="8" Content="Отправить" FontSize="20" Foreground="Beige" Background="SteelBlue" Margin="5 5 5 0" Command="{Binding SendPost}"/>
         </Grid>
     </ScrollViewer>
 </Window>

@@ -21,7 +21,7 @@ namespace post2.ViewModel
     public class MainMenuVM : BaseVM
     {
         Pop3Client pop3Client;
-        private ObservableCollection<Popemail> email;
+        private ObservableCollection<Popemail> email=new();
         private Popemail newEmail;
         public Popemail selectedEmail = new();
         public CommandVm UpgratePost { get; }
@@ -66,11 +66,13 @@ namespace post2.ViewModel
 
         public AdressBook SelectedAdress { get; set; }
         public string TextSearch { get; set; }
+        public ObservableCollection<Popemail> Email { get => email; set => email = value; }
+
         public MainMenuVM()
         {
             UpgratePost = new CommandVm(() =>
             {
-                GetMail(email);
+                GetMail(Email);
             });
             //Edit = new CommandVm(() =>
             //{
@@ -88,7 +90,8 @@ namespace post2.ViewModel
                     return;
                 else
                 {
-                    PostRepository.Instance.RemovePOPEmail(NewEmail);
+                    PostRepository.Instance.RemovePOPEmail(SelectedEmail);
+
                     Signal();
                 }
             });
@@ -106,15 +109,18 @@ namespace post2.ViewModel
             {
                 SendWindow sendWindow = new SendWindow();
                 sendWindow.Show();
+                Signal();
             });
             OpenUserWindow = new CommandVm(() =>
             {
                 UserWindow userWindow = new UserWindow();
                 userWindow.Show();
+                Signal();
             });
         }
         private void AddPOPEmail() { }
-        private void GetAllPOPEmail() { var email = PostRepository.Instance.GetAllPOPEmails(); }
+        private void GetAllPOPEmail() 
+        { var email = PostRepository.Instance.GetAllPOPEmails(); }
         public static Pop3Client ConnectMail()
         {
             Pop3Client pop3Client = new Pop3Client();
@@ -188,9 +194,9 @@ namespace post2.ViewModel
                 mainMenu.Dispatcher.Invoke(() =>
                 {
                     if (first)
-                        this.email.Add(email);
+                        this.Email.Add(email);
                     else
-                        this.email.Insert(0, email);
+                        this.Email.Insert(0, email);
                 });
                 counter++;
             }
@@ -207,5 +213,4 @@ namespace post2.ViewModel
             this.mainMenu = mainMenu;
         }
     }
-
 }

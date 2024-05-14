@@ -3,9 +3,15 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:post2"
+         xmlns:local="clr-namespace:post2.view"
+         xmlns:m="clr-namespace:post2.model"
+         xmlns:vm ="clr-namespace:post2.ViewModel"
         mc:Ignorable="d"
+         DataContext="{DynamicResource vm}"
         Title="MainWindow" Height="450" Width="800">
+    <Window.Resources >
+        <vm:MainWindowVM x:Key ="vm"/>
+    </Window.Resources >
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition/>
@@ -22,7 +28,7 @@
             <RowDefinition/>
         </Grid.RowDefinitions>
         <Label Grid.Column="1" Grid.ColumnSpan="3" Grid.Row="1" Content="Войдите или зарегистрируйтесь" FontSize="30" HorizontalAlignment="Center"/>
-        <Button Grid.Column="3" Grid.Row="3" Content="Вход" FontSize="27" Click="Button_Enter"/>
-        <Button Grid.Column="1" Grid.Row="3" Content="Регистрация" FontSize="26" Click="Button_Registration"/>
+        <Button Grid.Column="3" Grid.Row="3" Content="Вход" FontSize="27" Command="{Binding EnterWindowOpen}"/>
+        <Button Grid.Column="1" Grid.Row="3" Content="Регистрация" FontSize="26" />
     </Grid>
 </Window>

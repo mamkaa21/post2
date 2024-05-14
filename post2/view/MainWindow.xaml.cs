@@ -1,4 +1,5 @@
-﻿using System.Diagnostics.Metrics;
+﻿using post2.ViewModel;
+using System.Diagnostics.Metrics;
 using System.Text;
 using System.Windows;
 using System.Windows.Controls;
@@ -20,18 +21,7 @@ namespace post2.view
         public MainWindow()
         {
             InitializeComponent();
-        }
-        private void Button_Enter(object sender, RoutedEventArgs e)
-        {
-            EnterWindow enter = new EnterWindow();
-            enter.Show();
-            this.Close();
-        }
-        private void Button_Registration(object sender, RoutedEventArgs e)
-        {
-            RegistrationWindow registration = new RegistrationWindow();
-            registration.Show();
-            this.Close();
+            ((MainWindowVM)this.DataContext).SetWindow(this);
         }
     }
 }

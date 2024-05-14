@@ -7,7 +7,7 @@
         xmlns:m="clr-namespace:post2.model"
         xmlns:vm ="clr-namespace:post2.ViewModel"
         mc:Ignorable="d"
-        DataContext="{DynamicResource MainMenuVM}"
+        DataContext="{DynamicResource vm}"
         Title="MainMenu" Height="450" Width="800">
     <Window.Resources >
         <vm:MainMenuVM x:Key ="vm"/>
@@ -40,7 +40,7 @@
         <Label Grid.Column="2" Grid.ColumnSpan="2" Grid.Row="1" Content="Входящие  ✉" FontSize="30" Foreground ="SteelBlue" HorizontalAlignment="Left"/>
         <Button Grid.Column="5" Grid.Row="1" Content="↺" FontSize="20" Margin="-50 10 130 5" Foreground="SteelBlue" Background="White" Command="{Binding UpgratePost}"/>
         <Button Grid.Column="4" Grid.Row="1" Margin="0 10 80 5" Background="White" Content="🔍" Foreground="SteelBlue"  Command="{Binding Search}" />
-        <ListView x:Name="test" Grid.ColumnSpan="3" Grid.Row="2" Grid.Column="2" Grid.RowSpan="6" ItemsSource="{Binding Email}" SelectedItem="{Binding POPEmail}">
+        <ListView x:Name="test" Grid.ColumnSpan="3" Grid.Row="2" Grid.Column="2" Grid.RowSpan="6" ItemsSource="{Binding Email}" SelectedItem="{Binding SelectedEmail}">
             <ListView.View>
                 <GridView>
                     <GridViewColumn DisplayMemberBinding="{Binding From}"/>
@@ -55,7 +55,7 @@
         <Button Grid.Row="4" Content="⛔" FontSize="25" Foreground ="SteelBlue" HorizontalAlignment="Center" Background="White"/>
         <Button Grid.Row="5" Content="🗑️" FontSize="25" Foreground ="SteelBlue" HorizontalAlignment="Center" Background="White"/>
         <Button Grid.Column="4" Grid.Row="8" Content="✍" Command="{Binding SendWindow}" Margin="5 5 5 0" FontSize="30" Foreground="Beige" Background="SteelBlue"/>
-        <Button Grid.Column="2" Grid.Row="8" Content="🗑️" Command="{Binding Button_Delete}" Margin="5 5 5 0" FontSize="30" Foreground="Beige" Background="SteelBlue"/>
+        <Button Grid.Column="2" Grid.Row="8" Content="🗑️" Command="{Binding Delete}" Margin="5 5 5 0" FontSize="30" Foreground="Beige" Background="SteelBlue"/>
         <Button Grid.Column="7" Grid.Row="2" Content="😽" Command="{Binding OpenUserWindow}" FontSize="35" Foreground ="SteelBlue" HorizontalAlignment="Center" Background="White"/>
     </Grid>
 </Window>

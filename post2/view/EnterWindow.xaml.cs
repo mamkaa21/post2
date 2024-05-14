@@ -24,6 +24,7 @@ namespace post2.view
         {
             InitializeComponent();
             ((EnterWindowVM)this.DataContext).SetWindow(this);
+            ((EnterWindowVM)this.DataContext).SetPasswordBox(passwordBox);
         }
     }
 }
