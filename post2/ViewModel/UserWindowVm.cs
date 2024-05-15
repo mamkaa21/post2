@@ -54,11 +54,8 @@ namespace post2.ViewModel
         }
         internal void CloseWindow(UserWindow userWindow)
         {
-            this.userWindow = userWindow;
+            this.userWindow.Close();
         }
-
-       
-
         private void SelectImage(object sender, RoutedEventArgs e)
         {
             OpenFileDialog openFileDialog = new OpenFileDialog();

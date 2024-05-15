@@ -29,7 +29,7 @@ namespace post2.model
             var connect = MySqlDB.Instance.GetConnection();
             if (connect == null)
                 return result;
-            string sql = "SELECT Email.ID, ID_AdressFrom, Subject, DateSend, AdressBook.Email, AdressBook.Title FROM Email, AdressBook where ID_AdressTo = " + ActiveUser.Instance.GetUser().IDAddress + " AND ID_AdressFrom = AdressBook.ID";
+            string sql = "SELECT Email.ID, ID_AdressFrom, ID_AdressTo, Subject, Body, DateSend, AdressBook.Email, AdressBook.Title FROM Email, AdressBook where ID_AdressTo = " + ActiveUser.Instance.GetUser().IDAddress + " AND ID_AdressFrom = AdressBook.ID";
             using (var mc = new MySqlCommand(sql, connect))
             using (var reader = mc.ExecuteReader())
             {
@@ -107,8 +107,6 @@ namespace post2.model
         internal IEnumerable<Popemail> Search(string searchText, Popemail pOPEmail)
         {
             string sql = "select  e.ID_AdressFrom, e.Subject, e.Body, e.DateSend from Email e";
-            sql += " AND (e.ID_AdressFrom LIKE '%" + searchText + "%'";
-            sql += " OR e.Subject LIKE '%" + searchText + "%') order by e.id";
             if (pOPEmail.ID != 0)
             {
                 var result = GetAllPOPEmails().Where(s => s.AdressBooks.FirstOrDefault(s => s.ID == pOPEmail.ID) != null);
@@ -133,7 +131,6 @@ namespace post2.model
                 mc.ExecuteNonQuery();
             }
         }
-
     }
 }
 

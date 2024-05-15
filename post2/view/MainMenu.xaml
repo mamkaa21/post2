@@ -46,7 +46,7 @@
                     <GridViewColumn DisplayMemberBinding="{Binding From}"/>
                     <GridViewColumn DisplayMemberBinding="{Binding Subject}"/>
                     <GridViewColumn DisplayMemberBinding="{Binding Body}"/>
-                    <!--<<GridViewColumn Image x:Name="SelectedImage" />-->
+                  
                     <GridViewColumn >
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>

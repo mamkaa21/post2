@@ -100,7 +100,7 @@ namespace post2.ViewModel
         }
         internal void CloseWindow(SendWindow sendWindow)
         {
-            this.sendWindow = sendWindow;
+            this.sendWindow.Close();
         }
         Image selectedImage;
         internal void SetImage(Image selectedImage)

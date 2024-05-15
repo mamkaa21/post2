@@ -87,6 +87,7 @@ namespace post2.ViewModel
             {
                 SendWindow sendWindow = new SendWindow();
                 sendWindow.Show();
+
                 Signal();
             });
             OpenUserWindow = new CommandVm(() =>
@@ -212,7 +213,7 @@ namespace post2.ViewModel
                     sort[i].MessageNumber = i + 1;
             }
             catch { }
-            //PostRepository.Instance.UpdatePOPEmail(selectedEmail);
+            PostRepository.Instance.UpdatePOPEmail(selectedEmail);
         }
         private void RemoveMessage()
         {
