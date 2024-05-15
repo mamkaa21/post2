@@ -19,6 +19,7 @@ namespace post2.ViewModel
             {
                 EnterWindow enterWindow = new EnterWindow();
                 enterWindow.Show();
+                CloseWindow(mainWindow);
                 Signal();
             });
         }
@@ -26,6 +27,11 @@ namespace post2.ViewModel
         internal void SetWindow(MainWindow mainWindow)
         {
             this.mainWindow = mainWindow;
+        }
+
+        internal void CloseWindow(MainWindow mainWindow)
+        { 
+            this.mainWindow.Close();
         }
     }
 }

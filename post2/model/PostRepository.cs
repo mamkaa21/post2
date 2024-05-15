@@ -41,7 +41,7 @@ namespace post2.model
                     pOPEmail.ID_AdressTo = reader.GetInt32("ID_AdressTo");
                     pOPEmail.Subject = reader.GetString("Subject");
                     pOPEmail.Body = reader.GetString("Body");
-                    pOPEmail.DateSent = reader.GetDateTime("DateSend");
+                    pOPEmail.DateSend = reader.GetDateTime("DateSend");
                     pOPEmail.EmailFrom = reader.GetString("Email");
                     pOPEmail.TitleFrom = reader.GetString("Title");
                     result.Add(pOPEmail);
@@ -71,19 +71,28 @@ namespace post2.model
                 }
             }
             int id = MySqlDB.Instance.GetAutoID("Email");
-            sql = "INSERT INTO Email VALUES (0, @id_AdressFrom, @id_AdressTo, @subject, @body, @datesent)";
+            sql = "INSERT INTO Email VALUES (0, @id_AdressFrom, @id_AdressTo, @subject, @body, @datesend)";
             using (var mc = new MySqlCommand(sql, connect))
             {
                 mc.Parameters.Add(new MySqlParameter("id_AdressFrom", pOPEmail.ID_AdressFrom));
                 mc.Parameters.Add(new MySqlParameter("id_AdressTo", pOPEmail.ID_AdressTo));
                 mc.Parameters.Add(new MySqlParameter("subject", pOPEmail.Subject));
                 mc.Parameters.Add(new MySqlParameter("body", pOPEmail.Body));
-                mc.Parameters.Add(new MySqlParameter("datesent", pOPEmail.DateSent));
+                mc.Parameters.Add(new MySqlParameter("datesend", pOPEmail.DateSend));
                 mc.ExecuteNonQuery();
             }
             pOPEmail.ID = id;
             return pOPEmail;
         }
+        //internal Popemail GetDelPOPEmail(Popemail pOPEmail)
+        //{
+        //    var connect = MySqlDB.Instance.GetConnection();
+        //    if (connect == null) return pOPEmail;
+        //    string sql = "select  FROM Email WHERE id = ' " + pOPEmail.ID + "';";
+        //    using (var mc = new MySqlCommand(sql, connect))
+        //        mc.ExecuteNonQuery();
+        //    return pOPEmail;
+        //}
 
         internal Popemail RemovePOPEmail(Popemail pOPEmail)
         {
@@ -95,12 +104,14 @@ namespace post2.model
             return pOPEmail;
         }
 
-        internal IEnumerable<Popemail> Search(string searchText, AdressBook selectedAdressBook)
+        internal IEnumerable<Popemail> Search(string searchText, Popemail pOPEmail)
         {
-            string sql = "select  e.ID_AdressFrom, e.Subject, e.Body, e.DateSend, ab.Email, ab.Title from Email e, AdressBook ab";
-            if (selectedAdressBook.ID != 0)
+            string sql = "select  e.ID_AdressFrom, e.Subject, e.Body, e.DateSend from Email e";
+            sql += " AND (e.ID_AdressFrom LIKE '%" + searchText + "%'";
+            sql += " OR e.Subject LIKE '%" + searchText + "%') order by e.id";
+            if (pOPEmail.ID != 0)
             {
-                var result = GetAllPOPEmails().Where(s => s.AdressBooks.FirstOrDefault(s => s.ID == selectedAdressBook.ID) != null);
+                var result = GetAllPOPEmails().Where(s => s.AdressBooks.FirstOrDefault(s => s.ID == pOPEmail.ID) != null);
                 return result;
             }
             return GetAllPOPEmails();
@@ -113,12 +124,12 @@ namespace post2.model
             string sql = "delete from Email";
             using (var mc = new MySqlCommand(sql, connect))
                 mc.ExecuteNonQuery();
-            sql = "update Email set ID_AdressFrom = @id_AdressFrom, ID_AdressTo = @id_AdressTo, Subject = @subject, Body =  @body, DateSent =  @datesent where ID = " + pOPEmail.ID;
+            sql = "update Email set ID_AdressFrom = @id_AdressFrom, ID_AdressTo = @id_AdressTo, Subject = @subject, Body =  @body, DateSend =  @datesend where ID = " + pOPEmail.ID;
             using (var mc = new MySqlCommand(sql, connect))
             {
                 mc.Parameters.Add(new MySqlParameter("subject", pOPEmail.Subject));
                 mc.Parameters.Add(new MySqlParameter("body", pOPEmail.Body));
-                mc.Parameters.Add(new MySqlParameter("datesent", pOPEmail.DateSent));
+                mc.Parameters.Add(new MySqlParameter("datesent", pOPEmail.DateSend));
                 mc.ExecuteNonQuery();
             }
         }

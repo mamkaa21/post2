@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
+using System.ComponentModel;
 using System.ComponentModel.Design;
 using System.Linq;
 using System.Security.Cryptography.X509Certificates;
@@ -22,7 +23,6 @@ namespace post2.ViewModel
     {
         Pop3Client pop3Client;
         private ObservableCollection<Popemail> email=new();
-        private Popemail newEmail;
         public Popemail selectedEmail = new();
         public CommandVm UpgratePost { get; }
         public CommandVm Search { get; }
@@ -41,16 +41,7 @@ namespace post2.ViewModel
                 selectedEmail = value;
                 Signal();
             }
-        }
-        public Popemail NewEmail
-        {
-            get => newEmail; 
-            set
-            {
-                selectedEmail = value;
-                Signal();
-            }
-        }
+        } 
         private void timerStart()
         {
             timer = new DispatcherTimer();
@@ -64,7 +55,7 @@ namespace post2.ViewModel
             thread.Start();
         }
 
-        public AdressBook SelectedAdress { get; set; }
+        //public AdressBook SelectedAdress { get; set; }
         public string TextSearch { get; set; }
         public ObservableCollection<Popemail> Email { get => email; set => email = value; }
 
@@ -73,37 +64,24 @@ namespace post2.ViewModel
             UpgratePost = new CommandVm(() =>
             {
                 GetMail(Email);
-            });
-            //Edit = new CommandVm(() =>
-            //{
-            //    if (SelectedEmail == null)
-            //        return;
-            //    else
-            //    {
-            //        PostRepository.Instance.Edit(NewEmail);
-            //        Signal();
-            //    }
-            //});
+            });         
             Delete = new CommandVm(() =>
             {
                 if (SelectedEmail == null)
                     return;
                 else
                 {
+                    //RemoveMessage();
                     PostRepository.Instance.RemovePOPEmail(SelectedEmail);
-
+                    DeletePost();
                     Signal();
                 }
             });
             Search = new CommandVm(() =>
             {
-                if (selectedEmail == null)
-                    return;
-                else
-                {
-                    PostRepository.Instance.Search(TextSearch, SelectedAdress);
+                    PostRepository.Instance.Search(TextSearch, selectedEmail);
                     Signal();
-                }
+                
             });
             SendWindow = new CommandVm(() => 
             {
@@ -161,8 +139,9 @@ namespace post2.ViewModel
                 {
                     MessageNumber = i,
                     Subject = message.Headers.Subject,
-                    DateSent = message.Headers.DateSent,
+                    DateSend = message.Headers.DateSent,
                     EmailFrom = message.Headers.From.Address,
+                    
                     ID_AdressTo = ActiveUser.Instance.GetUser().IDAddress
                 };
                 PostRepository.Instance.AddPOPEmail(email);
@@ -212,5 +191,37 @@ namespace post2.ViewModel
         {
             this.mainMenu = mainMenu;
         }
+        private void DeletePost()
+        {
+            if (SelectedEmail == null)
+            {
+                MessageBox.Show("Не выбран обьект");
+                return;
+            }
+            try
+            {
+                pop3Client = ConnectMail();
+                PostRepository.Instance.RemovePOPEmail(selectedEmail);
+                pop3Client.DeleteMessage(SelectedEmail.MessageNumber);
+                pop3Client.Disconnect();
+                var index = SelectedEmail.MessageNumber;
+                Email.Remove(selectedEmail);
+                var sort = Email.ToArray();
+                Array.Sort(sort, (x, y) => y.DateSend.CompareTo(x.DateSend));
+                for (int i = 0; i < sort.Length; i++)
+                    sort[i].MessageNumber = i + 1;
+            }
+            catch { }
+            //PostRepository.Instance.UpdatePOPEmail(selectedEmail);
+        }
+        private void RemoveMessage()
+        {
+            if (SelectedEmail == null)
+            {
+                MessageBox.Show("Не выбран обьект"); return;
+            }
+            else      
+                Email.Remove(selectedEmail);  
+        }  
     }
 }

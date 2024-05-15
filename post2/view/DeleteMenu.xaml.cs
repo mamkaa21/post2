@@ -16,16 +16,14 @@ using System.Windows.Shapes;
 namespace post2.view
 {
     /// <summary>
-    /// Логика взаимодействия для SendWindow.xaml
+    /// Логика взаимодействия для DeleteMenu.xaml
     /// </summary>
-    public partial class SendWindow : Window
+    public partial class DeleteMenu : Window
     {
-        public SendWindow()
+        public DeleteMenu()
         {
             InitializeComponent();
-            ((SendWindowVm)this.DataContext).SetWindow(this);
-            var vm = DataContext as SendWindowVm;
-            vm.SetImage(SelectedImage);
+            ((DeleteMenuVm)this.DataContext).SetWindow(this);
         }
     }
 }

@@ -46,14 +46,22 @@
                     <GridViewColumn DisplayMemberBinding="{Binding From}"/>
                     <GridViewColumn DisplayMemberBinding="{Binding Subject}"/>
                     <GridViewColumn DisplayMemberBinding="{Binding Body}"/>
-                    <GridViewColumn DisplayMemberBinding="{Binding DateSent}"/>
+                    <!--<<GridViewColumn Image x:Name="SelectedImage" />-->
+                    <GridViewColumn >
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <Image Source="{Binding Attachments[0].Content}"/>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                    <GridViewColumn DisplayMemberBinding="{Binding DateSend}"/>
                 </GridView>
             </ListView.View>
         </ListView>
-        <Button Grid.Row="2" Content="📂" FontSize="25" Foreground ="SteelBlue" HorizontalAlignment="Center" Background="White"/>
-        <Button Grid.Row="3" Content="📝" FontSize="25" Foreground ="SteelBlue" HorizontalAlignment="Center" Background="White"/>
-        <Button Grid.Row="4" Content="⛔" FontSize="25" Foreground ="SteelBlue" HorizontalAlignment="Center" Background="White"/>
-        <Button Grid.Row="5" Content="🗑️" FontSize="25" Foreground ="SteelBlue" HorizontalAlignment="Center" Background="White"/>
+        <Label Grid.Row="2" Content="📂" FontSize="25" Foreground ="SteelBlue" HorizontalAlignment="Center" Background="White"/>
+        <Label Grid.Row="3" Content="📝" FontSize="25" Foreground ="SteelBlue" HorizontalAlignment="Center" Background="White"/>
+        <Label Grid.Row="4" Content="⛔" FontSize="25" Foreground ="SteelBlue" HorizontalAlignment="Center" Background="White"/>
+        <Label Grid.Row="5" Content="🗑️" FontSize="25" Foreground ="SteelBlue" HorizontalAlignment="Center" Background="White"/>
         <Button Grid.Column="4" Grid.Row="8" Content="✍" Command="{Binding SendWindow}" Margin="5 5 5 0" FontSize="30" Foreground="Beige" Background="SteelBlue"/>
         <Button Grid.Column="2" Grid.Row="8" Content="🗑️" Command="{Binding Delete}" Margin="5 5 5 0" FontSize="30" Foreground="Beige" Background="SteelBlue"/>
         <Button Grid.Column="7" Grid.Row="2" Content="😽" Command="{Binding OpenUserWindow}" FontSize="35" Foreground ="SteelBlue" HorizontalAlignment="Center" Background="White"/>

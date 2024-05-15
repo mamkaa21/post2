@@ -24,6 +24,7 @@ namespace post2.ViewModel
                     ActiveUser.Instance.SetUser(user);
                     MainMenu mainMenu = new MainMenu();
                     mainMenu.Show();
+                    CloseWindow(enterWindow);
                     Signal();
                 }
             });
@@ -35,6 +36,10 @@ namespace post2.ViewModel
         internal void SetWindow(EnterWindow enterWindow)
         {
             this.enterWindow = enterWindow;
+        }
+        internal void CloseWindow(EnterWindow enterWindow)
+        {
+            this.enterWindow.Close();
         }
 
         internal void SetPasswordBox(PasswordBox passwordBox)

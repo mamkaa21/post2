@@ -1,4 +1,5 @@
-﻿using System;
+﻿using post2.ViewModel;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -22,6 +23,9 @@ namespace post2.view
         public UserWindow()
         {
             InitializeComponent();
+            ((UserWindowVm)this.DataContext).SetWindow(this);
+            //var vm = DataContext as UserWindowVm;
+            //vm.SetImage(SelectedImage);
         }
     }
 }

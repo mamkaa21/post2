@@ -22,7 +22,7 @@ namespace post2.model
         public string From { get; set; }
         public string Subject { get; set; }
         public string Body { get; set; }
-        public DateTime DateSent { get; set; }
+        public DateTime DateSend { get; set; }
         public List<Attachments> Attachments { get; set; }
         public ObservableCollection<AdressBook> AdressBooks { get; set; }
         public string EmailFrom { get; internal set; }

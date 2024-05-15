@@ -8,7 +8,7 @@
          xmlns:vm ="clr-namespace:post2.ViewModel"
         mc:Ignorable="d"
          DataContext="{DynamicResource vm}"
-        Title="MainWindow" Height="450" Width="800">
+        Title="MainWindow" Height="450" Width="800" Background="CornflowerBlue">
     <Window.Resources >
         <vm:MainWindowVM x:Key ="vm"/>
     </Window.Resources >
@@ -27,8 +27,11 @@
             <RowDefinition/>
             <RowDefinition/>
         </Grid.RowDefinitions>
-        <Label Grid.Column="1" Grid.ColumnSpan="3" Grid.Row="1" Content="Войдите или зарегистрируйтесь" FontSize="30" HorizontalAlignment="Center"/>
-        <Button Grid.Column="3" Grid.Row="3" Content="Вход" FontSize="27" Command="{Binding EnterWindowOpen}"/>
-        <Button Grid.Column="1" Grid.Row="3" Content="Регистрация" FontSize="26" />
+        <Label Grid.Row="0" Grid.Column="0" Content="🐾" FontSize="60" Foreground="Beige"/>
+        <Label Grid.Row="1" Grid.Column="5" Content="🐾" FontSize="60" Foreground="Beige" HorizontalContentAlignment="Right"/>
+
+        <Label Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="3" Content="Добро пожаловать! 🐾" FontSize="30" HorizontalAlignment="Center" Foreground="Beige" />
+        <Button Grid.Column="2" Grid.Row="3" Content="Вход" FontSize="27" Command="{Binding EnterWindowOpen}" Background="CornflowerBlue" Foreground="Beige"/>
+        <!--<Button Grid.Column="1" Grid.Row="3" Content="Регистрация" FontSize="26" Background="CornflowerBlue" Foreground="Beige"/>-->
     </Grid>
 </Window>

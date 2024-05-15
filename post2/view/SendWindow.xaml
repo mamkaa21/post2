@@ -4,8 +4,14 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:post2.view"
-        mc:Ignorable="d"
+          xmlns:m="clr-namespace:post2.model"
+          xmlns:vm ="clr-namespace:post2.ViewModel"
+          mc:Ignorable="d"
+          DataContext="{DynamicResource vm}"
         Title="SendWindow" Height="450" Width="800">
+    <Window.Resources >
+        <vm:SendWindowVm x:Key ="vm"/>
+    </Window.Resources >
     <ScrollViewer VerticalScrollBarVisibility="Auto">
         <Grid>
             <Grid.ColumnDefinitions>
@@ -31,13 +37,14 @@
             <Label Grid.Column="1" Grid.Row="2" Content="Кому:"/>
             <TextBox Grid.Column="1" Grid.Row="2" Margin="50 0 0 20" Text="{Binding Adress}"/>
             <Label Grid.Column="1" Grid.Row="3" Content="От кого:"/>
-            <Label Grid.Column="1" Grid.Row="3" Content="alina1125@suz-ppk.ru" Margin="50 0 0 20"/>
+            <Label Grid.Column="1" Grid.Row="3" Content="alina1125@suz-ppk.ru"  Margin="50 0 0 20"/>
             <TextBox Grid.Column="1" Grid.Row="4" Margin="50 0 0 20" Text="{Binding ssubject}"/>
             <Label Grid.Column="1" Grid.Row="4" Content="Тема:"/>
             <TextBox Grid.Column="1" Grid.Row="5" Height="100" Text="{Binding bbody}"  />
             <Image Grid.Column="1" Grid.Row="6"  x:Name="SelectedImage" Stretch="UniformToFill" Margin="1,0,0,0"/>
             <Button Grid.Column="1" Grid.Row="7" Content="🧷" Margin="5 5 5 0" Foreground="Beige" Background="SteelBlue" Command="{Binding Image}"/>
             <Button  Grid.Column="1" Grid.Row="8" Content="Отправить" FontSize="20" Foreground="Beige" Background="SteelBlue" Margin="5 5 5 0" Command="{Binding SendPost}"/>
+            <Button Grid.Row="2" Content="←" Margin="70 0 70 0" Foreground="SteelBlue" Background="White" FontSize="30" Command="{Binding Back}"/>
         </Grid>
     </ScrollViewer>
 </Window>
