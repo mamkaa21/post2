@@ -47,17 +47,17 @@ namespace post2.ViewModel
             Return = new CommandVm(() =>
             { });
         }
-        private static Pop3Client ConnectMail()
-        {
-            Pop3Client pop3Client = new Pop3Client();
+        //private static Pop3Client ConnectMail()
+        //{
+        //    Pop3Client pop3Client = new Pop3Client();
 
-            var username = "alina1125@suz-ppk.ru";
-            var password = "D35de%TJ";
+        //    var username = "alina1125@suz-ppk.ru";
+        //    var password = "D35de%TJ";
 
-            pop3Client.Connect("pop3.beget.com", 110, false);
-            pop3Client.Authenticate(username, password, AuthenticationMethod.UsernameAndPassword);
-            return pop3Client;
-        }
+        //    pop3Client.Connect("pop3.beget.com", 110, false);
+        //    pop3Client.Authenticate(username, password, AuthenticationMethod.UsernameAndPassword);
+        //    return pop3Client;
+        //}
         private void DeletePost()
         {
             if (SelectedEmail == null)
@@ -67,16 +67,16 @@ namespace post2.ViewModel
             }
             try
             {
-                pop3Client = ConnectMail();
-                PostRepository.Instance.RemovePOPEmail(selectedEmail);
-                pop3Client.DeleteMessage(SelectedEmail.MessageNumber);
-                pop3Client.Disconnect();
-                var index = SelectedEmail.MessageNumber;
+                //pop3Client = ConnectMail();
+                //PostRepository.Instance.RemovePOPEmail(selectedEmail);
+                //pop3Client.DeleteMessage(SelectedEmail.MessageNumber);
+                //pop3Client.Disconnect();
+                //var index = SelectedEmail.MessageNumber;
                 Email.Remove(selectedEmail);
-                var sort = Email.ToArray();
-                Array.Sort(sort, (x, y) => y.DateSend.CompareTo(x.DateSend));
-                for (int i = 0; i < sort.Length; i++)
-                    sort[i].MessageNumber = i + 1;
+                //var sort = Email.ToArray();
+                //Array.Sort(sort, (x, y) => y.DateSend.CompareTo(x.DateSend));
+                //for (int i = 0; i < sort.Length; i++)
+                //    sort[i].MessageNumber = i + 1;
             }
             catch { }
             //PostRepository.Instance.UpdatePOPEmail(selectedEmail);

@@ -29,7 +29,7 @@ namespace post2.model
             var connect = MySqlDB.Instance.GetConnection();
             if (connect == null)
                 return result;
-            string sql = "SELECT Email.ID, ID_AdressFrom, ID_AdressTo, Subject, Body, DateSend, AdressBook.Email, AdressBook.Title FROM Email, AdressBook where ID_AdressTo = " + ActiveUser.Instance.GetUser().IDAddress + " AND ID_AdressFrom = AdressBook.ID";
+            string sql = "SELECT Email.ID, ID_AdressFrom, ID_AdressTo, Subjecct, Body, DateSend, AdressBook.Email, AdressBook.Title FROM email, adressbook where ID_AdressTo = " + ActiveUser.Instance.GetUser().IDAddress + " AND ID_AdressFrom = AdressBook.ID";
             using (var mc = new MySqlCommand(sql, connect))
             using (var reader = mc.ExecuteReader())
             {
@@ -39,7 +39,7 @@ namespace post2.model
                     pOPEmail.ID = reader.GetInt32("id");
                     pOPEmail.ID_AdressFrom = reader.GetInt32("ID_AdressFrom");
                     pOPEmail.ID_AdressTo = reader.GetInt32("ID_AdressTo");
-                    pOPEmail.Subject = reader.GetString("Subject");
+                    pOPEmail.Subject = reader.GetString("Subjecct");
                     pOPEmail.Body = reader.GetString("Body");
                     pOPEmail.DateSend = reader.GetDateTime("DateSend");
                     pOPEmail.EmailFrom = reader.GetString("Email");
@@ -49,6 +49,38 @@ namespace post2.model
             }
             return result;
         }
+
+        internal IEnumerable<Popemail> GetSelectedPOPEmails(Popemail popemail)
+        {
+            ObservableCollection<Popemail> result = new ObservableCollection<Popemail>();
+            var connect = MySqlDB.Instance.GetConnection();
+            if (connect == null)
+                return result;
+            if (popemail != null)
+            {
+                string sql = "SELECT ID, ID_AdressFrom, ID_AdressTo, Subjecct, Body, DateSend, FROM email where ID_AdressTo = " + ActiveUser.Instance.GetUser().IDAddress + " AND ID_AdressFrom = AdressBook.ID";
+                using (var mc = new MySqlCommand(sql, connect))
+                using (var reader = mc.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        var pOPEmail = new Popemail();
+                        pOPEmail.ID = reader.GetInt32("id");
+                        pOPEmail.ID_AdressFrom = reader.GetInt32("ID_AdressFrom");
+                        pOPEmail.ID_AdressTo = reader.GetInt32("ID_AdressTo");
+                        pOPEmail.Subject = reader.GetString("Subjecct");
+                        pOPEmail.Body = reader.GetString("Body");
+                        pOPEmail.DateSend = reader.GetDateTime("DateSend");
+                        result.Add(pOPEmail);
+                    }
+                }
+            }
+                return result;
+            
+            
+        }
+
+
         internal Popemail AddPOPEmail(Popemail pOPEmail)
         {
             var connect = MySqlDB.Instance.GetConnection();
@@ -71,12 +103,12 @@ namespace post2.model
                 }
             }
             int id = MySqlDB.Instance.GetAutoID("Email");
-            sql = "INSERT INTO Email VALUES (0, @id_AdressFrom, @id_AdressTo, @subject, @body, @datesend)";
+            sql = "INSERT INTO Email VALUES (0, @id_AdressFrom, @id_AdressTo, @subjecct, @body, @datesend)";
             using (var mc = new MySqlCommand(sql, connect))
             {
                 mc.Parameters.Add(new MySqlParameter("id_AdressFrom", pOPEmail.ID_AdressFrom));
                 mc.Parameters.Add(new MySqlParameter("id_AdressTo", pOPEmail.ID_AdressTo));
-                mc.Parameters.Add(new MySqlParameter("subject", pOPEmail.Subject));
+                mc.Parameters.Add(new MySqlParameter("subjecct", pOPEmail.Subject));
                 mc.Parameters.Add(new MySqlParameter("body", pOPEmail.Body));
                 mc.Parameters.Add(new MySqlParameter("datesend", pOPEmail.DateSend));
                 mc.ExecuteNonQuery();
@@ -104,9 +136,10 @@ namespace post2.model
             return pOPEmail;
         }
 
+
         internal IEnumerable<Popemail> Search(string searchText, Popemail pOPEmail)
         {
-            string sql = "select  e.ID_AdressFrom, e.Subject, e.Body, e.DateSend from Email e";
+            string sql = "select  e.ID_AdressFrom, e.Subjecct, e.Body, e.DateSend from Email e";
             if (pOPEmail.ID != 0)
             {
                 var result = GetAllPOPEmails().Where(s => s.AdressBooks.FirstOrDefault(s => s.ID == pOPEmail.ID) != null);
@@ -122,10 +155,10 @@ namespace post2.model
             string sql = "delete from Email";
             using (var mc = new MySqlCommand(sql, connect))
                 mc.ExecuteNonQuery();
-            sql = "update Email set ID_AdressFrom = @id_AdressFrom, ID_AdressTo = @id_AdressTo, Subject = @subject, Body =  @body, DateSend =  @datesend where ID = " + pOPEmail.ID;
+            sql = "update Email set ID_AdressFrom = @id_AdressFrom, ID_AdressTo = @id_AdressTo, Subject = @subjecct, Body =  @body, DateSend =  @datesend where ID = " + pOPEmail.ID;
             using (var mc = new MySqlCommand(sql, connect))
             {
-                mc.Parameters.Add(new MySqlParameter("subject", pOPEmail.Subject));
+                mc.Parameters.Add(new MySqlParameter("subjecct", pOPEmail.Subject));
                 mc.Parameters.Add(new MySqlParameter("body", pOPEmail.Body));
                 mc.Parameters.Add(new MySqlParameter("datesent", pOPEmail.DateSend));
                 mc.ExecuteNonQuery();

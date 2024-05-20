@@ -36,6 +36,7 @@ namespace post2.view
         {
             InitializeComponent();
             ((MainMenuVM)this.DataContext).SetWindow(this);
+            ((MainMenuVM)this.DataContext).timerStart(this);
         }
       
     }

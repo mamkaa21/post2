@@ -14,10 +14,10 @@ namespace post2.model
         private MySqlDB()
         {
             MySqlConnectionStringBuilder stringBuilder = new();
-            stringBuilder.UserID = "student";
-            stringBuilder.Password = "student";
-            stringBuilder.Database = "PostAlina1125";
-            stringBuilder.Server = "192.168.200.13";
+            stringBuilder.UserID = "root";
+            stringBuilder.Password = "kimmik89";
+            stringBuilder.Database = "postalina1125";
+            stringBuilder.Server = "127.0.0.1";
             stringBuilder.CharacterSet = "utf8mb4";
             mySqlConnection = new MySqlConnection(stringBuilder.ToString());
             OpenConnection();

@@ -42,13 +42,26 @@ namespace post2.ViewModel
                 Signal();
             }
         } 
-        private void timerStart()
+        public void timerStart(MainMenu mainMenu)
         {
+            this.mainMenu = mainMenu;
             timer = new DispatcherTimer();
             timer.Tick += new EventHandler(timerTick);
             timer.Interval = new TimeSpan(0, 0, 2);
             timer.Start();
         } 
+
+        public void MessageSee() 
+        {
+            if (SelectedEmail == null)
+                return; 
+            else
+            {
+                MessageWindow messageWindow = new MessageWindow();
+                messageWindow.Show();
+                Signal();
+            }
+        }
         private void timerTick(object sender, EventArgs e)
         {
             Thread thread = new Thread(GetMail);
@@ -98,7 +111,7 @@ namespace post2.ViewModel
             });
         }
         private void AddPOPEmail() { }
-        private void GetAllPOPEmail() 
+        private void GetAllPOPEmails() 
         { var email = PostRepository.Instance.GetAllPOPEmails(); }
         public static Pop3Client ConnectMail()
         {
@@ -213,7 +226,7 @@ namespace post2.ViewModel
                     sort[i].MessageNumber = i + 1;
             }
             catch { }
-            PostRepository.Instance.UpdatePOPEmail(selectedEmail);
+            //PostRepository.Instance.UpdatePOPEmail(selectedEmail);
         }
         private void RemoveMessage()
         {
