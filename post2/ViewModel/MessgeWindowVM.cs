@@ -25,6 +25,7 @@ namespace post2.ViewModel
             {
                 selectedEmail = value;
                 Signal();
+                //
             }
         }
         public MessgeWindowVM()
