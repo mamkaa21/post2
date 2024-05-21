@@ -24,6 +24,7 @@ namespace post2.view
         {
             InitializeComponent();
             ((MessgeWindowVM)this.DataContext).SetWindow(this);
+
         }
     }
 }

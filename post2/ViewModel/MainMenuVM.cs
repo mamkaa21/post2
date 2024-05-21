@@ -51,7 +51,7 @@ namespace post2.ViewModel
             timer.Start();
         } 
 
-        public void MessageSee() 
+        public void MessageSee(MainMenu mainMenu) 
         {
             if (SelectedEmail == null)
                 return; 
