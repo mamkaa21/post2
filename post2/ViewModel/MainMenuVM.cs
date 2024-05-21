@@ -53,13 +53,12 @@ namespace post2.ViewModel
 
         public void MessageSee(MainMenu mainMenu) 
         {
-            if (SelectedEmail == null)
-                return; 
-            else
+            if (SelectedEmail != null)
             {
-                MessageWindow messageWindow = new MessageWindow();
-                messageWindow.Show();
-                Signal();
+                //MouseLeftButtonDown;
+                //    MessageWindow messageWindow = new MessageWindow();
+                //    messageWindow.Show();
+                //    Signal();
             }
         }
         private void timerTick(object sender, EventArgs e)
@@ -81,7 +80,7 @@ namespace post2.ViewModel
             Delete = new CommandVm(() =>
             {
                 if (SelectedEmail == null)
-                    return;
+                { MessageBox.Show("Обьект не выбран"); return; }
                 else
                 {
                     //RemoveMessage();

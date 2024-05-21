@@ -5,8 +5,22 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:post2.view"
         mc:Ignorable="d"
-        Title="RegistrationWindow" Height="450" Width="800">
+          DataContext="{Binding HomeViewModelLocator, Source={StaticResource Locator}}"
+        Height="600" Width="1024" [B]MouseLeftButtonDown="Window_MouseLeftButtonDown" [/B]>
+     
     <Grid>
-        
+        <Button x:Name="ButtonOpenMenu"  Width="35" Height="35"  VerticalAlignment="Top" HorizontalAlignment="Left" Margin="5"  Command="{Binding OpenMenuCommand }"  >
+            <Button.Resources>
+                <multi:MultiValueConverter x:Key="MultiValue"/>
+            </Button.Resources>
+            <Button.CommandParameter>
+                <MultiBinding Converter="{StaticResource MultiValue}">
+                    <MultiBinding.Bindings>
+                        <Binding ElementName="ButtonOpenMenu"/>
+                        <Binding ElementName="ButtonCloseMenu"/>
+                    </MultiBinding.Bindings>
+                </MultiBinding>
+            </Button.CommandParameter>
+        </Button>
     </Grid>
 </Window>

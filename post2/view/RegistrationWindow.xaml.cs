@@ -23,5 +23,9 @@ namespace post2.view
         {
             InitializeComponent();
         }
+        private void Window_MouseLeftButtonDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        {
+            this.DragMove();
+        }
     }
 }
