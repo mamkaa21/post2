@@ -1,0 +1,18 @@
+﻿<Window x:Class="post2.ViewModel.UserEditWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+          xmlns:local="clr-namespace:post2.view"
+   xmlns:m="clr-namespace:post2.model"
+        xmlns:local="clr-namespace:post2.ViewModel"
+        mc:Ignorable="d"
+           DataContext="{DynamicResource vm}"
+        Title="UserEditWindowVM" Height="450" Width="800">
+    <Window.Resources >
+        <vm:UserEditWindowVM x:Key ="vm"/>
+    </Window.Resources >
+    <Grid>
+        
+    </Grid>
+</Window>

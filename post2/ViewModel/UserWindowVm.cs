@@ -21,19 +21,26 @@ namespace post2.ViewModel
 {
     public class UserWindowVm : BaseVM
     {
-        string selectedImagePath = "";
-        public CommandVm Ok {  get; }
+        //string selectedImagePath = "";
+        //public CommandVm Ok {  get; }
         public CommandVm Back { get; }
-        public CommandVm Image { get; }
+        //public CommandVm Image { get; }
+        public CommandVm Edit { get; }
         public UserWindowVm() 
         {
-            Ok = new CommandVm(() =>
-            {
-                MainMenu mainMenu = new MainMenu();
-                mainMenu.Show();
-                CloseWindow(userWindow);
+            Edit = new CommandVm(() =>
+            { 
+                UserEditWindow userEditWindow = new UserEditWindow();
+                userEditWindow.Show();
                 Signal();
             });
+            //Ok = new CommandVm(() =>
+            //{
+            //    MainMenu mainMenu = new MainMenu();
+            //    mainMenu.Show();
+            //    CloseWindow(userWindow);
+            //    Signal();
+            //});
             Back = new CommandVm(() =>
             {
                 MainMenu mainMenu = new MainMenu();
@@ -41,11 +48,11 @@ namespace post2.ViewModel
                 CloseWindow(userWindow);
                 Signal();
             });
-            Image = new CommandVm(() =>
-            {
-                  SelectImage(this, null);
-                  Signal();
-            });
+            //Image = new CommandVm(() =>
+            //{
+            //      SelectImage(this, null);
+            //      Signal();
+            //});
         }
         UserWindow userWindow;
         internal void SetWindow(UserWindow userWindow)
@@ -56,32 +63,32 @@ namespace post2.ViewModel
         {
             this.userWindow.Close();
         }
-        private void SelectImage(object sender, RoutedEventArgs e)
-        {
-            OpenFileDialog openFileDialog = new OpenFileDialog();
-            openFileDialog.Filter = "Image files (*.png;*.jpeg;*.jpg)|*.png;*.jpeg;*.jpg|All files (*.*)|*.*";
+        //private void SelectImage(object sender, RoutedEventArgs e)
+        //{
+        //    OpenFileDialog openFileDialog = new OpenFileDialog();
+        //    openFileDialog.Filter = "Image files (*.png;*.jpeg;*.jpg)|*.png;*.jpeg;*.jpg|All files (*.*)|*.*";
 
-            if (openFileDialog.ShowDialog() == true)
-            {
-                selectedImagePath = openFileDialog.FileName;
-                if (selectedImagePath.EndsWith(".png") || selectedImagePath.EndsWith(".jpg"))
-                {
-                    byte[] imageData = File.ReadAllBytes(selectedImagePath);
+        //    if (openFileDialog.ShowDialog() == true)
+        //    {
+        //        selectedImagePath = openFileDialog.FileName;
+        //        if (selectedImagePath.EndsWith(".png") || selectedImagePath.EndsWith(".jpg"))
+        //        {
+        //            byte[] imageData = File.ReadAllBytes(selectedImagePath);
 
-                    BitmapImage bitmapImage = new BitmapImage();
-                    bitmapImage.BeginInit();
-                    bitmapImage.StreamSource = new MemoryStream(imageData);
-                    bitmapImage.EndInit();
+        //            BitmapImage bitmapImage = new BitmapImage();
+        //            bitmapImage.BeginInit();
+        //            bitmapImage.StreamSource = new MemoryStream(imageData);
+        //            bitmapImage.EndInit();
 
-                    selectedImage.Source = bitmapImage;
-                }
-            }
-        } 
+        //            selectedImage.Source = bitmapImage;
+        //        }
+        //    }
+        //} 
 
-        Image selectedImage;
-        internal void SetImage(Image selectedImage)
-        {
-            this.selectedImage = selectedImage;
-        }
+        //Image selectedImage;
+        //internal void SetImage(Image selectedImage)
+        //{
+        //    this.selectedImage = selectedImage;
+        //}
     }
 }

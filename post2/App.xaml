@@ -4,13 +4,13 @@
              xmlns:local="clr-namespace:post2"
              StartupUri="view\MainWindow.xaml">
     <Application.Resources>
-        <x:Code>
+        <!--<x:Code>
             <![CDATA[
                 private void Window_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
                 {
                     // this.DragMove();
                 }
             ]]>
-        </x:Code>
+        </x:Code>-->
     </Application.Resources>
 </Application>

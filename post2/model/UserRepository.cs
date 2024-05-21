@@ -72,6 +72,17 @@ namespace post2.model
             }
             return result;
         }
+        internal User DeleteUser(User user)
+        {
+            var connect = MySqlDB.Instance.GetConnection();
+            if (connect == null) return user;
+            string sql = "DELETE FROM User WHERE id = ' " + user.ID + "';";
+            using (var mc = new MySqlCommand(sql, connect))
+                mc.ExecuteNonQuery();
+            return user;
+        }
+
+
     }
 }
   

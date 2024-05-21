@@ -12,20 +12,16 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 
-namespace post2.view
+namespace post2.ViewModel
 {
     /// <summary>
-    /// Логика взаимодействия для RegistrationWindow.xaml
+    /// Логика взаимодействия для UserEditWindowVM.xaml
     /// </summary>
-    public partial class RegistrationWindow : Window
+    public partial class UserEditWindow : Window
     {
-        public RegistrationWindow()
+        public UserEditWindow()
         {
             InitializeComponent();
-        }
-        private void Window_MouseLeftButtonDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
-        {
-            this.DragMove();
         }
     }
 }
