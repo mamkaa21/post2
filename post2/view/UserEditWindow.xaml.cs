@@ -22,6 +22,7 @@ namespace post2.ViewModel
         public UserEditWindow()
         {
             InitializeComponent();
+            ((UserEditWindowVM)this.DataContext).SetWindow(this);
         }
     }
 }

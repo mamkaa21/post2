@@ -103,7 +103,7 @@ namespace post2.model
                 }
             }
             int id = MySqlDB.Instance.GetAutoID("Email");
-            sql = "INSERT INTO Email VALUES (0, @id_AdressFrom, @id_AdressTo, @subjecct, @body, @datesend, @id_status)";
+            sql = "INSERT INTO Email VALUES (0, @id_AdressFrom, @id_AdressTo, @subjecct, @body, @datesend, @id_statusemail)";
             using (var mc = new MySqlCommand(sql, connect))
             {
                 mc.Parameters.Add(new MySqlParameter("id_AdressFrom", pOPEmail.ID_AdressFrom));
@@ -111,8 +111,7 @@ namespace post2.model
                 mc.Parameters.Add(new MySqlParameter("subjecct", pOPEmail.Subject));
                 mc.Parameters.Add(new MySqlParameter("body", pOPEmail.Body));
                 mc.Parameters.Add(new MySqlParameter("datesend", pOPEmail.DateSend));
-                mc.Parameters.Add(new MySqlParameter("id_status", pOPEmail.ID_Status));
-
+                mc.Parameters.Add(new MySqlParameter("id_statusemail", pOPEmail.ID_StatusEmail));
                 mc.ExecuteNonQuery();
             }
             pOPEmail.ID = id;
