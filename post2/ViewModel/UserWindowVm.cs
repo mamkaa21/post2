@@ -21,10 +21,7 @@ namespace post2.ViewModel
 {
     public class UserWindowVm : BaseVM
     {
-        //string selectedImagePath = "";
-        //public CommandVm Ok {  get; }
         public CommandVm Back { get; }
-        //public CommandVm Image { get; }
         public CommandVm Edit { get; }
         public UserWindowVm() 
         {

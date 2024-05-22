@@ -10,6 +10,10 @@ namespace post2.ViewModel
 {
    public class UserEditWindowVM : BaseVM
    {
+        string selectedImagePath = "";
+        public CommandVm Ok { get; }
+        public CommandVm Image { get; }
 
+        //public 
    }
 }

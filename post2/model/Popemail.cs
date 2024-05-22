@@ -23,6 +23,7 @@ namespace post2.model
         public string Subject { get; set; }
         public string Body { get; set; } = string.Empty;
         public DateTime DateSend { get; set; }
+        public int ID_Status { get; set; }
         public List<Attachments> Attachments { get; set; }
         public ObservableCollection<AdressBook> AdressBooks { get; set; }
         public string EmailFrom { get; internal set; }
