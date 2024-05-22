@@ -32,12 +32,14 @@ namespace post2.view
     /// </summary>
     public partial class MainMenu : Window
     {     
+
         public MainMenu()
         {
             InitializeComponent();
             ((MainMenuVM)this.DataContext).SetWindow(this);
             ((MainMenuVM)this.DataContext).timerStart(this);
             ((MainMenuVM)this.DataContext).MessageSee(this);
+           
         }
       
     }

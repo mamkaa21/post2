@@ -41,7 +41,7 @@ namespace post2.ViewModel
                 selectedEmail = value;
                 Signal();
             }
-        } 
+        }
         public void timerStart(MainMenu mainMenu)
         {
             this.mainMenu = mainMenu;
@@ -49,7 +49,7 @@ namespace post2.ViewModel
             timer.Tick += new EventHandler(timerTick);
             timer.Interval = new TimeSpan(0, 0, 2);
             timer.Start();
-        } 
+        }
 
         public void MessageSee(MainMenu mainMenu) 
         {
@@ -73,6 +73,7 @@ namespace post2.ViewModel
 
         public MainMenuVM()
         {
+            Email = new ObservableCollection<Popemail>(PostRepository.Instance.GetAllPOPEmails());
             UpgratePost = new CommandVm(() =>
             {
                 GetMail(Email);
@@ -110,7 +111,7 @@ namespace post2.ViewModel
             });
         }
         private void AddPOPEmail() { }
-        private void GetAllPOPEmails() 
+        private void GetAllPOPEmails()
         { var email = PostRepository.Instance.GetAllPOPEmails(); }
         public static Pop3Client ConnectMail()
         {
@@ -152,12 +153,14 @@ namespace post2.ViewModel
                 {
                     MessageNumber = i,
                     Subject = message.Headers.Subject,
+                  
                     DateSend = message.Headers.DateSent,
                     EmailFrom = message.Headers.From.Address,
                     
                     ID_AdressTo = ActiveUser.Instance.GetUser().IDAddress
-                };
+                }; 
                 PostRepository.Instance.AddPOPEmail(email);
+              
 
                 MessagePart body = message.FindFirstHtmlVersion();
                 if (body != null)
@@ -182,7 +185,8 @@ namespace post2.ViewModel
                         ContentType = part.ContentType.MediaType,
                         Content = part.Body
                     });
-                }
+                } 
+              
                 mainMenu.Dispatcher.Invoke(() =>
                 {
                     if (first)
@@ -190,7 +194,8 @@ namespace post2.ViewModel
                     else
                         this.Email.Insert(0, email);
                 });
-                counter++;
+                counter++;  
+              
             }
             first = false;
             try

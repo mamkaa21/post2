@@ -46,7 +46,6 @@
                     <GridViewColumn DisplayMemberBinding="{Binding From}"/>
                     <GridViewColumn DisplayMemberBinding="{Binding Subject}"/>
                     <GridViewColumn DisplayMemberBinding="{Binding Body}"/>
-                  
                     <GridViewColumn >
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
