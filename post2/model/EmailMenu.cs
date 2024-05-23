@@ -8,11 +8,12 @@ using System.Threading.Tasks;
 
 namespace post2.model
 {
-    public class Popemail
+    public class EmailMenu
     {
-        public Popemail()
+        public EmailMenu()
         {
-            Attachments = new List<Attachments>();
+            AttachmentsEM = new List<AttachmentsE>();
+            AdressBooks = new ObservableCollection<AdressBook>();
         }
         public int ID { get; set; }
         public int ID_AdressFrom { get; set; }
@@ -22,20 +23,19 @@ namespace post2.model
         public string Subject { get; set; }
         public string Body { get; set; } = string.Empty;
         public DateTime DateSend { get; set; }
-     
-        public List<Attachments> Attachments { get; set; }
+        public int ID_StatusEmail { get; set; }
+        public DateTime DateDelete { get; set; }
+        public List<AttachmentsE> AttachmentsEM { get; set; }
+        public ObservableCollection<AdressBook> AdressBooks { get; set; }
         public string EmailFrom { get; internal set; }
         public string TitleFrom { get; internal set; }
     }
-    [Serializable]
-    public class Attachments
+    public class AttachmentsE
     {
         public int ID { get; set; }
         public byte[] Content { get; set; }
         public string Title { get; set; }
         public string ContentType { get; set; }
     }
-
-   
 }
 

@@ -16,14 +16,16 @@ using System.Threading.Tasks;
 using System.Web;
 using System.Windows;
 using System.Windows.Threading;
+using post2.model;
 
 namespace post2.ViewModel
 {
     public class MainMenuVM : BaseVM
     {
         Pop3Client pop3Client;
-        private ObservableCollection<Popemail> email=new();
-        public Popemail selectedEmail = new();
+        private ObservableCollection<Popemail> email = new();
+        private ObservableCollection<EmailMenu> emailsdb = new();
+        public EmailMenu selectedEmail = new();
         public CommandVm UpgratePost { get; }
         public CommandVm Search { get; }
         public CommandVm Edit { get; }
@@ -32,8 +34,8 @@ namespace post2.ViewModel
         public CommandVm OpenDeleteMenu { get; }
         public CommandVm OpenUserWindow { get; }
         private DispatcherTimer timer = null;
-        string sql = "select e.id, e.subject, e.body, e.datesend from email e"; 
-        public Popemail SelectedEmail
+        string sql = "select e.id, e.subject, e.body, e.datesend from email e";
+        public EmailMenu SelectedEmail
         {
             get => selectedEmail;
             set
@@ -51,7 +53,7 @@ namespace post2.ViewModel
             timer.Start();
         }
 
-        public void MessageSee(MainMenu mainMenu) 
+        public void MessageSee(MainMenu mainMenu)
         {
             if (SelectedEmail != null)
             {
@@ -70,14 +72,15 @@ namespace post2.ViewModel
         //public AdressBook SelectedAdress { get; set; }
         public string TextSearch { get; set; }
         public ObservableCollection<Popemail> Email { get => email; set => email = value; }
+        public ObservableCollection<EmailMenu> Emaildb { get => emailsdb; set => emailsdb = value; }
 
         public MainMenuVM()
         {
-            Email = new ObservableCollection<Popemail>(PostRepository.Instance.GetAllPOPEmails());
+            Emaildb = new ObservableCollection<EmailMenu>(PostRepository.Instance.GetAllPOPEmails());
             UpgratePost = new CommandVm(() =>
             {
                 GetMail(Email);
-            });         
+            });
             Delete = new CommandVm(() =>
             {
                 if (SelectedEmail == null)
@@ -92,11 +95,11 @@ namespace post2.ViewModel
             });
             Search = new CommandVm(() =>
             {
-                    PostRepository.Instance.Search(TextSearch, selectedEmail);
-                    Signal();
-                
+                PostRepository.Instance.Search(TextSearch, selectedEmail);
+                Signal();
+
             });
-            SendWindow = new CommandVm(() => 
+            SendWindow = new CommandVm(() =>
             {
                 SendWindow sendWindow = new SendWindow();
                 sendWindow.Show();
@@ -126,8 +129,14 @@ namespace post2.ViewModel
         bool first = true;
         int lastCount = 0;
         void GetMail(object p)
-        {
-            pop3Client = ConnectMail();
+        { try
+            {
+                pop3Client = ConnectMail();
+            }
+            catch 
+            {
+                MessageBox.Show("Error");
+            }
             int count = 0;
             try
             {
@@ -153,15 +162,12 @@ namespace post2.ViewModel
                 {
                     MessageNumber = i,
                     Subject = message.Headers.Subject,
-                  
                     DateSend = message.Headers.DateSent,
                     EmailFrom = message.Headers.From.Address,
-                    
                     ID_AdressTo = ActiveUser.Instance.GetUser().IDAddress
-                }; 
+                };             
                 PostRepository.Instance.AddPOPEmail(email);
-              
-
+               
                 MessagePart body = message.FindFirstHtmlVersion();
                 if (body != null)
                 {
@@ -185,8 +191,7 @@ namespace post2.ViewModel
                         ContentType = part.ContentType.MediaType,
                         Content = part.Body
                     });
-                } 
-              
+                }
                 mainMenu.Dispatcher.Invoke(() =>
                 {
                     if (first)
@@ -194,8 +199,7 @@ namespace post2.ViewModel
                     else
                         this.Email.Insert(0, email);
                 });
-                counter++;  
-              
+                counter++;
             }
             first = false;
             try
@@ -223,7 +227,7 @@ namespace post2.ViewModel
                 pop3Client.DeleteMessage(SelectedEmail.MessageNumber);
                 pop3Client.Disconnect();
                 var index = SelectedEmail.MessageNumber;
-                Email.Remove(selectedEmail);
+                Emaildb.Remove(selectedEmail);
                 var sort = Email.ToArray();
                 Array.Sort(sort, (x, y) => y.DateSend.CompareTo(x.DateSend));
                 for (int i = 0; i < sort.Length; i++)
@@ -238,8 +242,10 @@ namespace post2.ViewModel
             {
                 MessageBox.Show("Не выбран обьект"); return;
             }
-            else      
-                Email.Remove(selectedEmail);  
-        }  
+            else
+                Emaildb.Remove(selectedEmail);
+        }
     }
 }
+
+

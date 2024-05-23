@@ -65,9 +65,9 @@ namespace post2.model
                 {
                     sql = "";
                     foreach (var ab in result.AdressBooks)
-                        sql += "INSERT INTO AdressBook VALUES (" + id + "," + ab.ID + "," + ab.Email + "," + ab.Title + "," + ab.ID_User + ");";
+                    sql += "INSERT INTO AdressBook VALUES (" + id + "," + ab.ID + "," + ab.Email + "," + ab.Title + "," + ab.ID_User + ");";
                     using (var mcCross = new MySqlCommand(sql, connect))
-                        mcCross.ExecuteNonQuery();
+                    mcCross.ExecuteNonQuery();
                 }
             }
             return result;
@@ -81,8 +81,6 @@ namespace post2.model
                 mc.ExecuteNonQuery();
             return user;
         }
-
-
     }
 }
   

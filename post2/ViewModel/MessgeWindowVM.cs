@@ -46,11 +46,9 @@ namespace post2.ViewModel
                 sendWindow.Show();
                 Signal();
             }); 
-
         }
-
-        private void GetSelectedPOPEmails()
-        { var email = PostRepository.Instance.GetSelectedPOPEmails(SelectedEmail); }
+        //private void GetSelectedPOPEmails()
+        //{ var email = PostRepository.Instance.GetSelectedPOPEmails(SelectedEmail); }
         private void RemoveMessage()
         {
             if (SelectedEmail == null)
@@ -60,8 +58,6 @@ namespace post2.ViewModel
             else
                 Email.Remove(selectedEmail);
         }
-
-
         MessageWindow messageWindow;
         internal void SetWindow(MessageWindow messageWindow)
         {
