@@ -38,9 +38,9 @@
              FontSize="35" Foreground="Beige"/>
         <Label Grid.Column="3" Grid.ColumnSpan="2" Grid.Row="1" Content="Ваш Профиль" FontSize="30" Foreground ="SteelBlue" HorizontalAlignment="Left"/>
         <Label Grid.Column="2" Grid.Row="2" Content="Имя:" HorizontalAlignment="Right"/>
-        <TextBox Grid.Column="3" Grid.ColumnSpan="2" Grid.Row="2" Margin="0 0 0 25" Text="{Binding NickName}"/>
+        <TextBox Grid.Column="3" Grid.ColumnSpan="2" Grid.Row="2" Margin="0 0 0 25" Text="{Binding User.NickName}"/>
         <Label Grid.Column="2" Grid.Row="3" Content="Фото:" HorizontalAlignment="Right"/>
-        <Image Grid.ColumnSpan="2" Grid.Column="3" Grid.RowSpan="3" Grid.Row="3" x:Name="selectedImageUser"/>
+        <Image Grid.ColumnSpan="2" Grid.Column="3" Grid.RowSpan="3" Grid.Row="3" x:Name="selectedImageUser" Source="{Binding User.Image}"/>
         
         <Button  Grid.Column="4" Grid.Row="8" Content="OK"  Margin="5" FontSize="30" Foreground="Beige" Background="SteelBlue" Command="{Binding Ok}"/>
         <Button  Grid.Column="3" Grid.Row="8" Content="✖️"  Margin="5" FontSize="35" Foreground="Beige" Background="SteelBlue" Command="{Binding Image}"/>

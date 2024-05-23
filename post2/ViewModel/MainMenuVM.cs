@@ -68,8 +68,6 @@ namespace post2.ViewModel
             Thread thread = new Thread(GetMail);
             thread.Start();
         }
-
-        //public AdressBook SelectedAdress { get; set; }
         public string TextSearch { get; set; }
         public ObservableCollection<Popemail> Email { get => email; set => email = value; }
         public ObservableCollection<EmailMenu> Emaildb { get => emailsdb; set => emailsdb = value; }

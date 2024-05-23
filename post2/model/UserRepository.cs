@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -26,7 +27,7 @@ namespace post2.model
             var connect = MySqlDB.Instance.GetConnection();
             if (connect == null)
                 return result;
-            string sql = "SELECT u.ID, u.NickName, u.Login, ab.Email, ab.Title, ab.ID AS idAddress FROM User u, AdressBook ab WHERE u.Login = @login AND u.Password = @password AND ab.ID_User = u.ID";
+            string sql = "SELECT u.ID, u.NickName, u.Login, u.Image, ab.Email, ab.Title, ab.ID AS idAddress FROM User u, AdressBook ab WHERE u.Login = @login AND u.Password = @password AND ab.ID_User = u.ID";
             using (var mc = new MySqlCommand(sql, connect))
             {
                 mc.Parameters.Add(new MySqlParameter("login", login));
@@ -41,6 +42,7 @@ namespace post2.model
                         result.EmailTitle = reader.GetString("Title");
                         result.Login = reader.GetString("Login");
                         result.IDAddress = reader.GetInt32("idAddress");
+                       
                     }
                 }
                 return result;
@@ -53,12 +55,13 @@ namespace post2.model
             if (connect == null)
                 return result;
             int id = MySqlDB.Instance.GetAutoID("User");
-            string sql = "INSERT INTO User VALUES (0, @nickname, @login, @password, null)";
+            string sql = "INSERT INTO User VALUES (0, @nickname, @login, @password, @image)";
             using (var mc = new MySqlCommand(sql, connect))
             {
                 mc.Parameters.Add(new MySqlParameter("nickname", nickname));
                 mc.Parameters.Add(new MySqlParameter("login", login));
                 mc.Parameters.Add(new MySqlParameter("password", password));
+
                 mc.ExecuteNonQuery();
                 result = new User { NickName = nickname, Login = login, Password = password };
                 if (mc.ExecuteNonQuery() > 0)
@@ -73,9 +76,23 @@ namespace post2.model
             return result;
         }
 
-       
+        internal User AddUserImage(byte[] image)
+        {
+            User result = new User();
+            var connect = MySqlDB.Instance.GetConnection();
+            if (connect == null)
+                return result;
+            int id = MySqlDB.Instance.GetAutoID("User");
+            string sql = "INSERT INTO User VALUES (@image)";
+            using (var mc = new MySqlCommand(sql, connect))
+            {
+                mc.Parameters.Add(new MySqlParameter("image", image));            
+                mc.ExecuteNonQuery();
+            }
+            return result;
+        }
 
-        internal User DeleteUser(User user)
+            internal User DeleteUser(User user)
         {
             var connect = MySqlDB.Instance.GetConnection();
             if (connect == null) return user;

@@ -21,7 +21,7 @@ namespace post2.ViewModel
 {
    public class UserEditWindowVM : BaseVM
     {
-        byte[] selectedImageUser;
+       
         string selectedImagePath = "";
         public CommandVm Ok { get; }
         public CommandVm Image { get; }
@@ -30,15 +30,15 @@ namespace post2.ViewModel
         {
             Ok = new CommandVm(() =>
             {
-                MemoryStream ms = new MemoryStream();
-                selectedImageUser.Image.Save(ms, selectedImageUser.Image.RawFormat);
-                byte[] img = ms.ToArray();
-                String insertQuery = "insert into user(image)";
-                var connect = MySqlDB.Instance.GetConnection();
-                if (connect == null)
-                    return;
-                using (var mc = new MySqlCommand(insertQuery, connect))
-                { mc.Parameters.Add("@image", MySqlDbType.MediumBlob); }
+                //MemoryStream ms = new MemoryStream();
+                //selectedImageUser.Image.Save(ms, selectedImageUser.Image.RawFormat);
+                //byte[] img = ms.ToArray();
+                //String insertQuery = "insert into user(image)";
+                //var connect = MySqlDB.Instance.GetConnection();
+                //if (connect == null)
+                //    return;
+                //using (var mc = new MySqlCommand(insertQuery, connect))
+                //{ mc.Parameters.Add("@image", MySqlDbType.MediumBlob); }
                     MainMenu mainMenu = new MainMenu();
                 mainMenu.Show();
                 CloseWindow(userEditWindow);
