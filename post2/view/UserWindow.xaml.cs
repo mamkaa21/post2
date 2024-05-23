@@ -24,8 +24,7 @@ namespace post2.view
         {
             InitializeComponent();
             ((UserWindowVm)this.DataContext).SetWindow(this);
-            //var vm = DataContext as UserWindowVm;
-            //vm.SetImage(SelectedImage);
+            
         }
     }
 }

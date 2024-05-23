@@ -96,8 +96,8 @@ namespace post2.model
                 }
             }
             int id = MySqlDB.Instance.GetAutoID("Email");
-            DateTime.Compare(email.DateSend, email.DateSend);
-            if ()
+            //DateTime.Compare(email.DateSend, email.DateSend);
+            //if ()
             { sql = "INSERT INTO Email VALUES (0, @id_AdressFrom, @id_AdressTo, @subjecct, @body, @datesend, null, null)";
                 using (var mc = new MySqlCommand(sql, connect))
                 {

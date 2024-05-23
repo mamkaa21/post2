@@ -23,6 +23,8 @@ namespace post2.ViewModel
         {
             InitializeComponent();
             ((UserEditWindowVM)this.DataContext).SetWindow(this);
+            //var vm = DataContext as UserEditWindowVM;
+            //vm.SetImage(SelectedImage);
         }
     }
 }

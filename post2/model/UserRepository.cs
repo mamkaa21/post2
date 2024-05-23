@@ -72,6 +72,9 @@ namespace post2.model
             }
             return result;
         }
+
+       
+
         internal User DeleteUser(User user)
         {
             var connect = MySqlDB.Instance.GetConnection();

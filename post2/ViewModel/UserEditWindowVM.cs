@@ -15,11 +15,13 @@ using System.Windows.Media.Imaging;
 using System.Windows;
 using System.Windows.Controls;
 using System.Threading.Channels;
+using MySqlConnector;
 
 namespace post2.ViewModel
 {
    public class UserEditWindowVM : BaseVM
     {
+        byte[] selectedImageUser;
         string selectedImagePath = "";
         public CommandVm Ok { get; }
         public CommandVm Image { get; }
@@ -28,7 +30,16 @@ namespace post2.ViewModel
         {
             Ok = new CommandVm(() =>
             {
-                MainMenu mainMenu = new MainMenu();
+                MemoryStream ms = new MemoryStream();
+                selectedImageUser.Image.Save(ms, selectedImageUser.Image.RawFormat);
+                byte[] img = ms.ToArray();
+                String insertQuery = "insert into user(image)";
+                var connect = MySqlDB.Instance.GetConnection();
+                if (connect == null)
+                    return;
+                using (var mc = new MySqlCommand(insertQuery, connect))
+                { mc.Parameters.Add("@image", MySqlDbType.MediumBlob); }
+                    MainMenu mainMenu = new MainMenu();
                 mainMenu.Show();
                 CloseWindow(userEditWindow);
                 Signal();
@@ -69,7 +80,6 @@ namespace post2.ViewModel
                 }
             }
         }
-
         Image selectedImage;
         internal void SetImage(Image selectedImage)
         {
