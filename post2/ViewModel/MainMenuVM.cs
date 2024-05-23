@@ -16,7 +16,7 @@ using System.Threading.Tasks;
 using System.Web;
 using System.Windows;
 using System.Windows.Threading;
-using post2.model;
+using MySqlConnector;
 
 namespace post2.ViewModel
 {
@@ -34,7 +34,7 @@ namespace post2.ViewModel
         public CommandVm OpenDeleteMenu { get; }
         public CommandVm OpenUserWindow { get; }
         private DispatcherTimer timer = null;
-        string sql = "select e.id, e.subject, e.body, e.datesend from email e";
+        //string sql = "select e.id, e.subject, e.body, e.datesend from email e";
         public EmailMenu SelectedEmail
         {
             get => selectedEmail;
@@ -74,6 +74,10 @@ namespace post2.ViewModel
 
         public MainMenuVM()
         {
+            //var lastCountFor = 0;
+            //string sql = "SELECT COUNT(*) AS countdb FROM email e, user u WHERE u.id = " + ActiveUser.Instance.GetUser().ID + ";";
+            //lastCountFor = PostRepository.Instance.GetCoutMessage(sql);
+            
             Emaildb = new ObservableCollection<EmailMenu>(PostRepository.Instance.GetAllPOPEmails());
             UpgratePost = new CommandVm(() =>
             {
@@ -112,6 +116,10 @@ namespace post2.ViewModel
             });
         }
         private void AddPOPEmail() { }
+        private void GetCoutMessage() {
+            var c = 0;
+            var countdb = PostRepository.Instance.GetCoutMessage(c); 
+        }
         private void GetAllPOPEmails()
         { var email = PostRepository.Instance.GetAllPOPEmails(); }
         public static Pop3Client ConnectMail()
@@ -125,9 +133,11 @@ namespace post2.ViewModel
             return pop3Client;
         }
         bool first = true;
-        int lastCount = 0;
-        void GetMail(object p)
-        { try
+        int lastCount = 0;  
+        void GetMail(object p)             
+        {
+            
+            try
             {
                 pop3Client = ConnectMail();
             }
@@ -141,8 +151,9 @@ namespace post2.ViewModel
                 count = pop3Client.GetMessageCount();
             }
             catch { return; }
-            var lastCountFor = lastCount;
-            lastCount = count;
+            int countdb = 0;
+            PostRepository.Instance.GetCoutMessage(countdb);          
+            var lastCountFor = countdb;           
             int counter = 0;
             Message message;
             for (int i = count; i > lastCountFor; i--)

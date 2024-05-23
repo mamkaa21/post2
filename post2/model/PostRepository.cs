@@ -47,33 +47,58 @@ namespace post2.model
             }
             return result;
         }
-      /*  internal IEnumerable<EmailMenu> GetSelectedPOPEmails(EmailMenu menuemail)
+
+        internal IEnumerable<EmailMenu> GetCoutMessage(int countdb)
         {
             ObservableCollection<EmailMenu> result = new ObservableCollection<EmailMenu>();
             var connect = MySqlDB.Instance.GetConnection();
             if (connect == null)
                 return result;
-            if (menuemail != null)
-            {
-                string sql = "SELECT ID, ID_AdressFrom, ID_AdressTo, Subjecct, Body, DateSend, FROM email where ID_AdressTo = " + ActiveUser.Instance.GetUser().IDAddress + " AND ID_AdressFrom = AdressBook.ID";
-                using (var mc = new MySqlCommand(sql, connect))
-                using (var reader = mc.ExecuteReader())
-                {
-                    while (reader.Read())
-                    {
-                        var menuemail = new EmailMenu();
-                        menuemail.ID = reader.GetInt32("id");
-                        menuemail.ID_AdressFrom = reader.GetInt32("ID_AdressFrom");
-                        menuemail.ID_AdressTo = reader.GetInt32("ID_AdressTo");
-                        menuemail.Subject = reader.GetString("Subjecct");
-                        menuemail.Body = reader.GetString("Body");
-                        menuemail.DateSend = reader.GetDateTime("DateSend");
-                        result.Add(menuemail);
-                    }
-                }
-            }
-            return result;     
-        }*/
+          string sql = "SELECT COUNT(*) AS countdb FROM email e, user u WHERE u.id = " + ActiveUser.Instance.GetUser().ID + ";";
+            //using (var mc = new MySqlCommand(sql, connect))
+            //using (var reader = mc.ExecuteReader())
+            //{
+            //    while (reader.Read())
+            //    {
+            //        var menuemail = new EmailMenu();
+            //        menuemail.ID = reader.GetInt32("id");
+            //        menuemail.ID_AdressFrom = reader.GetInt32("ID_AdressFrom");
+            //        menuemail.ID_AdressTo = reader.GetInt32("ID_AdressTo");
+            //        menuemail.Subject = reader.GetString("Subjecct");
+            //        menuemail.Body = reader.GetString("Body");
+            //        menuemail.DateSend = reader.GetDateTime("DateSend");
+            //        result.Add(menuemail);
+            //    }
+            //}
+            return result;
+        }
+        /*  internal IEnumerable<EmailMenu> GetSelectedPOPEmails(EmailMenu menuemail)
+          {
+              ObservableCollection<EmailMenu> result = new ObservableCollection<EmailMenu>();
+              var connect = MySqlDB.Instance.GetConnection();
+              if (connect == null)
+                  return result;
+              if (menuemail != null)
+              {
+                  string sql = "SELECT ID, ID_AdressFrom, ID_AdressTo, Subjecct, Body, DateSend, FROM email where ID_AdressTo = " + ActiveUser.Instance.GetUser().IDAddress + " AND ID_AdressFrom = AdressBook.ID";
+                  using (var mc = new MySqlCommand(sql, connect))
+                  using (var reader = mc.ExecuteReader())
+                  {
+                      while (reader.Read())
+                      {
+                          var menuemail = new EmailMenu();
+                          menuemail.ID = reader.GetInt32("id");
+                          menuemail.ID_AdressFrom = reader.GetInt32("ID_AdressFrom");
+                          menuemail.ID_AdressTo = reader.GetInt32("ID_AdressTo");
+                          menuemail.Subject = reader.GetString("Subjecct");
+                          menuemail.Body = reader.GetString("Body");
+                          menuemail.DateSend = reader.GetDateTime("DateSend");
+                          result.Add(menuemail);
+                      }
+                  }
+              }
+              return result;     
+          }*/
         internal Popemail AddPOPEmail(Popemail email)
         {
             var connect = MySqlDB.Instance.GetConnection();

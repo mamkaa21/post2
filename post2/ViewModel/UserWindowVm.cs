@@ -42,7 +42,7 @@ namespace post2.ViewModel
                 Signal();
             });
         }
-        private void GetUserByLoginPassword() { UserRepository.Instance.GetUserByLoginPassword(users,); }
+        //private void GetUserByLoginPassword() { UserRepository.Instance.GetUserByLoginPassword(users,); }
         UserWindow userWindow;
         internal void SetWindow(UserWindow userWindow)
         {

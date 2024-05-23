@@ -43,7 +43,7 @@
         <ListView x:Name="test" Grid.ColumnSpan="3" Grid.Row="2" Grid.Column="2" Grid.RowSpan="6" ItemsSource="{Binding Emaildb}" SelectedItem="{Binding SelectedEmail}">
             <ListView.View>
                 <GridView>
-                    <GridViewColumn DisplayMemberBinding="{Binding EmailMenu.ID_AdressFrom}"/>
+                    <GridViewColumn DisplayMemberBinding="{Binding EmailMenu.From}"/>
                     <GridViewColumn DisplayMemberBinding="{Binding EmailMenu.Subject}"/>
                     <GridViewColumn DisplayMemberBinding="{Binding EmailMenu.Body}"/>
                     <GridViewColumn >
