@@ -24,7 +24,7 @@ namespace post2.ViewModel
        
         string selectedImagePath = "";
         public CommandVm Ok { get; }
-        public CommandVm Image { get; }
+        public CommandVm ImageAdd { get; }
 
         public UserEditWindowVM()
         {
@@ -39,12 +39,13 @@ namespace post2.ViewModel
                 //    return;
                 //using (var mc = new MySqlCommand(insertQuery, connect))
                 //{ mc.Parameters.Add("@image", MySqlDbType.MediumBlob); }
-                    MainMenu mainMenu = new MainMenu();
+               
+                MainMenu mainMenu = new MainMenu();
                 mainMenu.Show();
                 CloseWindow(userEditWindow);
                 Signal();
             });
-            Image = new CommandVm(() =>
+            ImageAdd = new CommandVm(() =>
             {
                 SelectImage(this, null);
                 Signal();
@@ -77,6 +78,7 @@ namespace post2.ViewModel
                     bitmapImage.EndInit();
 
                     selectedImage.Source = bitmapImage;
+                    UserRepository.Instance.AddUserImage();
                 }
             }
         }

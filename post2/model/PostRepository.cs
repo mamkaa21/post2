@@ -45,6 +45,7 @@ namespace post2.model
                     result.Add(menuemail);
                 }
             }
+            //добавитт проверку на аттачментс, если не нул, то вывести, если нул, то ток , что выше
             return result;
         }
 
@@ -197,9 +198,7 @@ namespace post2.model
         {
             var connect = MySqlDB.Instance.GetConnection();
             if (connect == null) return;
-            string sql = "update Email set DateDelete = @DateDelete where ID = " + menuemail.ID;
-            using (var mc = new MySqlCommand(sql, connect))
-                mc.ExecuteNonQuery();    
+            string sql = "update Email set DateDelete = @DateDelete where ID = " + menuemail.ID;       
             using (var mc = new MySqlCommand(sql, connect))
             {             
                 mc.Parameters.Add(new MySqlParameter("DateDelete", menuemail.DateDelete)); 

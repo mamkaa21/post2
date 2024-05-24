@@ -33,8 +33,7 @@ namespace post2.ViewModel
         public CommandVm SendWindow { get; }
         public CommandVm OpenDeleteMenu { get; }
         public CommandVm OpenUserWindow { get; }
-        private DispatcherTimer timer = null;
-        //string sql = "select e.id, e.subject, e.body, e.datesend from email e";
+        private DispatcherTimer timer = null;     
         public EmailMenu SelectedEmail
         {
             get => selectedEmail;
@@ -44,16 +43,16 @@ namespace post2.ViewModel
                 Signal();
             }
         }
-        public void timerStart(MainMenu mainMenu)
-        {
-            this.mainMenu = mainMenu;
-            timer = new DispatcherTimer();
-            timer.Tick += new EventHandler(timerTick);
-            timer.Interval = new TimeSpan(0, 0, 2);
-            timer.Start();
-        }
+        //public void timerStart(MainMenu mainMenu)
+        //{
+        //    this.mainMenu = mainMenu;
+        //    timer = new DispatcherTimer();
+        //    timer.Tick += new EventHandler(timerTick);
+        //    timer.Interval = new TimeSpan(0, 0, 2);
+        //    timer.Start();
+        //}
 
-        public void MessageSee(MainMenu mainMenu)
+        public void MessageSee(MainMenu mainMenu) //сделай ее пж эт ОЧЕНЬ важно
         {
             if (SelectedEmail != null)
             {
@@ -63,11 +62,11 @@ namespace post2.ViewModel
                 //    Signal();
             }
         }
-        private void timerTick(object sender, EventArgs e)
-        {
-            Thread thread = new Thread(GetMail);
-            thread.Start();
-        }
+        //private void timerTick(object sender, EventArgs e)
+        //{
+        //    Thread thread = new Thread(GetMail);
+        //    thread.Start();
+        //}
         public string TextSearch { get; set; }
         public ObservableCollection<Popemail> Email { get => email; set => email = value; }
         public ObservableCollection<EmailMenu> Emaildb { get => emailsdb; set => emailsdb = value; }

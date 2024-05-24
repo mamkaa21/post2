@@ -76,9 +76,10 @@ namespace post2.model
             return result;
         }
 
-        internal User AddUserImage(byte[] image)
+        internal User AddUserImage() //жестко думать надо очень
         {
             User result = new User();
+            byte[] image;
             var connect = MySqlDB.Instance.GetConnection();
             if (connect == null)
                 return result;
@@ -93,14 +94,14 @@ namespace post2.model
         }
 
             internal User DeleteUser(User user)
-        {
+            {
             var connect = MySqlDB.Instance.GetConnection();
             if (connect == null) return user;
             string sql = "DELETE FROM User WHERE id = ' " + user.ID + "';";
             using (var mc = new MySqlCommand(sql, connect))
                 mc.ExecuteNonQuery();
             return user;
-        }
+            }
     }
 }
   
