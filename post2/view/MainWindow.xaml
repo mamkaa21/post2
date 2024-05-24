@@ -8,7 +8,7 @@
          xmlns:vm ="clr-namespace:post2.ViewModel"
         mc:Ignorable="d"
          DataContext="{DynamicResource vm}"
-        Title="MainWindow" Height="450" Width="800" Background="CornflowerBlue">
+        Title="Главное меню" Height="450" Width="800" Background="CornflowerBlue">
     <Window.Resources >
         <vm:MainWindowVM x:Key ="vm"/>
     </Window.Resources >

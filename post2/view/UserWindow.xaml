@@ -8,7 +8,7 @@
  xmlns:vm ="clr-namespace:post2.ViewModel"
         mc:Ignorable="d"
           DataContext="{DynamicResource vm}"
-        Title="UserWindow" Height="450" Width="800">
+        Title="Окно пользователя" Height="450" Width="800">
     <Window.Resources >
         <vm:UserWindowVm x:Key ="vm"/>
     </Window.Resources >
