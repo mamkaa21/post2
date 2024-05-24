@@ -73,15 +73,12 @@ namespace post2.ViewModel
         public ObservableCollection<EmailMenu> Emaildb { get => emailsdb; set => emailsdb = value; }
 
         public MainMenuVM()
-        {
-            //var lastCountFor = 0;
-            //string sql = "SELECT COUNT(*) AS countdb FROM email e, user u WHERE u.id = " + ActiveUser.Instance.GetUser().ID + ";";
-            //lastCountFor = PostRepository.Instance.GetCoutMessage(sql);
-            
+        {   
             Emaildb = new ObservableCollection<EmailMenu>(PostRepository.Instance.GetAllPOPEmails());
             UpgratePost = new CommandVm(() =>
             {
                 GetMail(Email);
+
             });
             Delete = new CommandVm(() =>
             {
@@ -89,10 +86,15 @@ namespace post2.ViewModel
                 { MessageBox.Show("Обьект не выбран"); return; }
                 else
                 {
-                    //RemoveMessage();
-                    PostRepository.Instance.RemovePOPEmail(SelectedEmail);
-                    DeletePost();
-                    Signal();
+                    try
+                    {                     
+                        SelectedEmail.DateDelete = DateTime.Now;  
+                        //PostRepository.Instance.RemovePOPEmail(SelectedEmail);                       
+                        PostRepository.Instance.UpdatePOPEmail(SelectedEmail);                     
+                        Signal();                       
+                    }
+                    catch { }                      
+                   
                 }
             });
             Search = new CommandVm(() =>
@@ -222,29 +224,31 @@ namespace post2.ViewModel
         {
             this.mainMenu = mainMenu;
         }
-        private void DeletePost()
-        {
-            if (SelectedEmail == null)
-            {
-                MessageBox.Show("Не выбран обьект");
-                return;
-            }
-            try
-            {
-                pop3Client = ConnectMail();
-                PostRepository.Instance.RemovePOPEmail(selectedEmail);
-                pop3Client.DeleteMessage(SelectedEmail.MessageNumber);
-                pop3Client.Disconnect();
-                var index = SelectedEmail.MessageNumber;
-                Emaildb.Remove(selectedEmail);
-                var sort = Email.ToArray();
-                Array.Sort(sort, (x, y) => y.DateSend.CompareTo(x.DateSend));
-                for (int i = 0; i < sort.Length; i++)
-                    sort[i].MessageNumber = i + 1;
-            }
-            catch { }
-            //PostRepository.Instance.UpdatePOPEmail(selectedEmail);
-        }
+        //private void DeletePost()
+        //{
+        //    if (SelectedEmail == null)
+        //    {
+        //        MessageBox.Show("Не выбран обьект");
+        //        return;
+        //    }
+        //    try
+        //    {
+        //        //pop3Client = ConnectMail();
+        //        PostRepository.Instance.RemovePOPEmail(SelectedEmail);
+        //        //pop3Client.DeleteMessage(SelectedEmail.MessageNumber);
+        //        //pop3Client.Disconnect();
+        //        var index = SelectedEmail.MessageNumber;
+        //        PostRepository.Instance.UpdatePOPEmail(SelectedEmail);
+
+        //        Emaildb.Remove(SelectedEmail);
+        //        var sort = Emaildb.ToArray();
+        //        Array.Sort(sort, (x, y) => y.DateSend.CompareTo(x.DateSend));
+        //        for (int i = 0; i < sort.Length; i++)
+        //            sort[i].MessageNumber = i + 1;
+        //    }
+        //    catch { }
+           
+        //}
         private void RemoveMessage()
         {
             if (SelectedEmail == null)
