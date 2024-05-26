@@ -30,16 +30,13 @@ namespace post2.ViewModel
             }
         }
         public DeleteMenuVm()
-        {
-            Emaildb = new ObservableCollection<EmailMenu>(PostRepository.Instance.GetDelPOPEmail());
+        { string sql = "select ID, ID_AdressFrom, Subjecct, Body FROM Email WHERE ID_StatusEmail is not null and ID_AdressTo = " + ActiveUser.Instance.GetUser().IDAddress + "; ";
+            Emaildb = new ObservableCollection<EmailMenu>(PostRepository.Instance.GetDelPOPEmail(sql));
             Back = new CommandVm(() =>
             {
-                //MainMenu mainMenu = new MainMenu();
-                //mainMenu.Show();
                 CloseWindow(deleteMenu);
                 Signal();
-            }
-           );
+            });
             Delete = new CommandVm(() =>
             {
                 //if (SelectedEmail == null)
@@ -66,8 +63,7 @@ namespace post2.ViewModel
                 
             });
         }
-        private void GetDelPOPEmail()
-        { var email = PostRepository.Instance.GetDelPOPEmail(); }
+      
         private void DeletePost()
         {
             if (SelectedEmail == null)

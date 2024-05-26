@@ -45,7 +45,7 @@
                 <GridView>
                     <GridViewColumn DisplayMemberBinding="{Binding EmailFrom}"/>
                     <GridViewColumn DisplayMemberBinding="{Binding Subject}"/>
-                    <GridViewColumn DisplayMemberBinding="{Binding Body}"/>
+                    <GridViewColumn DisplayMemberBinding="{Binding Body}"/>                 
                     <GridViewColumn >
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>

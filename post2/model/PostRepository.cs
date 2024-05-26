@@ -23,13 +23,13 @@ namespace post2.model
                 return instance;
             }
         }
-        internal IEnumerable<EmailMenu> GetAllPOPEmails()
+        internal IEnumerable<EmailMenu> GetAllPOPEmails(string sql)
         {
             ObservableCollection<EmailMenu> result = new ObservableCollection<EmailMenu>();
             var connect = MySqlDB.Instance.GetConnection();
             if (connect == null)
                 return result;
-            string sql = "SELECT ID, ID_AdressFrom, Subjecct, Body, DateSend FROM email where ID_StatusEmail is null and ID_AdressTo = " + ActiveUser.Instance.GetUser().IDAddress + ";";
+            sql = "SELECT ID, ID_AdressFrom, Subjecct, Body, DateSend FROM email where ID_StatusEmail is null and ID_AdressTo = " + ActiveUser.Instance.GetUser().IDAddress + ";";
             using (var mc = new MySqlCommand(sql, connect))
             using (var reader = mc.ExecuteReader())
             {
@@ -42,6 +42,7 @@ namespace post2.model
                     menuemail.Body = reader.GetString("Body");
                     menuemail.DateSend = reader.GetDateTime("DateSend");
                     result.Add(menuemail);
+                 
                 }
             }
             //добавитт проверку на аттачментс, если не нул, то вывести, если нул, то ток , что выше
@@ -163,12 +164,12 @@ namespace post2.model
             }
             return email;
         }
-        internal IEnumerable<EmailMenu> GetDelPOPEmail()
+        internal IEnumerable<EmailMenu> GetDelPOPEmail(string sql)
         { 
             ObservableCollection<EmailMenu> result = new ObservableCollection<EmailMenu>();
             var connect = MySqlDB.Instance.GetConnection(); 
             if (connect == null) return result;
-            string sql = "select ID, ID_AdressFrom, Subjecct, Body FROM Email WHERE ID_StatusEmail = 1 and ID_AdressTo = " + ActiveUser.Instance.GetUser().IDAddress + ";";
+            sql = "select ID, ID_AdressFrom, Subjecct, Body FROM Email WHERE ID_StatusEmail = '1' and ID_AdressTo = " + ActiveUser.Instance.GetUser().IDAddress + ";";
             using (var mc = new MySqlCommand(sql, connect))
             using (var reader = mc.ExecuteReader())
             {
@@ -178,8 +179,11 @@ namespace post2.model
                     menuemail.ID = reader.GetInt32("id");
                     menuemail.ID_AdressFrom = reader.GetInt32("ID_AdressFrom");
                     menuemail.Subject = reader.GetString("Subjecct");
-                    menuemail.Body = reader.GetString("Body");
-                    //menuemail.DateDelete = reader.GetDateTime("DateDelete");                 
+                    menuemail.Body = reader.GetString("Body");      
+                    //menuemail.DateDelete = reader.GetDateTime("DateDelete");
+                    result.Add(menuemail);
+               
+
                 }
             }        
             return result;
@@ -193,19 +197,19 @@ namespace post2.model
             mc.ExecuteNonQuery();
             return menuemail;
         }
-        internal IEnumerable<EmailMenu> Search(string searchText, EmailMenu menuemail)
-        {
-            string sql = "select  e.ID_AdressFrom, e.Subjecct, e.Body, e.DateSend from Email e";
-            if (menuemail.ID != 0)
-            {
-                var result = GetAllPOPEmails().Where(s => s.AdressBooks.FirstOrDefault(s => s.ID == menuemail.ID) != null);
-                return result;
-            }
-            return GetAllPOPEmails();
-        }
-
+        //internal IEnumerable<EmailMenu> Search(string searchText, EmailMenu menuemail)
+        //{
+        //    string sql = "select  e.ID_AdressFrom, e.Subjecct, e.Body, e.DateSend from Email e";
+        //    if (menuemail.ID != 0)
+        //    {
+        //        var result = GetAllPOPEmails().Where(s => s.AdressBooks.FirstOrDefault(s => s.ID == menuemail.ID) != null);
+        //        return result;
+        //    }
+        //    return GetAllPOPEmails();
+        //}
         internal void UpdatePOPEmail(EmailMenu menuemail)
         {
+            ObservableCollection<EmailMenu> result = new ObservableCollection<EmailMenu>();
             var connect = MySqlDB.Instance.GetConnection();
             {
                 if (connect == null) return;
@@ -214,10 +218,26 @@ namespace post2.model
                 {
                     mc.Parameters.AddWithValue("@ID_StatusEmail", menuemail.ID_StatusEmail);
                     //mc.Parameters.AddWithValue("@Datedelete", menuemail.DateDelete);
-                    mc.Parameters.AddWithValue("@ID", menuemail.ID); 
+                    mc.Parameters.AddWithValue("@ID", menuemail.ID);                 
                     mc.ExecuteNonQuery();
+                    result.Clear();
+                    sql += "SELECT ID, ID_AdressFrom, Subjecct, Body, DateSend FROM email where ID_StatusEmail is null and ID_AdressTo " +
+                        "= " + ActiveUser.Instance.GetUser().IDAddress + ";";
+                    using (var reader = mc.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            menuemail.ID = reader.GetInt32("id");
+                            menuemail.ID_AdressFrom = reader.GetInt32("ID_AdressFrom");
+                            menuemail.Subject = reader.GetString("Subjecct");
+                            menuemail.Body = reader.GetString("Body");
+                            menuemail.DateSend = reader.GetDateTime("DateSend");
+                            result.Add(menuemail);
+                            mc.ExecuteNonQuery();
+                        }
+                    }
                 }
-            }
+            }       
         }
         //string sql = "update Email set DateDelete = @DateDelete where ID = " + menuemail.ID;       
         //using (var mc = new MySqlCommand(sql, connect))
