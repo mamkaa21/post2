@@ -36,13 +36,13 @@
         <Label Grid.ColumnSpan="9" Background="CornflowerBlue" Content="CATSS" HorizontalContentAlignment="Center"
          FontSize="35" Foreground="Beige"/>
         <Label Grid.Column="2" Grid.ColumnSpan="2" Grid.Row="1" Content="Удаленные  ✉" FontSize="30" Foreground ="SteelBlue" HorizontalAlignment="Left"/>
-        <ListView x:Name="test1" Grid.ColumnSpan="3" Grid.Row="2" Grid.Column="2" Grid.RowSpan="7" ItemsSource="{Binding Email}" SelectedItem="{Binding SelectedEmail}">
+        <ListView x:Name="test1" Grid.ColumnSpan="3" Grid.Row="2" Grid.Column="2" Grid.RowSpan="7" ItemsSource="{Binding Emaildb}" SelectedItem="{Binding SelectedEmail}">
             <ListView.View>
                 <GridView>
-                    <GridViewColumn DisplayMemberBinding="{Binding From}"/>
-                    <GridViewColumn DisplayMemberBinding="{Binding Subject}"/>
+                    <GridViewColumn DisplayMemberBinding="{Binding EmailFrom}"/>
+                    <GridViewColumn DisplayMemberBinding="{Binding Subjecct}"/>
                     <GridViewColumn DisplayMemberBinding="{Binding Body}"/>
-                    <GridViewColumn DisplayMemberBinding="{Binding DateSend}"/>
+                    <GridViewColumn DisplayMemberBinding="{Binding DateDelete}"/>
                 </GridView>
             </ListView.View>
         </ListView>

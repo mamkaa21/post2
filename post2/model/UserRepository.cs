@@ -76,22 +76,22 @@ namespace post2.model
             return result;
         }
 
-        internal User AddUserImage() //жестко думать надо очень
-        {
-            User result = new User();
-            byte[] image;
-            var connect = MySqlDB.Instance.GetConnection();
-            if (connect == null)
-                return result;
-            int id = MySqlDB.Instance.GetAutoID("User");
-            string sql = "INSERT INTO User VALUES (@image)";
-            using (var mc = new MySqlCommand(sql, connect))
-            {
-                mc.Parameters.Add(new MySqlParameter("image", image));            
-                mc.ExecuteNonQuery();
-            }
-            return result;
-        }
+        //internal User AddUserImage() //жестко думать надо очень
+        //{
+        //    User result = new User();
+        //    byte[] image;
+        //    var connect = MySqlDB.Instance.GetConnection();
+        //    if (connect == null)
+        //        return result;
+        //    int id = MySqlDB.Instance.GetAutoID("User");
+        //    string sql = "INSERT INTO User VALUES (@image)";
+        //    using (var mc = new MySqlCommand(sql, connect))
+        //    {
+        //        mc.Parameters.Add(new MySqlParameter("image", image));            
+        //        mc.ExecuteNonQuery();
+        //    }
+        //    return result;
+        //}
 
             internal User DeleteUser(User user)
             {

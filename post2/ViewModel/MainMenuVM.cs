@@ -43,15 +43,14 @@ namespace post2.ViewModel
                 Signal();
             }
         }
-        //public void timerStart(MainMenu mainMenu)
-        //{
-        //    this.mainMenu = mainMenu;
-        //    timer = new DispatcherTimer();
-        //    timer.Tick += new EventHandler(timerTick);
-        //    timer.Interval = new TimeSpan(0, 0, 2);
-        //    timer.Start();
-        //}
-
+        public void timerStart(MainMenu mainMenu)
+        {
+            this.mainMenu = mainMenu;
+            timer = new DispatcherTimer();
+            timer.Tick += new EventHandler(timerTick);
+            timer.Interval = new TimeSpan(0, 0, 2);
+            timer.Start();
+        }
         public void MessageSee(MainMenu mainMenu) //сделай ее пж эт ОЧЕНЬ важно
         {
             if (SelectedEmail != null)
@@ -62,11 +61,11 @@ namespace post2.ViewModel
                 //    Signal();
             }
         }
-        //private void timerTick(object sender, EventArgs e)
-        //{
-        //    Thread thread = new Thread(GetMail);
-        //    thread.Start();
-        //}
+        private void timerTick(object sender, EventArgs e)
+        {
+            Thread thread = new Thread(GetMail);
+            thread.Start();
+        }
         public string TextSearch { get; set; }
         public ObservableCollection<Popemail> Email { get => email; set => email = value; }
         public ObservableCollection<EmailMenu> Emaildb { get => emailsdb; set => emailsdb = value; }
@@ -77,42 +76,51 @@ namespace post2.ViewModel
             UpgratePost = new CommandVm(() =>
             {
                 GetMail(Email);
+                Signal();
 
             });
-            Delete = new CommandVm(() =>
-            {
+            Delete = new CommandVm(() => {
                 if (SelectedEmail == null)
-                { MessageBox.Show("Обьект не выбран"); return; }
+                {
+                    MessageBox.Show("Обьект не выбран"); return;
+                }
                 else
                 {
                     try
-                    {                     
-                        SelectedEmail.DateDelete = DateTime.Now;  
-                        //PostRepository.Instance.RemovePOPEmail(SelectedEmail);                       
-                        PostRepository.Instance.UpdatePOPEmail(SelectedEmail);                     
-                        Signal();                       
+                    {
+                        SelectedEmail.ID_StatusEmail = 1;
+                        SelectedEmail.DateDelete = DateTime.Now;
+                        PostRepository.Instance.UpdatePOPEmail(SelectedEmail);
+                        Emaildb.Remove(SelectedEmail);
+                        Signal();                     
                     }
-                    catch { }                      
-                   
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show($"Ошибка: {ex.Message}");
+                    }
                 }
             });
             Search = new CommandVm(() =>
             {
                 PostRepository.Instance.Search(TextSearch, selectedEmail);
                 Signal();
-
             });
             SendWindow = new CommandVm(() =>
             {
                 SendWindow sendWindow = new SendWindow();
                 sendWindow.Show();
-
                 Signal();
             });
             OpenUserWindow = new CommandVm(() =>
             {
                 UserWindow userWindow = new UserWindow();
                 userWindow.Show();
+                Signal();
+            });
+            OpenDeleteMenu = new CommandVm(() =>
+            {
+                DeleteMenu deletemenu = new DeleteMenu();
+                deletemenu.Show();
                 Signal();
             });
         }
@@ -152,12 +160,12 @@ namespace post2.ViewModel
                 count = pop3Client.GetMessageCount();
             }
             catch { return; }
-            int countdb = 0;
-            PostRepository.Instance.GetCoutMessage(countdb);          
-            var lastCountFor = countdb;           
+            int lastCountFor = 0;
+            PostRepository.Instance.GetCoutMessage(lastCountFor);          
+            var countdb = lastCountFor;           
             int counter = 0;
             Message message;
-            for (int i = count; i > lastCountFor; i--)
+            for (int i = count; i > countdb; i--)
             {
                 try
                 {

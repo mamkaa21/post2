@@ -14,14 +14,13 @@ namespace post2.ViewModel
 {
     public class DeleteMenuVm : BaseVM
     {
-        Pop3Client pop3Client;
-        private ObservableCollection<Popemail> email;
-        public Popemail selectedEmail;
+        private ObservableCollection<EmailMenu> emaildb;
+        public EmailMenu selectedEmail = new();
         public CommandVm Back { get; }
         public CommandVm Delete { get; }
-        public ObservableCollection<Popemail> Email { get => email; set => email = value; }
+        public ObservableCollection<EmailMenu> Emaildb { get => emaildb; set => emaildb = value; }
         public CommandVm Return { get; }
-        public Popemail SelectedEmail
+        public EmailMenu SelectedEmail
         {
             get => selectedEmail;
             set
@@ -32,32 +31,43 @@ namespace post2.ViewModel
         }
         public DeleteMenuVm()
         {
+            Emaildb = new ObservableCollection<EmailMenu>(PostRepository.Instance.GetDelPOPEmail());
             Back = new CommandVm(() =>
             {
-                MainMenu mainMenu = new MainMenu();
-                mainMenu.Show();
+                //MainMenu mainMenu = new MainMenu();
+                //mainMenu.Show();
                 CloseWindow(deleteMenu);
                 Signal();
             }
            );
             Delete = new CommandVm(() =>
             {
-                DeletePost();
+                //if (SelectedEmail == null)
+                //{
+                //    MessageBox.Show("Обьект не выбран"); return;
+                //}
+                //else
+                //{
+                //    try
+                //    {
+                //        SelectedEmail.ID_StatusEmail = 1;
+                //        PostRepository.Instance.UpdatePOPEmail(SelectedEmail);
+                //        Signal();
+                //    }
+                //    catch (Exception ex)
+                //    {
+                //        MessageBox.Show($"Ошибка: {ex.Message}");
+                //    }
+                //}
+                //DeletePost();
             });
             Return = new CommandVm(() =>
-            { });
+            {
+                
+            });
         }
-        //private static Pop3Client ConnectMail()
-        //{
-        //    Pop3Client pop3Client = new Pop3Client();
-
-        //    var username = "alina1125@suz-ppk.ru";
-        //    var password = "D35de%TJ";
-
-        //    pop3Client.Connect("pop3.beget.com", 110, false);
-        //    pop3Client.Authenticate(username, password, AuthenticationMethod.UsernameAndPassword);
-        //    return pop3Client;
-        //}
+        private void GetDelPOPEmail()
+        { var email = PostRepository.Instance.GetDelPOPEmail(); }
         private void DeletePost()
         {
             if (SelectedEmail == null)
@@ -72,7 +82,7 @@ namespace post2.ViewModel
                 //pop3Client.DeleteMessage(SelectedEmail.MessageNumber);
                 //pop3Client.Disconnect();
                 //var index = SelectedEmail.MessageNumber;
-                Email.Remove(selectedEmail);
+                Emaildb.Remove(selectedEmail);
                 //var sort = Email.ToArray();
                 //Array.Sort(sort, (x, y) => y.DateSend.CompareTo(x.DateSend));
                 //for (int i = 0; i < sort.Length; i++)

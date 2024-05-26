@@ -78,7 +78,7 @@ namespace post2.ViewModel
                     bitmapImage.EndInit();
 
                     selectedImage.Source = bitmapImage;
-                    UserRepository.Instance.AddUserImage();
+                    //UserRepository.Instance.AddUserImage();
                 }
             }
         }

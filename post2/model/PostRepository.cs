@@ -29,7 +29,7 @@ namespace post2.model
             var connect = MySqlDB.Instance.GetConnection();
             if (connect == null)
                 return result;
-            string sql = "SELECT ID, ID_AdressFrom, ID_AdressTo, Subjecct, Body, DateSend FROM email where DateDelete is null and ID_AdressTo = " + ActiveUser.Instance.GetUser().IDAddress + ";";
+            string sql = "SELECT ID, ID_AdressFrom, Subjecct, Body, DateSend FROM email where ID_StatusEmail is null and ID_AdressTo = " + ActiveUser.Instance.GetUser().IDAddress + ";";
             using (var mc = new MySqlCommand(sql, connect))
             using (var reader = mc.ExecuteReader())
             {
@@ -38,7 +38,6 @@ namespace post2.model
                     var menuemail = new EmailMenu();
                     menuemail.ID = reader.GetInt32("id");
                     menuemail.ID_AdressFrom = reader.GetInt32("ID_AdressFrom");
-                    menuemail.ID_AdressTo = reader.GetInt32("ID_AdressTo");
                     menuemail.Subject = reader.GetString("Subjecct");
                     menuemail.Body = reader.GetString("Body");
                     menuemail.DateSend = reader.GetDateTime("DateSend");
@@ -95,7 +94,7 @@ namespace post2.model
         {
             var connect = MySqlDB.Instance.GetConnection();
             if (connect == null) return email;
-            string sql = "select id from AdressBook where Email = '" + email.ID_AdressFrom + "'";
+            string sql = "select id from AdressBook where Email = '" + email.EmailFrom + "'";
             using (var mc = new MySqlCommand(sql, connect))
             using (var reader = mc.ExecuteReader())
             {
@@ -108,7 +107,7 @@ namespace post2.model
                 sql = "INSERT INTO AdressBook VALUES (0, @AdressFrom, '', null)";
                 using (var mc = new MySqlCommand(sql, connect))
                 {
-                    mc.Parameters.Add(new MySqlParameter("AdressFrom", email.ID_AdressFrom));
+                    mc.Parameters.Add(new MySqlParameter("AdressFrom", email.EmailFrom));
                     mc.ExecuteNonQuery();
                 }
             }
@@ -127,7 +126,6 @@ namespace post2.model
             }
                 return email;         
         }
-
         internal Popemail AddDateDelete(Popemail email)
         {
             var connect = MySqlDB.Instance.GetConnection();
@@ -165,15 +163,27 @@ namespace post2.model
             }
             return email;
         }
-        /*internal Popemail GetDelPOPEmail(Popemail pOPEmail)
-        {
-           var connect = MySqlDB.Instance.GetConnection();
-           if (connect == null) return pOPEmail;
-            string sql = "select  FROM Email WHERE id = ' " + pOPEmail.ID + "';";
+        internal IEnumerable<EmailMenu> GetDelPOPEmail()
+        { 
+            ObservableCollection<EmailMenu> result = new ObservableCollection<EmailMenu>();
+            var connect = MySqlDB.Instance.GetConnection(); 
+            if (connect == null) return result;
+            string sql = "select ID, ID_AdressFrom, Subjecct, Body FROM Email WHERE ID_StatusEmail = 1 and ID_AdressTo = " + ActiveUser.Instance.GetUser().IDAddress + ";";
             using (var mc = new MySqlCommand(sql, connect))
-                mc.ExecuteNonQuery();
-            return pOPEmail;
-        }*/
+            using (var reader = mc.ExecuteReader())
+            {
+                while (reader.Read())
+                {
+                    var menuemail = new EmailMenu();
+                    menuemail.ID = reader.GetInt32("id");
+                    menuemail.ID_AdressFrom = reader.GetInt32("ID_AdressFrom");
+                    menuemail.Subject = reader.GetString("Subjecct");
+                    menuemail.Body = reader.GetString("Body");
+                    //menuemail.DateDelete = reader.GetDateTime("DateDelete");                 
+                }
+            }        
+            return result;
+        }
         internal EmailMenu RemovePOPEmail(EmailMenu menuemail)
         {
             var connect = MySqlDB.Instance.GetConnection();
@@ -197,15 +207,26 @@ namespace post2.model
         internal void UpdatePOPEmail(EmailMenu menuemail)
         {
             var connect = MySqlDB.Instance.GetConnection();
-            if (connect == null) return;
-            string sql = "update Email set DateDelete = @DateDelete where ID = " + menuemail.ID;       
-            using (var mc = new MySqlCommand(sql, connect))
-            {             
-                mc.Parameters.Add(new MySqlParameter("DateDelete", menuemail.DateDelete)); 
-                mc.ExecuteNonQuery();
+            {
+                if (connect == null) return;
+                string sql = "update Email set ID_StatusEmail = @ID_StatusEmail where ID = " + menuemail.ID;
+                using (var mc = new MySqlCommand(sql, connect))
+                {
+                    mc.Parameters.AddWithValue("@ID_StatusEmail", menuemail.ID_StatusEmail);
+                    //mc.Parameters.AddWithValue("@Datedelete", menuemail.DateDelete);
+                    mc.Parameters.AddWithValue("@ID", menuemail.ID); 
+                    mc.ExecuteNonQuery();
+                }
             }
-            //датеделете добавить когда удаляю
         }
+        //string sql = "update Email set DateDelete = @DateDelete where ID = " + menuemail.ID;       
+        //using (var mc = new MySqlCommand(sql, connect))
+        //{             
+        //    mc.Parameters.Add(new MySqlParameter("DateDelete", menuemail.DateDelete)); 
+        //    mc.ExecuteNonQuery();
+        //}
+        //датеделете добавить когда удаляю
     }
 }
+
 
