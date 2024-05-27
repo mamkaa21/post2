@@ -72,7 +72,7 @@ namespace post2.ViewModel
 
         public MainMenuVM()
         {
-          string sql = "SELECT ID, ID_AdressFrom, Subjecct, Body, DateSend FROM email where ID_StatusEmail is null and ID_AdressTo = " + ActiveUser.Instance.GetUser().IDAddress + ";";
+            string sql = "SELECT ID, ID_AdressFrom, Subjecct, Body, DateSend FROM email where ID_StatusEmail is null and ID_AdressTo = " + ActiveUser.Instance.GetUser().IDAddress + ";";
             Emaildb = new ObservableCollection<EmailMenu>(PostRepository.Instance.GetAllPOPEmails(sql));
             UpgratePost = new CommandVm(() =>
             {
@@ -213,9 +213,9 @@ namespace post2.ViewModel
                 mainMenu.Dispatcher.Invoke(() =>
                 {
                     if (first)
-                        this.Email.Add(email);
+                        Email.Add(email);
                     else
-                        this.Email.Insert(0, email);
+                        Email.Insert(0, email);
                 });
                 counter++;
             }

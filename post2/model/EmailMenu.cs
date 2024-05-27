@@ -5,11 +5,12 @@ using System.Linq;
 using System.Text;
 using System.Net.Mail;
 using System.Threading.Tasks;
+using System.Security.Cryptography;
 
 namespace post2.model
 {
     public class EmailMenu
-    {
+    {     
         public EmailMenu()
         {
             AttachmentsEM = new List<AttachmentsE>();

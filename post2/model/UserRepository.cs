@@ -1,10 +1,11 @@
-﻿using MySqlConnector;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Reflection;
 using System.Text;
+using System.IO;
 using System.Threading.Tasks;
+using System.Collections.ObjectModel;
+using MySqlConnector;
 
 namespace post2.model
 {
@@ -48,6 +49,33 @@ namespace post2.model
                 return result;
             }
         }
+        internal IEnumerable<User> GetUser(string sql)
+        {
+            ObservableCollection<User> result = new ObservableCollection<User>();
+            var connect = MySqlDB.Instance.GetConnection();
+            if (connect == null)
+                return result;
+            sql = "SELECT u.ID, u.NickName, u.Login, u.Image, ab.Email, ab.Title, ab.ID AS idAddress FROM User u, AdressBook ab WHERE u.Login = @login AND u.Password = @password AND ab.ID_User = u.ID";
+            using (var mc = new MySqlCommand(sql, connect))
+            {            
+                using (var reader = mc.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        var user = new User();
+                        user.ID = reader.GetInt32("id");
+                        user.NickName = reader.GetString("NickName");
+                        user.Email = reader.GetString("Email");
+                        user.EmailTitle = reader.GetString("Title");
+                        user.Login = reader.GetString("Login");
+                        user.IDAddress = reader.GetInt32("idAddress");
+                        result.Add(user);
+                    }
+                }
+                return result;
+            }
+        }
+
         internal User AddUserByLoginPassword(string nickname, string login, string password)
         {
             User result = new User();

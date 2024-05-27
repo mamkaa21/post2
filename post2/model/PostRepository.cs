@@ -12,7 +12,6 @@ namespace post2.model
     public class PostRepository
     {
         private PostRepository() { }
-
         static PostRepository instance;
         public static PostRepository Instance
         {

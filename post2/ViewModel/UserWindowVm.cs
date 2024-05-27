@@ -1,33 +1,36 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net.Mail;
-using System.Net;
-using System.Text;
-using System.Threading.Tasks;
+﻿using OpenPop.Mime;
+using OpenPop.Pop3;
 using post2.model;
 using post2.view;
-using OpenPop.Mime;
+using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using Microsoft.Win32;
-using System.IO;
-using System.Windows.Media.Imaging;
+using System.Collections.Specialized;
+using System.ComponentModel;
+using System.ComponentModel.Design;
+using System.Linq;
+using System.Security.Cryptography.X509Certificates;
+using System.Text;
+using System.Text.RegularExpressions;
+using System.Threading.Tasks;
+using System.Web;
 using System.Windows;
-using System.Windows.Controls;
-using System.Threading.Channels;
+using System.Windows.Threading;
+using MySqlConnector;
 
 
 namespace post2.ViewModel
 {
     public class UserWindowVm : BaseVM
     {
-        public ObservableCollection<User> users = new ();
+        private ObservableCollection<User> user = new ();
         public CommandVm Back { get; }
         public CommandVm Edit { get; }
-        public ObservableCollection<User> Users { get => users; set => users = value; }
+        public ObservableCollection<User> Users { get => user; set => user = value; }
         public UserWindowVm()
-        {
-
+        {           
+            string sql = "SELECT u.ID, u.NickName, u.Login, u.Image, ab.Email, ab.Title, ab.ID AS idAddress FROM User u, AdressBook ab WHERE ab.ID_User = u.ID";
+            Users = ObservableCollection<User>(UserRepository.Instance.GetUser(sql));
             Edit = new CommandVm(() =>
             {
                 UserEditWindow userEditWindow = new UserEditWindow();
