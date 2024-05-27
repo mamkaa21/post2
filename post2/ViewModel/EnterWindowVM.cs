@@ -25,27 +25,14 @@ namespace post2.ViewModel
                 if (user.ID != 0)
                 {
                     ActiveUser.Instance.SetUser(user);
-                    CashPassword();
+                   
                     MainMenu mainMenu = new MainMenu();
                     mainMenu.Show();
                     CloseWindow(enterWindow);
                     Signal();
                 }
             });
-        }
-        internal void CashPassword()
-        {
-            var bytes = Encoding.ASCII.GetBytes(passwordBox.Password);
-            StringBuilder result = new StringBuilder();
-            using (var md5 = MD5.Create())
-            using (var ms = new MemoryStream(bytes))
-            {
-                var hash = md5.ComputeHash(ms);
-                foreach (var b in hash)
-                    result.Append(b.ToString("x2"));
-            }
-            return /*result.ToString()*/;
-        }
+        }     
         EnterWindow enterWindow;
         private PasswordBox passwordBox;
 
