@@ -72,13 +72,12 @@ namespace post2.ViewModel
 
         public MainMenuVM()
         {
-            string sql = "SELECT ID, ID_AdressFrom, Subjecct, Body, DateSend FROM email where ID_StatusEmail is null and ID_AdressTo = " + ActiveUser.Instance.GetUser().IDAddress + ";";
+            string sql = "SELECT e.ID, ab.EmailFrom, e.Subjecct, e.Body, e.DateSend FROM email e, AdressBook ab where ID_StatusEmail is null and ID_AdressTo = " + ActiveUser.Instance.GetUser().IDAddress + ";";
             Emaildb = new ObservableCollection<EmailMenu>(PostRepository.Instance.GetAllPOPEmails(sql));
             UpgratePost = new CommandVm(() =>
             {
                 GetMail(Email);
                 Signal();
-
             });
             Delete = new CommandVm(() => {
                 if (SelectedEmail == null)
@@ -89,8 +88,10 @@ namespace post2.ViewModel
                 {
                     try
                     {
+                        SelectedEmail.DateSend = DateTime.Now;
                         SelectedEmail.ID_StatusEmail = 1;                       
                         PostRepository.Instance.UpdatePOPEmail(SelectedEmail);
+                        PostRepository.Instance.GetAllPOPEmails(sql);
                         //Emaildb.Remove(SelectedEmail);
                         Signal();                     
                     }
@@ -128,9 +129,7 @@ namespace post2.ViewModel
         private void GetCoutMessage() {
             var c = 0;
             var countdb = PostRepository.Instance.GetCoutMessage(c); 
-        }
-        //private void GetAllPOPEmails()
-        //{ var email = PostRepository.Instance.GetAllPOPEmails(); }
+        }      
         public static Pop3Client ConnectMail()
         {
             Pop3Client pop3Client = new Pop3Client();
@@ -144,8 +143,7 @@ namespace post2.ViewModel
         bool first = true;
         int lastCount = 0;  
         void GetMail(object p)             
-        {
-            
+        {           
             try
             {
                 pop3Client = ConnectMail();
@@ -183,9 +181,7 @@ namespace post2.ViewModel
                     DateSend = message.Headers.DateSent,
                     EmailFrom = message.Headers.From.Address,
                     ID_AdressTo = ActiveUser.Instance.GetUser().IDAddress
-                };             
-                PostRepository.Instance.AddPOPEmail(email);
-               
+                };                                       
                 MessagePart body = message.FindFirstHtmlVersion();
                 if (body != null)
                 {
@@ -200,7 +196,6 @@ namespace post2.ViewModel
                     }
                 }
                 List<MessagePart> attachments = message.FindAllAttachments();
-
                 foreach (MessagePart part in attachments)
                 {
                     email.Attachments.Add(new Attachments
@@ -209,7 +204,8 @@ namespace post2.ViewModel
                         ContentType = part.ContentType.MediaType,
                         Content = part.Body
                     });
-                }
+                } 
+                PostRepository.Instance.AddPOPEmail(email);
                 mainMenu.Dispatcher.Invoke(() =>
                 {
                     if (first)

@@ -42,7 +42,6 @@
                     <GridViewColumn DisplayMemberBinding="{Binding EmailFrom}"/>
                     <GridViewColumn DisplayMemberBinding="{Binding Subjecct}"/>
                     <GridViewColumn DisplayMemberBinding="{Binding Body}"/>
-                    <GridViewColumn DisplayMemberBinding="{Binding DateDelete}"/>
                 </GridView>
             </ListView.View>
         </ListView>

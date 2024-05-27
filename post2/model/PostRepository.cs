@@ -22,13 +22,13 @@ namespace post2.model
                 return instance;
             }
         }
-        internal IEnumerable<EmailMenu> GetAllPOPEmails(string sql)
+        internal IEnumerable<EmailMenu> GetAllPOPEmails(string sql) //работает но не правильно
         {
             ObservableCollection<EmailMenu> result = new ObservableCollection<EmailMenu>();
             var connect = MySqlDB.Instance.GetConnection();
             if (connect == null)
                 return result;
-            sql = "SELECT ID, ID_AdressFrom, Subjecct, Body, DateSend FROM email where ID_StatusEmail is null and ID_AdressTo = " + ActiveUser.Instance.GetUser().IDAddress + ";";
+            sql = "SELECT e.ID, ab.Email, e.Subjecct, e.Body, e.DateSend FROM email e, AdressBook ab where ID_StatusEmail is null and ID_AdressTo = " + ActiveUser.Instance.GetUser().IDAddress + ";";
             using (var mc = new MySqlCommand(sql, connect))
             using (var reader = mc.ExecuteReader())
             {
@@ -36,12 +36,11 @@ namespace post2.model
                 {
                     var menuemail = new EmailMenu();
                     menuemail.ID = reader.GetInt32("id");
-                    menuemail.ID_AdressFrom = reader.GetInt32("ID_AdressFrom");
+                    menuemail.EmailFrom = reader.GetString("email");
                     menuemail.Subject = reader.GetString("Subjecct");
                     menuemail.Body = reader.GetString("Body");
                     menuemail.DateSend = reader.GetDateTime("DateSend");
-                    result.Add(menuemail);
-                 
+                    result.Add(menuemail);                
                 }
             }
             //добавитт проверку на аттачментс, если не нул, то вывести, если нул, то ток , что выше
@@ -168,7 +167,7 @@ namespace post2.model
             ObservableCollection<EmailMenu> result = new ObservableCollection<EmailMenu>();
             var connect = MySqlDB.Instance.GetConnection(); 
             if (connect == null) return result;
-            sql = "select ID, ID_AdressFrom, Subjecct, Body FROM Email WHERE ID_StatusEmail = '1' and ID_AdressTo = " + ActiveUser.Instance.GetUser().IDAddress + ";";
+            sql = "select e.ID, ab.email, e.Subjecct, e.Body FROM Email e, adressbook ab WHERE ID_StatusEmail = '1' and ID_AdressTo = " + ActiveUser.Instance.GetUser().IDAddress + ";";
             using (var mc = new MySqlCommand(sql, connect))
             using (var reader = mc.ExecuteReader())
             {
@@ -176,13 +175,11 @@ namespace post2.model
                 {
                     var menuemail = new EmailMenu();
                     menuemail.ID = reader.GetInt32("id");
-                    menuemail.ID_AdressFrom = reader.GetInt32("ID_AdressFrom");
+                    menuemail.EmailFrom = reader.GetString("email");
                     menuemail.Subject = reader.GetString("Subjecct");
-                    menuemail.Body = reader.GetString("Body");      
+                    menuemail.Body = reader.GetString("Body");
                     //menuemail.DateDelete = reader.GetDateTime("DateDelete");
-                    result.Add(menuemail);
-               
-
+                    result.Add(menuemail);             
                 }
             }        
             return result;
@@ -220,14 +217,14 @@ namespace post2.model
                     mc.Parameters.AddWithValue("@ID", menuemail.ID);                 
                     mc.ExecuteNonQuery();
                     result.Clear();
-                    sql += "SELECT ID, ID_AdressFrom, Subjecct, Body, DateSend FROM email where ID_StatusEmail is null and ID_AdressTo " +
+                    sql += "SELECT e.ID, ab.email, e.Subjecct, e.Body, e.DateSend FROM email e, adressbook ab where ID_StatusEmail is null and ID_AdressTo " +
                         "= " + ActiveUser.Instance.GetUser().IDAddress + ";";
                     using (var reader = mc.ExecuteReader())
                     {
                         while (reader.Read())
                         {
                             menuemail.ID = reader.GetInt32("id");
-                            menuemail.ID_AdressFrom = reader.GetInt32("ID_AdressFrom");
+                            menuemail.EmailFrom = reader.GetString("email");
                             menuemail.Subject = reader.GetString("Subjecct");
                             menuemail.Body = reader.GetString("Body");
                             menuemail.DateSend = reader.GetDateTime("DateSend");

@@ -30,7 +30,7 @@ namespace post2.ViewModel
             }
         }
         public DeleteMenuVm()
-        { string sql = "select ID, ID_AdressFrom, Subjecct, Body FROM Email WHERE ID_StatusEmail is not null and ID_AdressTo = " + ActiveUser.Instance.GetUser().IDAddress + "; ";
+        {   string sql = "select e.ID, ab.Email, e.Subjecct, e.Body FROM Email e, adressbook ab WHERE ID_StatusEmail = '1' and ID_AdressTo = " + ActiveUser.Instance.GetUser().IDAddress + "; ";
             Emaildb = new ObservableCollection<EmailMenu>(PostRepository.Instance.GetDelPOPEmail(sql));
             Back = new CommandVm(() =>
             {

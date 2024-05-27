@@ -30,7 +30,7 @@ namespace post2.ViewModel
         public UserWindowVm()
         {           
             string sql = "SELECT u.ID, u.NickName, u.Login, u.Image, ab.Email, ab.Title, ab.ID AS idAddress FROM User u, AdressBook ab WHERE ab.ID_User = u.ID";
-            //Users = ObservableCollection<User>(UserRepository.Instance.GetUserByLoginPassword(sql));
+            //Users = UserRepository.Instance.GetUser(sql));
             Edit = new CommandVm(() =>
             {
                 UserEditWindow userEditWindow = new UserEditWindow();
