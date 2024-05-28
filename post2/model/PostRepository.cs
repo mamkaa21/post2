@@ -47,16 +47,21 @@ namespace post2.model
             return result; //при ошибки вернуть результат
         }
 
-        internal void GetCoutMessage()
+        internal int GetCoutMessage()
         {
             
             var connect = MySqlDB.Instance.GetConnection();
-            var countdb = 0;
+            
           string sql = "SELECT COUNT(*) AS countdb FROM email e, user u WHERE u.id = " + ActiveUser.Instance.GetUser().ID + ";";
-            using (var mc = new MySqlCommand(sql, connect))
-            using (var reader = mc.ExecuteReader())
-            countdb = reader.GetInt32(0);    
-                return;
+            MySqlCommand command = new MySqlCommand(sql, connect);
+            // выполняем запрос и получаем ответ
+            string countdb = command.ExecuteScalar().ToString();
+            return int.Parse(countdb);
+
+            
+            //using (var mc = new MySqlCommand(sql, connect))
+            //using (var reader = mc.ExecuteReader())
+            //countdb = reader.GetInt32(0);    
         } //получение кол-ва писем с бд
         /*  internal IEnumerable<EmailMenu> GetSelectedPOPEmails(EmailMenu menuemail)
           {

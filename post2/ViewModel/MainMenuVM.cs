@@ -125,10 +125,10 @@ namespace post2.ViewModel
             });
         }
         private void AddPOPEmail() { }
-        private void GetCoutMessage() {
-            var c = 0;
-            var countdb = PostRepository.Instance.GetCoutMessage(c); 
-        }      
+        //private void GetCoutMessage() {
+        //    var c = 0;
+        //    var countdb = PostRepository.Instance.GetCoutMessage(c); 
+        //}      
         public static Pop3Client ConnectMail() //конект к серверу 
         {
             Pop3Client pop3Client = new Pop3Client();
@@ -157,10 +157,10 @@ namespace post2.ViewModel
             }
             catch { return; }
             int countdb = 0;
-            PostRepository.Instance.GetCoutMessage(countdb);                            
+            countdb = PostRepository.Instance.GetCoutMessage();                            
             int counter = 0;
             Message message;
-            for (int i = count; countdb > i; i--)
+            for (int i = count; countdb < i; i--)
             {
                 try
                 {
