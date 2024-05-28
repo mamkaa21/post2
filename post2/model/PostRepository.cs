@@ -209,7 +209,7 @@ namespace post2.model
             var connect = MySqlDB.Instance.GetConnection();
             {
                 if (connect == null) return;
-                string sql = "update Email set ID_StatusEmail = @ID_StatusEmail where ID = " + menuemail.ID;
+                string sql = "update Email set ID_StatusEmail = @ID_StatusEmail where ID = @id";
                 using (var mc = new MySqlCommand(sql, connect))
                 {
                     mc.Parameters.AddWithValue("@ID_StatusEmail", menuemail.ID_StatusEmail);

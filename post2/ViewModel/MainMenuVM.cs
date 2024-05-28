@@ -51,16 +51,16 @@ namespace post2.ViewModel
         //    timer.Interval = new TimeSpan(0, 0, 2);
         //    timer.Start();
         //}
-        public void MessageSee(MainMenu mainMenu) //сделай ее пж эт ОЧЕНЬ важно
-        {
-            if (SelectedEmail != null)
-            {
-                //MouseLeftButtonDown;
-                //    MessageWindow messageWindow = new MessageWindow();
-                //    messageWindow.Show();
-                //    Signal();
-            }
-        }
+        //public void MessageSee(MainMenu mainMenu) //сделай ее пж эт ОЧЕНЬ важно
+        //{
+        //    if (SelectedEmail != null)
+        //    {
+        //        //MouseLeftButtonDown;
+        //        //    MessageWindow messageWindow = new MessageWindow();
+        //        //    messageWindow.Show();
+        //        //    Signal();
+        //    }
+        //}
         //private void timerTick(object sender, EventArgs e)
         //{
         //    Thread thread = new Thread(GetMail);
@@ -72,7 +72,7 @@ namespace post2.ViewModel
 
         public MainMenuVM()
         {
-            string sql = "SELECT e.ID, ab.EmailFrom, e.Subjecct, e.Body, e.DateSend FROM email e, AdressBook ab where ID_StatusEmail is null and ID_AdressTo = " + ActiveUser.Instance.GetUser().IDAddress + ";";
+            string sql = "SELECT e.ID, ab.Email, e.Subjecct, e.Body, e.DateSend FROM email e, AdressBook ab where ID_StatusEmail is null and ID_AdressTo = " + ActiveUser.Instance.GetUser().IDAddress + ";";
             Emaildb = new ObservableCollection<EmailMenu>(PostRepository.Instance.GetAllPOPEmails(sql));
             UpgratePost = new CommandVm(() =>
             {
@@ -163,7 +163,7 @@ namespace post2.ViewModel
             var countdb = lastCountFor;           
             int counter = 0;
             Message message;
-            for (int i = count; countdb > i; i--)
+            for (int i = count; i > countdb; i--)
             {
                 try
                 {
