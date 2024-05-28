@@ -25,14 +25,14 @@ namespace post2.model
         internal IEnumerable<EmailMenu> GetAllPOPEmails(string sql) //получение писем с бд
         {
             ObservableCollection<EmailMenu> result = new ObservableCollection<EmailMenu>();
-            var connect = MySqlDB.Instance.GetConnection();
+            var connect = MySqlDB.Instance.GetConnection(); //коннект к бд
             if (connect == null)
                 return result;
-            sql = "SELECT e.ID, ab.Email, e.Subjecct, e.Body, e.DateSend FROM email e, AdressBook ab where ID_StatusEmail is null and ID_AdressTo = " + ActiveUser.Instance.GetUser().IDAddress + ";";
+            sql = "SELECT e.ID, ab.Email, e.Subjecct, e.Body, e.DateSend FROM email e, AdressBook ab where ID_StatusEmail is null and ID_AdressTo = " + ActiveUser.Instance.GetUser().IDAddress + ";"; //запрос
             using (var mc = new MySqlCommand(sql, connect))
             using (var reader = mc.ExecuteReader())
             {
-                while (reader.Read())
+                while (reader.Read()) 
                 {
                     var menuemail = new EmailMenu();
                     menuemail.ID = reader.GetInt32("id");
@@ -40,27 +40,23 @@ namespace post2.model
                     menuemail.Subject = reader.GetString("Subjecct");
                     menuemail.Body = reader.GetString("Body");
                     menuemail.DateSend = reader.GetDateTime("DateSend");
-                    result.Add(menuemail);                
+                    result.Add(menuemail);      //добавление результата в коллекцию           
                 }
             }
             //добавитт проверку на аттачментс, если не нул, то вывести, если нул, то ток , что выше
-            return result;
+            return result; //при ошибки вернуть результат
         }
 
-        internal IEnumerable<EmailMenu> GetCoutMessage(int countdb)
+        internal void GetCoutMessage()
         {
-            ObservableCollection<EmailMenu> result = new ObservableCollection<EmailMenu>();
+            
             var connect = MySqlDB.Instance.GetConnection();
-            if (connect == null)
-                return result;
+            var countdb = 0;
           string sql = "SELECT COUNT(*) AS countdb FROM email e, user u WHERE u.id = " + ActiveUser.Instance.GetUser().ID + ";";
             using (var mc = new MySqlCommand(sql, connect))
             using (var reader = mc.ExecuteReader())
-            {
-                if (reader.Read())
-                    countdb = reader.GetInt32(0);            
-            }
-                return result;
+            countdb = reader.GetInt32(0);    
+                return;
         } //получение кол-ва писем с бд
         /*  internal IEnumerable<EmailMenu> GetSelectedPOPEmails(EmailMenu menuemail)
           {

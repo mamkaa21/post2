@@ -43,14 +43,14 @@ namespace post2.ViewModel
                 Signal();
             }
         }
-        /*public void timerStart(MainMenu mainMenu) //таймер для автоматического обновления бд
+        public void timerStart(MainMenu mainMenu) //таймер для автоматического обновления бд
         {
             this.mainMenu = mainMenu;
             timer = new DispatcherTimer();
-            timer.Tick += new EventHandler(PostRepository.Instance.GetAllPOPEmails(sql));
+            timer.Tick += new EventHandler(timerTick);
             timer.Interval = new TimeSpan(0, 0, 2);
             timer.Start();
-        }*/
+        }
         /*public void MessageSee(MainMenu mainMenu) //сделай ее пж эт ОЧЕНЬ важно
         {
             if (SelectedEmail != null)
@@ -61,11 +61,11 @@ namespace post2.ViewModel
                 //    Signal();
             }
         }*/
-        /*private void timerTick(object sender, EventArgs e) //к таймеру относится 
+        private void timerTick(object sender, EventArgs e) //к таймеру относится 
         {
-            Thread thread = new Thread(PostRepository.Instance.GetAllPOPEmails(sql));
+            Thread thread = new Thread(GetMail);
             thread.Start();
-        }*/
+        }
         public string TextSearch { get; set; }
         public ObservableCollection<Popemail> Email { get => email; set => email = value; }
         public ObservableCollection<EmailMenu> Emaildb { get => emailsdb; set => emailsdb = value; }
@@ -140,7 +140,7 @@ namespace post2.ViewModel
             return pop3Client;
         }
         bool first = true;
-        void GetMail(object p)          //получение писем с сервера   
+        void GetMail(object p)//получение писем с сервера   
         {           
             try
             {
@@ -156,9 +156,8 @@ namespace post2.ViewModel
                 count = pop3Client.GetMessageCount();
             }
             catch { return; }
-            int lastCountFor = 0;
-            PostRepository.Instance.GetCoutMessage(lastCountFor);          
-            var countdb = lastCountFor;           
+            int countdb = 0;
+            PostRepository.Instance.GetCoutMessage(countdb);                            
             int counter = 0;
             Message message;
             for (int i = count; countdb > i; i--)
@@ -203,7 +202,8 @@ namespace post2.ViewModel
                         Content = part.Body
                     });
                 } 
-                PostRepository.Instance.AddPOPEmail(email);
+                
+
                 mainMenu.Dispatcher.Invoke(() =>
                 {
                     if (first)
@@ -211,6 +211,7 @@ namespace post2.ViewModel
                     else
                         Email.Insert(0, email);
                 });
+                PostRepository.Instance.AddPOPEmail(email);
                 counter++;
             }
             first = false;
