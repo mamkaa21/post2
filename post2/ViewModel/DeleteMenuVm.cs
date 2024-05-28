@@ -88,11 +88,11 @@ namespace post2.ViewModel
             //PostRepository.Instance.UpdatePOPEmail(selectedEmail);
         }
         DeleteMenu deleteMenu;
-        internal void SetWindow(DeleteMenu deleteMenu)
+        internal void SetWindow(DeleteMenu deleteMenu) //привязка окна к вм
         {
             this.deleteMenu = deleteMenu;
         }
-        internal void CloseWindow(DeleteMenu deleteMenu)
+        internal void CloseWindow(DeleteMenu deleteMenu) //закрытие окна 
         {
             this.deleteMenu.Close();
         }

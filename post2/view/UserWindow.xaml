@@ -12,7 +12,6 @@
     <Window.Resources >
         <vm:UserWindowVm x:Key ="vm"/>
     </Window.Resources >
-
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition/>

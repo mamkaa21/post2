@@ -52,15 +52,15 @@ namespace post2.ViewModel
             });
         }
         UserEditWindow userEditWindow;
-        internal void SetWindow(UserEditWindow userEditWindow)
+        internal void SetWindow(UserEditWindow userEditWindow) //привязка окна к вм
         {
             this.userEditWindow = userEditWindow;
         }
-        internal void CloseWindow(UserEditWindow userEditWindow)
+        internal void CloseWindow(UserEditWindow userEditWindow) //закрытие окна
         {
             this.userEditWindow.Close();
         }
-        private void SelectImage(object sender, RoutedEventArgs e)
+        private void SelectImage(object sender, RoutedEventArgs e) //добавление изображение поль-лю
         {
             OpenFileDialog openFileDialog = new OpenFileDialog();
             openFileDialog.Filter = "Image files (*.png;*.jpeg;*.jpg)|*.png;*.jpeg;*.jpg|All files (*.*)|*.*";
@@ -76,14 +76,13 @@ namespace post2.ViewModel
                     bitmapImage.BeginInit();
                     bitmapImage.StreamSource = new MemoryStream(imageData);
                     bitmapImage.EndInit();
-
                     selectedImage.Source = bitmapImage;
                     //UserRepository.Instance.AddUserImage();
                 }
             }
         }
         Image selectedImage;
-        internal void SetImage(Image selectedImage)
+        internal void SetImage(Image selectedImage) //привязка Image к вм
         {
             this.selectedImage = selectedImage;
         }

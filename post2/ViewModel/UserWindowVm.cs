@@ -27,10 +27,12 @@ namespace post2.ViewModel
         public CommandVm Back { get; }
         public CommandVm Edit { get; }
         public ObservableCollection<User> Users { get => user; set => user = value; }
+        string login;
+        string password;
         public UserWindowVm()
         {           
             string sql = "SELECT u.ID, u.NickName, u.Login, u.Image, ab.Email, ab.Title, ab.ID AS idAddress FROM User u, AdressBook ab WHERE ab.ID_User = u.ID";
-            //Users = UserRepository.Instance.GetUser(sql));
+            //Users = UserRepository.Instance.GetUserByLoginPassword(login, password);        
             Edit = new CommandVm(() =>
             {
                 UserEditWindow userEditWindow = new UserEditWindow();
@@ -45,13 +47,13 @@ namespace post2.ViewModel
                 Signal();
             });
         }
-        //private void GetUserByLoginPassword() { UserRepository.Instance.GetUserByLoginPassword(users,); }
+      
         UserWindow userWindow;
-        internal void SetWindow(UserWindow userWindow)
+        internal void SetWindow(UserWindow userWindow) //привязка окна к вм
         {
             this.userWindow = userWindow;
         }
-        internal void CloseWindow(UserWindow userWindow)
+        internal void CloseWindow(UserWindow userWindow) //закрытие окна
         {
             this.userWindow.Close();
         }      

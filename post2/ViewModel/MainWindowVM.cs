@@ -12,7 +12,6 @@ namespace post2.ViewModel
     public class MainWindowVM : BaseVM
     {
         public CommandVm EnterWindowOpen { get; }
-  
         public MainWindowVM()
         {
             EnterWindowOpen = new CommandVm(() =>
@@ -24,12 +23,11 @@ namespace post2.ViewModel
             });
         }
         MainWindow mainWindow;
-        internal void SetWindow(MainWindow mainWindow)
+        internal void SetWindow(MainWindow mainWindow) //привязка окна в вм
         {
             this.mainWindow = mainWindow;
         }
-
-        internal void CloseWindow(MainWindow mainWindow)
+        internal void CloseWindow(MainWindow mainWindow) //закрытие окна
         { 
             this.mainWindow.Close();
         }

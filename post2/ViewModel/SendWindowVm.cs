@@ -52,7 +52,7 @@ namespace post2.ViewModel
             }
             );
         }
-        private void Sending(object sender, EventArgs e)
+        private void Sending(object sender, EventArgs e) //отправка письма
         {
             MailAddress fromAdress = new MailAddress("alina1125@suz-ppk.ru", "Alina");
             MailAddress toAdress = new MailAddress(Adress);
@@ -72,7 +72,7 @@ namespace post2.ViewModel
         }
         
                 
-    private void SelectImage(object sender, RoutedEventArgs e)
+    private void SelectImage(object sender, RoutedEventArgs e) //добавление изображение к письму
         {
             OpenFileDialog openFileDialog = new OpenFileDialog();
             openFileDialog.Filter = "Image files (*.png;*.jpeg;*.jpg)|*.png;*.jpeg;*.jpg|All files (*.*)|*.*";
@@ -94,16 +94,16 @@ namespace post2.ViewModel
             }
         }
         SendWindow sendWindow;
-        internal void SetWindow(SendWindow sendWindow)
+        internal void SetWindow(SendWindow sendWindow) //привязка окна к вм
         {
             this.sendWindow = sendWindow;
         }
-        internal void CloseWindow(SendWindow sendWindow)
+        internal void CloseWindow(SendWindow sendWindow) //закрытие окна
         {
             this.sendWindow.Close();
         }
         Image selectedImage;
-        internal void SetImage(Image selectedImage)
+        internal void SetImage(Image selectedImage) //привязка Image к вм
         {
             this.selectedImage = selectedImage;
         }

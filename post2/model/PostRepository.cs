@@ -22,7 +22,7 @@ namespace post2.model
                 return instance;
             }
         }
-        internal IEnumerable<EmailMenu> GetAllPOPEmails(string sql) //работает но не правильно
+        internal IEnumerable<EmailMenu> GetAllPOPEmails(string sql) //получение писем с бд
         {
             ObservableCollection<EmailMenu> result = new ObservableCollection<EmailMenu>();
             var connect = MySqlDB.Instance.GetConnection();
@@ -61,7 +61,7 @@ namespace post2.model
                     countdb = reader.GetInt32(0);            
             }
                 return result;
-        }
+        } //получение кол-ва писем с бд
         /*  internal IEnumerable<EmailMenu> GetSelectedPOPEmails(EmailMenu menuemail)
           {
               ObservableCollection<EmailMenu> result = new ObservableCollection<EmailMenu>();
@@ -89,7 +89,7 @@ namespace post2.model
               }
               return result;     
           }*/
-        internal Popemail AddPOPEmail(Popemail email)
+        internal Popemail AddPOPEmail(Popemail email) //добавление писем в бд с сервера
         {
             var connect = MySqlDB.Instance.GetConnection();
             if (connect == null) return email;
@@ -162,7 +162,7 @@ namespace post2.model
             }
             return email;
         }
-        internal IEnumerable<EmailMenu> GetDelPOPEmail(string sql)
+        internal IEnumerable<EmailMenu> GetDelPOPEmail(string sql) //получение "удаленных" писем с бд
         { 
             ObservableCollection<EmailMenu> result = new ObservableCollection<EmailMenu>();
             var connect = MySqlDB.Instance.GetConnection(); 
@@ -184,7 +184,7 @@ namespace post2.model
             }        
             return result;
         }
-        internal EmailMenu RemovePOPEmail(EmailMenu menuemail)
+        internal EmailMenu RemovePOPEmail(EmailMenu menuemail) //удаление писем с бд
         {
             var connect = MySqlDB.Instance.GetConnection();
             if (connect == null) return menuemail;
@@ -193,7 +193,7 @@ namespace post2.model
             mc.ExecuteNonQuery();
             return menuemail;
         }
-        //internal IEnumerable<EmailMenu> Search(string searchText, EmailMenu menuemail)
+        //internal IEnumerable<EmailMenu> Search(string searchText, EmailMenu menuemail) //не рабочий поиск писем
         //{
         //    string sql = "select  e.ID_AdressFrom, e.Subjecct, e.Body, e.DateSend from Email e";
         //    if (menuemail.ID != 0)
@@ -203,7 +203,7 @@ namespace post2.model
         //    }
         //    return GetAllPOPEmails();
         //}
-        internal void UpdatePOPEmail(EmailMenu menuemail)
+        internal void UpdatePOPEmail(EmailMenu menuemail) //нерабочее обновление псием
         {
             ObservableCollection<EmailMenu> result = new ObservableCollection<EmailMenu>();
             var connect = MySqlDB.Instance.GetConnection();

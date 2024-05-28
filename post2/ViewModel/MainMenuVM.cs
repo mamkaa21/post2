@@ -43,33 +43,32 @@ namespace post2.ViewModel
                 Signal();
             }
         }
-        //public void timerStart(MainMenu mainMenu)
-        //{
-        //    this.mainMenu = mainMenu;
-        //    timer = new DispatcherTimer();
-        //    timer.Tick += new EventHandler(timerTick);
-        //    timer.Interval = new TimeSpan(0, 0, 2);
-        //    timer.Start();
-        //}
-        //public void MessageSee(MainMenu mainMenu) //сделай ее пж эт ОЧЕНЬ важно
-        //{
-        //    if (SelectedEmail != null)
-        //    {
-        //        //MouseLeftButtonDown;
-        //        //    MessageWindow messageWindow = new MessageWindow();
-        //        //    messageWindow.Show();
-        //        //    Signal();
-        //    }
-        //}
-        //private void timerTick(object sender, EventArgs e)
-        //{
-        //    Thread thread = new Thread(GetMail);
-        //    thread.Start();
-        //}
+        /*public void timerStart(MainMenu mainMenu) //таймер для автоматического обновления бд
+        {
+            this.mainMenu = mainMenu;
+            timer = new DispatcherTimer();
+            timer.Tick += new EventHandler(PostRepository.Instance.GetAllPOPEmails(sql));
+            timer.Interval = new TimeSpan(0, 0, 2);
+            timer.Start();
+        }*/
+        /*public void MessageSee(MainMenu mainMenu) //сделай ее пж эт ОЧЕНЬ важно
+        {
+            if (SelectedEmail != null)
+            {
+                //MouseLeftButtonDown;
+                //    MessageWindow messageWindow = new MessageWindow();
+                //    messageWindow.Show();
+                //    Signal();
+            }
+        }*/
+        /*private void timerTick(object sender, EventArgs e) //к таймеру относится 
+        {
+            Thread thread = new Thread(PostRepository.Instance.GetAllPOPEmails(sql));
+            thread.Start();
+        }*/
         public string TextSearch { get; set; }
         public ObservableCollection<Popemail> Email { get => email; set => email = value; }
         public ObservableCollection<EmailMenu> Emaildb { get => emailsdb; set => emailsdb = value; }
-
         public MainMenuVM()
         {
             string sql = "SELECT e.ID, ab.Email, e.Subjecct, e.Body, e.DateSend FROM email e, AdressBook ab where ID_StatusEmail is null and ID_AdressTo = " + ActiveUser.Instance.GetUser().IDAddress + ";";
@@ -88,7 +87,7 @@ namespace post2.ViewModel
                 {
                     try
                     {
-                        SelectedEmail.DateSend = DateTime.Now;
+                        //SelectedEmail.DateSend = DateTime.Now;
                         SelectedEmail.ID_StatusEmail = 1;                       
                         PostRepository.Instance.UpdatePOPEmail(SelectedEmail);
                         PostRepository.Instance.GetAllPOPEmails(sql);
@@ -130,7 +129,7 @@ namespace post2.ViewModel
             var c = 0;
             var countdb = PostRepository.Instance.GetCoutMessage(c); 
         }      
-        public static Pop3Client ConnectMail()
+        public static Pop3Client ConnectMail() //конект к серверу 
         {
             Pop3Client pop3Client = new Pop3Client();
             var username = "alina1125@suz-ppk.ru";
@@ -141,8 +140,7 @@ namespace post2.ViewModel
             return pop3Client;
         }
         bool first = true;
-        int lastCount = 0;  
-        void GetMail(object p)             
+        void GetMail(object p)          //получение писем с сервера   
         {           
             try
             {
@@ -163,7 +161,7 @@ namespace post2.ViewModel
             var countdb = lastCountFor;           
             int counter = 0;
             Message message;
-            for (int i = count; i > countdb; i--)
+            for (int i = count; countdb > i; i--)
             {
                 try
                 {
@@ -223,44 +221,10 @@ namespace post2.ViewModel
             catch { }
         }
         MainMenu mainMenu;
-        internal void SetWindow(MainMenu mainMenu)
+        internal void SetWindow(MainMenu mainMenu) //привязка окна к вм
         {
             this.mainMenu = mainMenu;
-        }
-        //private void DeletePost()
-        //{
-        //    if (SelectedEmail == null)
-        //    {
-        //        MessageBox.Show("Не выбран обьект");
-        //        return;
-        //    }
-        //    try
-        //    {
-        //        //pop3Client = ConnectMail();
-        //        PostRepository.Instance.RemovePOPEmail(SelectedEmail);
-        //        //pop3Client.DeleteMessage(SelectedEmail.MessageNumber);
-        //        //pop3Client.Disconnect();
-        //        var index = SelectedEmail.MessageNumber;
-        //        PostRepository.Instance.UpdatePOPEmail(SelectedEmail);
-
-        //        Emaildb.Remove(SelectedEmail);
-        //        var sort = Emaildb.ToArray();
-        //        Array.Sort(sort, (x, y) => y.DateSend.CompareTo(x.DateSend));
-        //        for (int i = 0; i < sort.Length; i++)
-        //            sort[i].MessageNumber = i + 1;
-        //    }
-        //    catch { }
-           
-        //}
-        private void RemoveMessage()
-        {
-            if (SelectedEmail == null)
-            {
-                MessageBox.Show("Не выбран обьект"); return;
-            }
-            else
-                Emaildb.Remove(selectedEmail);
-        }
+        }       
     }
 }
 

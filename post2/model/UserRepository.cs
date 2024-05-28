@@ -6,6 +6,7 @@ using System.IO;
 using System.Threading.Tasks;
 using System.Collections.ObjectModel;
 using MySqlConnector;
+using System.Net;
 
 namespace post2.model
 {
@@ -22,13 +23,13 @@ namespace post2.model
                 return instance;
             }
         }
-        internal User GetUserByLoginPassword(string login, string password)
+        internal User GetUserByLoginPassword(string login, string password) //получение поль-теля по логину и паролю
         {
             User result = new User();
             var connect = MySqlDB.Instance.GetConnection();
             if (connect == null)
                 return result;
-            string sql = "SELECT u.ID, u.NickName, u.Login, u.Image, ab.Email, ab.Title, ab.ID AS idAddress FROM User u, AdressBook ab WHERE u.Login = @login AND u.Password = @password AND ab.ID_User = u.ID";
+            string sql = "SELECT u.ID, u.NickName, u.Login, u.Password, ab.Email, ab.Title, ab.ID AS idAddress FROM User u, AdressBook ab WHERE u.Login = @login AND u.Password = @password AND ab.ID_User = u.ID";
             using (var mc = new MySqlCommand(sql, connect))
             {
                 mc.Parameters.Add(new MySqlParameter("login", login));
@@ -39,17 +40,17 @@ namespace post2.model
                     {
                         result.ID = reader.GetInt32("id");
                         result.NickName = reader.GetString("NickName");
+                        result.Login = reader.GetString("Login");
+                        result.Password = reader.GetString("Password");
                         result.Email = reader.GetString("Email");
                         result.EmailTitle = reader.GetString("Title");
-                        result.Login = reader.GetString("Login");
-                        result.IDAddress = reader.GetInt32("idAddress");
-                       
+                        result.IDAddress = reader.GetInt32("idAddress");                      
                     }
                 }
                 return result;
             }
         }
-       /* internal IEnumerable<User> GetUser(string sql)
+       /* internal IEnumerable<User> GetUser(string sql) //нерабочее простое полчение юзера
         {
             ObservableCollection<User> result = new ObservableCollection<User>();
             var connect = MySqlDB.Instance.GetConnection();
@@ -75,8 +76,7 @@ namespace post2.model
                 return result;
             }
         }*/
-
-        internal User AddUserByLoginPassword(string nickname, string login, string password)
+        internal User AddUserByLoginPassword(string nickname, string login, string password) //добавление юзера в бд
         {
             User result = new User();
             var connect = MySqlDB.Instance.GetConnection();
@@ -103,8 +103,7 @@ namespace post2.model
             }
             return result;
         }
-
-        //internal User AddUserImage() //жестко думать надо очень
+        //internal User AddUserImage() //добавление фото юзера(нерабочее)//жестко думать надо очень
         //{
         //    User result = new User();
         //    byte[] image;
@@ -120,8 +119,7 @@ namespace post2.model
         //    }
         //    return result;
         //}
-
-            internal User DeleteUser(User user)
+            internal User DeleteUser(User user) //удаление юзера
             {
             var connect = MySqlDB.Instance.GetConnection();
             if (connect == null) return user;
