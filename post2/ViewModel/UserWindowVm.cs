@@ -23,16 +23,16 @@ namespace post2.ViewModel
 {
     public class UserWindowVm : BaseVM
     {
-        private ObservableCollection<User> user = new ();
+        private User user = new ();
         public CommandVm Back { get; }
         public CommandVm Edit { get; }
-        public ObservableCollection<User> Users { get => user; set => user = value; }
-        string login;
-        string password;
+        public User Users { get => user; set => user = value; }
+    
         public UserWindowVm()
         {           
-            string sql = "SELECT u.ID, u.NickName, u.Login, u.Image, ab.Email, ab.Title, ab.ID AS idAddress FROM User u, AdressBook ab WHERE ab.ID_User = u.ID";
-            //Users = UserRepository.Instance.GetUserByLoginPassword(login, password);        
+            string sql = "SELECT u.ID, u.NickName, u.Login, u.Image, ab.Email, ab.Title, ab.ID AS idAddress FROM User u, AdressBook ab WHERE ab.ID_User = u.ID and u.ID = " + ActiveUser.Instance.GetUser().ID;
+            Users = ActiveUser.Instance.GetUser();
+
             Edit = new CommandVm(() =>
             {
                 UserEditWindow userEditWindow = new UserEditWindow();
@@ -40,9 +40,7 @@ namespace post2.ViewModel
                 Signal();
             });
             Back = new CommandVm(() =>
-            {
-                MainMenu mainMenu = new MainMenu();
-                mainMenu.Show();
+            {              
                 CloseWindow(userWindow);
                 Signal();
             });

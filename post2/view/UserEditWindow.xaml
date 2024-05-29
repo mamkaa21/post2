@@ -37,11 +37,17 @@
              FontSize="35" Foreground="Beige"/>
         <Label Grid.Column="3" Grid.ColumnSpan="2" Grid.Row="1" Content="Ваш Профиль" FontSize="30" Foreground ="SteelBlue" HorizontalAlignment="Left"/>
        <!--listbox binding user+image-->
-        <Label Grid.Column="2" Grid.Row="2" Content="Имя:" HorizontalAlignment="Right"/>
-        <TextBox Grid.Column="3" Grid.ColumnSpan="2" Grid.Row="2" Margin="0 0 0 25" Text="{Binding NickName}"/>
-        <Label Grid.Column="2" Grid.Row="3" Content="Фото:" HorizontalAlignment="Right"/>
-        <Image Grid.ColumnSpan="2" Grid.Column="3" Grid.RowSpan="3" Grid.Row="3" x:Name="selectedImageUser" Source="{Binding Image}"/>
-        <Button Grid.Column="4" Grid.Row="8" Content="OK" Margin="5" FontSize="30" Foreground="Beige" Background="SteelBlue" Command="{Binding Ok}"/>
-        <Button Grid.Column="3" Grid.Row="8" Content="✖️" Margin="5" FontSize="35" Foreground="Beige" Background="SteelBlue" Command="{Binding ImageAdd}"/>
+        <StackPanel Grid.Column="1" Grid.Row="2" Grid.ColumnSpan="3" Grid.RowSpan="3" DataContext="{Binding Users}">
+            <Label Content="Имя:" Foreground="CornflowerBlue" FontSize="20"/>
+            <Label Content="{Binding NickName}" Height="21"/>
+            <Label Content="Логин:" Foreground="CornflowerBlue" FontSize="20"/>
+            <Label Content="{Binding Login}" Height="21"/>
+            <Label Content="Пароль:" Foreground="CornflowerBlue" FontSize="20"/>
+            <Label Content="{Binding Password}" Height="21"/>
+        </StackPanel>
+        <Label Grid.Row="2" Grid.Column="5" Grid.ColumnSpan="2" Content="Фото:" HorizontalAlignment="Center" Foreground="CornflowerBlue" FontSize="20"/>
+        <Image Grid.ColumnSpan="2" Grid.Column="5" Grid.RowSpan="3" Grid.Row="3" x:Name="selectedImageUser" Source="{Binding Image}"/>
+        <Button Grid.Column="2" Grid.Row="6" Content="OK" Margin="5" FontSize="30" Foreground="Beige" Background="SteelBlue" Command="{Binding Ok}"/>
+       <!--<Button Grid.Column="3" Grid.Row="8" Content="✖️" Margin="5" FontSize="35" Foreground="Beige" Background="SteelBlue" Command="{Binding ImageAdd}"/>-->
     </Grid>
 </Window>

@@ -38,10 +38,7 @@ namespace post2.ViewModel
                 //if (connect == null)
                 //    return;
                 //using (var mc = new MySqlCommand(insertQuery, connect))
-                //{ mc.Parameters.Add("@image", MySqlDbType.MediumBlob); }
-               
-                MainMenu mainMenu = new MainMenu();
-                mainMenu.Show();
+                //{ mc.Parameters.Add("@image", MySqlDbType.MediumBlob); }                           
                 CloseWindow(userEditWindow);
                 Signal();
             });
@@ -58,8 +55,7 @@ namespace post2.ViewModel
         }
         internal void CloseWindow(UserEditWindow userEditWindow) //закрытие окна
         {
-            this.userEditWindow.Close();
-        }
+            this.userEditWindow.Close();       }
         private void SelectImage(object sender, RoutedEventArgs e) //добавление изображение поль-лю
         {
             OpenFileDialog openFileDialog = new OpenFileDialog();
@@ -86,5 +82,5 @@ namespace post2.ViewModel
         {
             this.selectedImage = selectedImage;
         }
-    }
+   }
 }
