@@ -43,35 +43,35 @@ namespace post2.ViewModel
                 Signal();
             }
         }
-        public void timerStart(MainMenu mainMenu) //таймер для автоматического обновления бд
-        {
-            this.mainMenu = mainMenu;
-            timer = new DispatcherTimer();
-            timer.Tick += new EventHandler(timerTick);
-            timer.Interval = new TimeSpan(0, 0, 2);
-            timer.Start();
-        }
-        /*public void MessageSee(MainMenu mainMenu) //сделай ее пж эт ОЧЕНЬ важно
-        {
-            if (SelectedEmail != null)
-            {
-                //MouseLeftButtonDown;
-                //    MessageWindow messageWindow = new MessageWindow();
-                //    messageWindow.Show();
-                //    Signal();
-            }
-        }*/
-        private void timerTick(object sender, EventArgs e) //к таймеру относится 
-        {
-            Thread thread = new Thread(GetMail);
-            thread.Start();
-        }
+        //public void timerStart(MainMenu mainMenu) //таймер для автоматического обновления бд
+        //{
+        //    this.mainMenu = mainMenu;
+        //    timer = new DispatcherTimer();
+        //    timer.Tick += new EventHandler(timerTick);
+        //    timer.Interval = new TimeSpan(0, 0, 2);
+        //    timer.Start();
+        //}
+        ///*public void MessageSee(MainMenu mainMenu) //сделай ее пж эт ОЧЕНЬ важно
+        //{
+        //    if (SelectedEmail != null)
+        //    {
+        //        //MouseLeftButtonDown;
+        //        //    MessageWindow messageWindow = new MessageWindow();
+        //        //    messageWindow.Show();
+        //        //    Signal();
+        //    }
+        //}*/
+        //private void timerTick(object sender, EventArgs e) //к таймеру относится 
+        //{
+        //    Thread thread = new Thread(GetMail);
+        //    thread.Start();
+        //}
         public string TextSearch { get; set; }
         public ObservableCollection<Popemail> Email { get => email; set => email = value; }
         public ObservableCollection<EmailMenu> Emaildb { get => emailsdb; set => emailsdb = value; }
         public MainMenuVM()
         {
-            string sql = "SELECT e.ID, ab.Email, e.Subjecct, e.Body, e.DateSend FROM email e, AdressBook ab where ID_StatusEmail is null and ID_AdressTo = " + ActiveUser.Instance.GetUser().IDAddress + ";";
+            string sql = "SELECT e.ID, ab.Email, e.Subjecct, e.Body, e.DateSend FROM email e join AdressBook ab on e.ID_AdressFrom= ab.ID where ID_StatusEmail is null and ID_AdressTo = " + ActiveUser.Instance.GetUser().IDAddress + ";";
             Emaildb = new ObservableCollection<EmailMenu>(PostRepository.Instance.GetAllPOPEmails(sql));
             UpgratePost = new CommandVm(() =>
             {
@@ -90,8 +90,8 @@ namespace post2.ViewModel
                         //SelectedEmail.DateSend = DateTime.Now;
                         SelectedEmail.ID_StatusEmail = 1;                       
                         PostRepository.Instance.UpdatePOPEmail(SelectedEmail);
-                        PostRepository.Instance.GetAllPOPEmails(sql);
-                        //Emaildb.Remove(SelectedEmail);
+                   
+                        Emaildb.Remove(SelectedEmail);
                         Signal();                     
                     }
                     catch (Exception ex)
@@ -158,20 +158,22 @@ namespace post2.ViewModel
             catch { return; }
             int countdb = 0;
             countdb = PostRepository.Instance.GetCoutMessage();                            
-            int counter = 0;
+            //int counter = 0;
             Message message;
-            for (int i = count; countdb < i; i--)
-            {
-                try
-                {
-                    message = pop3Client.GetMessage(i);
-                }
-                catch (Exception e)
-                {
+            //for (int i = count; countdb < i; i--) 
+            int i = count;
+              while (countdb < i) 
+              {
+              try
+              {
+                    message = pop3Client.GetMessage(i);                 
+              }
+              catch (Exception e)
+              {
                     MessageBox.Show(e.Message);
                     continue;
-                }
-                Popemail email = new Popemail()
+              }
+                Popemail email = new()
                 {
                     MessageNumber = i,
                     Subject = message.Headers.Subject,
@@ -202,18 +204,19 @@ namespace post2.ViewModel
                         Content = part.Body
                     });
                 } 
-                
-
+                            
                 mainMenu.Dispatcher.Invoke(() =>
                 {
                     if (first)
                         Email.Add(email);
                     else
                         Email.Insert(0, email);
-                });
+                });  
                 PostRepository.Instance.AddPOPEmail(email);
-                counter++;
+                //counter++;
+                i--;
             }
+            
             first = false;
             try
             {

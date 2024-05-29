@@ -26,9 +26,10 @@ namespace post2.model
         {
             ObservableCollection<EmailMenu> result = new ObservableCollection<EmailMenu>();
             var connect = MySqlDB.Instance.GetConnection(); //коннект к бд
+             
             if (connect == null)
                 return result;
-            sql = "SELECT e.ID, ab.Email, e.Subjecct, e.Body, e.DateSend FROM email e, AdressBook ab where ID_StatusEmail is null and ID_AdressTo = " + ActiveUser.Instance.GetUser().IDAddress + ";"; //запрос
+            //sql = "SELECT e.ID, ab.Email, e.Subjecct, e.Body, e.DateSend FROM email e, AdressBook ab where ID_StatusEmail is null and ID_AdressTo = " + ActiveUser.Instance.GetUser().IDAddress + ";"; //запрос
             using (var mc = new MySqlCommand(sql, connect))
             using (var reader = mc.ExecuteReader())
             {
@@ -44,57 +45,23 @@ namespace post2.model
                 }
             }
             //добавитт проверку на аттачментс, если не нул, то вывести, если нул, то ток , что выше
+            // select * from attachments where file is not null
+            MySqlDB.Instance.CloseConnection();
             return result; //при ошибки вернуть результат
         }
-
-        internal int GetCoutMessage()
-        {
-            
-            var connect = MySqlDB.Instance.GetConnection();
-            
-          string sql = "SELECT COUNT(*) AS countdb FROM email e, user u WHERE u.id = " + ActiveUser.Instance.GetUser().ID + ";";
-            MySqlCommand command = new MySqlCommand(sql, connect);
-            // выполняем запрос и получаем ответ
+        internal int GetCoutMessage()//получение кол-ва писем с бд
+        {         
+            var connect = MySqlDB.Instance.GetConnection();           
+            string sql = "SELECT COUNT(*) AS countdb FROM email e, user u WHERE u.id = " + ActiveUser.Instance.GetUser().ID + ";";
+            MySqlCommand command = new MySqlCommand(sql, connect);          
             string countdb = command.ExecuteScalar().ToString();
             return int.Parse(countdb);
-
-            
-            //using (var mc = new MySqlCommand(sql, connect))
-            //using (var reader = mc.ExecuteReader())
-            //countdb = reader.GetInt32(0);    
-        } //получение кол-ва писем с бд
-        /*  internal IEnumerable<EmailMenu> GetSelectedPOPEmails(EmailMenu menuemail)
-          {
-              ObservableCollection<EmailMenu> result = new ObservableCollection<EmailMenu>();
-              var connect = MySqlDB.Instance.GetConnection();
-              if (connect == null)
-                  return result;
-              if (menuemail != null)
-              {
-                  string sql = "SELECT ID, ID_AdressFrom, ID_AdressTo, Subjecct, Body, DateSend, FROM email where ID_AdressTo = " + ActiveUser.Instance.GetUser().IDAddress + " AND ID_AdressFrom = AdressBook.ID";
-                  using (var mc = new MySqlCommand(sql, connect))
-                  using (var reader = mc.ExecuteReader())
-                  {
-                      while (reader.Read())
-                      {
-                          var menuemail = new EmailMenu();
-                          menuemail.ID = reader.GetInt32("id");
-                          menuemail.ID_AdressFrom = reader.GetInt32("ID_AdressFrom");
-                          menuemail.ID_AdressTo = reader.GetInt32("ID_AdressTo");
-                          menuemail.Subject = reader.GetString("Subjecct");
-                          menuemail.Body = reader.GetString("Body");
-                          menuemail.DateSend = reader.GetDateTime("DateSend");
-                          result.Add(menuemail);
-                      }
-                  }
-              }
-              return result;     
-          }*/
+        }       
         internal Popemail AddPOPEmail(Popemail email) //добавление писем в бд с сервера
         {
             var connect = MySqlDB.Instance.GetConnection();
             if (connect == null) return email;
-            string sql = "select id from AdressBook where Email = '" + email.EmailFrom + "'";
+            string sql = "select id from AdressBook where Email = '" + email.EmailFrom + "';";
             using (var mc = new MySqlCommand(sql, connect))
             using (var reader = mc.ExecuteReader())
             {
@@ -124,6 +91,7 @@ namespace post2.model
                 }
                 email.ID = id;
             }
+            //if attachemnts not null sql+= insert blabla 
                 return email;         
         }
         internal Popemail AddDateDelete(Popemail email)
@@ -215,24 +183,24 @@ namespace post2.model
                 {
                     mc.Parameters.AddWithValue("@ID_StatusEmail", menuemail.ID_StatusEmail);
                     //mc.Parameters.AddWithValue("@Datedelete", menuemail.DateDelete);
-                    mc.Parameters.AddWithValue("@ID", menuemail.ID);                 
+                    mc.Parameters.AddWithValue("@ID", menuemail.ID);
                     mc.ExecuteNonQuery();
-                    result.Clear();
-                    sql += "SELECT e.ID, ab.email, e.Subjecct, e.Body, e.DateSend FROM email e, adressbook ab where ID_StatusEmail is null and ID_AdressTo " +
-                        "= " + ActiveUser.Instance.GetUser().IDAddress + ";";
-                    using (var reader = mc.ExecuteReader())
-                    {
-                        while (reader.Read())
-                        {
-                            menuemail.ID = reader.GetInt32("id");
-                            menuemail.EmailFrom = reader.GetString("email");
-                            menuemail.Subject = reader.GetString("Subjecct");
-                            menuemail.Body = reader.GetString("Body");
-                            menuemail.DateSend = reader.GetDateTime("DateSend");
-                            result.Add(menuemail);
-                            mc.ExecuteNonQuery();
-                        }
-                    }
+                    //result.Clear();
+                    //sql += "SELECT e.ID, ab.email, e.Subjecct, e.Body, e.DateSend FROM email e, adressbook ab where ID_StatusEmail is null and ID_AdressTo " +
+                    //    "= " + ActiveUser.Instance.GetUser().IDAddress + ";";
+                    //using (var reader = mc.ExecuteReader())
+                    //{
+                    //    while (reader.Read())
+                    //    {
+                    //        menuemail.ID = reader.GetInt32("id");
+                    //        menuemail.EmailFrom = reader.GetString("email");
+                    //        menuemail.Subject = reader.GetString("Subjecct");
+                    //        menuemail.Body = reader.GetString("Body");
+                    //        menuemail.DateSend = reader.GetDateTime("DateSend");
+                    //        result.Add(menuemail);
+                    //        mc.ExecuteNonQuery();
+                    //    }
+                    //}
                 }
             }       
         }
