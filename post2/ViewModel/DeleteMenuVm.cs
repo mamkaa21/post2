@@ -34,7 +34,9 @@ namespace post2.ViewModel
             Emaildb = new ObservableCollection<EmailMenu>(PostRepository.Instance.GetDelPOPEmail(sql));
             Back = new CommandVm(() =>
             {
-                CloseWindow(deleteMenu);
+                MainMenu mainMenu = new MainMenu();
+                mainMenu.Show();
+                CloseWindow(deleteMenu);               
                 Signal();
             });
             Delete = new CommandVm(() =>
@@ -51,24 +53,24 @@ namespace post2.ViewModel
             });
             Return = new CommandVm(() =>
             {
-                //if (SelectedEmail == null)
-                //{
-                //    MessageBox.Show("Обьект не выбран"); return;
-                //}
-                //else
-                //{
-                //    try
-                //    {                      
-                //        SelectedEmail.ID_StatusEmail = 0;
-                //        PostRepository.Instance.UpdatePOPEmail(SelectedEmail);
-                //        Emaildb.Remove(SelectedEmail);
-                //        Signal();
-                //    }
-                //    catch (Exception ex)
-                //    {
-                //        MessageBox.Show($"Ошибка: {ex.Message}");
-                //    }
-                //}
+                if (SelectedEmail == null)
+                {
+                    MessageBox.Show("Обьект не выбран"); return;
+                }
+                else
+                {
+                    try
+                    {
+                        SelectedEmail.ID_StatusEmail = 3;
+                        PostRepository.Instance.UpdatePOPEmail(SelectedEmail);
+                        Emaildb.Remove(SelectedEmail);
+                        Signal();
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show($"Ошибка: {ex.Message}");
+                    }
+                }
             });
         }     
         DeleteMenu deleteMenu;

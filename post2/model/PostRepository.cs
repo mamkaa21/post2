@@ -77,7 +77,7 @@ namespace post2.model
                 }
             }
             int id = MySqlDB.Instance.GetAutoID("Email");         
-            { sql = "INSERT INTO Email VALUES (0, @id_AdressFrom, @id_AdressTo, @subjecct, @body, @datesend, null, null)";
+            { sql = "INSERT INTO Email VALUES (0, @id_AdressFrom, @id_AdressTo, @subjecct, @body, @datesend, @id_statusemail, null)";
                 using (var mc = new MySqlCommand(sql, connect))
                 {
                     mc.Parameters.Add(new MySqlParameter("id_AdressFrom", email.ID_AdressFrom));
@@ -85,6 +85,7 @@ namespace post2.model
                     mc.Parameters.Add(new MySqlParameter("subjecct", email.Subject));
                     mc.Parameters.Add(new MySqlParameter("body", email.Body));
                     mc.Parameters.Add(new MySqlParameter("datesend", email.DateSend));
+                    mc.Parameters.Add(new MySqlParameter("id_statusemail", email.ID_Statusemail));
                     mc.ExecuteNonQuery();
                 }
                 email.ID = id;
@@ -188,13 +189,7 @@ namespace post2.model
                         return;                    
                 }
             }       
-        }
-        //string sql = "update Email set DateDelete = @DateDelete where ID = " + menuemail.ID;       
-        //using (var mc = new MySqlCommand(sql, connect))
-        //{             
-        //    mc.Parameters.Add(new MySqlParameter("DateDelete", menuemail.DateDelete)); 
-        //    mc.ExecuteNonQuery();
-        //}
+        }  
         //датеделете добавить когда удаляю
     }
 }

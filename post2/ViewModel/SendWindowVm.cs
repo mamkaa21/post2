@@ -19,9 +19,8 @@ using System.Threading.Channels;
 namespace post2.ViewModel
 {
     public class SendWindowVm : BaseVM
-    {
-        private MainMenuVM mainMenuVM;
-        public string Email { get; set; }
+    {       
+        public string Adress { get; set; }
         public string bbody { get; set; }
         public string ssubject { get; set; }
 
@@ -29,7 +28,7 @@ namespace post2.ViewModel
         public CommandVm SendPost { get; }
         public CommandVm Image { get; }
         public CommandVm Back { get; }
-        private ObservableCollection<Popemail> email;
+        
         public SendWindowVm()
         {
             SendPost = new CommandVm(() =>
@@ -50,9 +49,9 @@ namespace post2.ViewModel
             );
         }
         private void Sending(object sender, EventArgs e) //отправка письма
-        {
+        {  
             MailAddress fromAdress = new MailAddress("alina1125@suz-ppk.ru", "Alina");
-            MailAddress toAdress = new MailAddress(Email);
+            MailAddress toAdress = new MailAddress(Adress);
             MailMessage message = new MailMessage(fromAdress, toAdress);
             message.Body = bbody;
             message.Subject = ssubject;
@@ -64,8 +63,10 @@ namespace post2.ViewModel
             smtpClient.Credentials = new NetworkCredential(fromAdress.Address, "D35de%TJ");
             if(!string.IsNullOrEmpty(selectedImagePath))
                 message.Attachments.Add(new Attachment(selectedImagePath)); 
-            smtpClient.Send(message);          
+            smtpClient.Send(message);
+            //как-то добавлять в бд? долго думать
             CloseWindow(sendWindow);
+
         }
         
                 

@@ -46,7 +46,7 @@
             </ListView.View>
         </ListView>
         <Button Grid.Row="1" Content="←" Margin="30 2 30 2" Foreground="SteelBlue" Background="White" FontSize="30" Command="{Binding Back}"/>
-        <Button Grid.Row="4" Grid.Column="5" Content="delete" Margin="30 2 30 2" Foreground="SteelBlue" Background="White" FontSize="30" Command="{Binding Delete}" />
-        <Button Grid.Column="5" Grid.Row="5" Content="return" Margin="30 2 30 2" Foreground="SteelBlue" Background="White" FontSize="30" Command="{Binding Return}"/>
+        <Button Grid.Row="4" Grid.Column="5" Content="🗑️" Margin="30 2 30 2" Foreground="SteelBlue" Background="White" FontSize="30" Command="{Binding Delete}" />
+        <Button Grid.Column="5" Grid.Row="5" Content="↺" Margin="30 2 30 2" Foreground="SteelBlue" Background="White" FontSize="32" Command="{Binding Return}"/>
     </Grid>
 </Window>

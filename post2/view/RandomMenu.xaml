@@ -3,10 +3,51 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:post2.view"
-        mc:Ignorable="d"
-        Title="RandomMenu" Height="450" Width="800">
+           xmlns:local="clr-namespace:post2.view"
+    xmlns:m="clr-namespace:post2.model"
+    xmlns:vm ="clr-namespace:post2.ViewModel"
+    mc:Ignorable="d"
+     DataContext="{DynamicResource vm}"
+    Title="DeleteMenu" Height="450" Width="800">
+    <Window.Resources >
+        <vm:RandomMenuVM x:Key ="vm"/>
+    </Window.Resources >
     <Grid>
-        
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <Label Grid.ColumnSpan="9" Background="CornflowerBlue" Content="CATSS" HorizontalContentAlignment="Center"
+     FontSize="35" Foreground="Beige"/>
+        <Label Grid.Column="2" Grid.ColumnSpan="2" Grid.Row="1" Content="ytУдаленные  ✉" FontSize="30" Foreground ="SteelBlue" HorizontalAlignment="Left"/>
+        <ListView x:Name="test" Grid.ColumnSpan="3" Grid.Row="2" Grid.Column="2" Grid.RowSpan="7" ItemsSource="{Binding Emaildb}" SelectedItem="{Binding SelectedEmail}">
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn DisplayMemberBinding="{Binding EmailFrom}"/>
+                    <GridViewColumn DisplayMemberBinding="{Binding Subject}"/>
+                    <GridViewColumn DisplayMemberBinding="{Binding Body}"/>
+                    <GridViewColumn DisplayMemberBinding="{Binding DateSend}"/>
+                </GridView>
+            </ListView.View>
+        </ListView>
+        <Button Grid.Row="1" Content="←" Margin="30 2 30 2" Foreground="SteelBlue" Background="White" FontSize="30" Command="{Binding Back}"/>
+        <Button Grid.Row="4" Grid.Column="5" Content="🗑️" Margin="30 2 30 2" Foreground="SteelBlue" Background="White" FontSize="30" Command="{Binding Delete}"/>
+        <Button Grid.Column="5" Grid.Row="5" Content="↺" Margin="30 2 30 2" Foreground="SteelBlue" Background="White" FontSize="32" Command="{Binding Return}"/>
     </Grid>
 </Window>

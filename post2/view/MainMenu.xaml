@@ -38,8 +38,14 @@
         <Label Grid.Column="4"  Background="CornflowerBlue" Content="🐾" HorizontalContentAlignment="Center"
                FontSize="30" Foreground="Beige"/>
         <Label Grid.Column="2" Grid.ColumnSpan="2" Grid.Row="1" Content="Входящие  ✉" FontSize="30" Foreground ="SteelBlue" HorizontalAlignment="Left"/>
-        <Button Grid.Column="5" Grid.Row="1" Content="↺" FontSize="20" Margin="-50 10 130 5" Foreground="SteelBlue" Background="White" Command="{Binding UpgratePost}"/>
-        <Button Grid.Column="4" Grid.Row="1" Margin="0 10 80 5" Background="White" Content="🔍" Foreground="SteelBlue"  Command="{Binding Search}" />
+        <Button BorderThickness="2" Grid.Column="5" Grid.Row="1" Content="↺" FontSize="20" Margin="-50 10 130 5" Foreground ="SteelBlue" Background="White" Command="{Binding UpgratePost}" BorderBrush="White">
+            <Button.Resources>
+                <Style TargetType="Border" >
+                    <Setter Property="CornerRadius" Value="10" />
+                </Style>
+            </Button.Resources>
+        </Button>
+        <!--<Label Grid.Column="4" Grid.Row="1" Margin="0 10 80 5" Background="White" Content="🔍" Foreground="SteelBlue"/>-->
         <ListView x:Name="test" Grid.ColumnSpan="3" Grid.Row="2" Grid.Column="2" Grid.RowSpan="6" ItemsSource="{Binding Emaildb}" SelectedItem="{Binding SelectedEmail}">
             <ListView.View>
                 <GridView>
@@ -58,12 +64,48 @@
                 </GridView>
             </ListView.View>
         </ListView>
-        <Label Grid.Row="2" Content="📂" FontSize="25" Foreground ="SteelBlue" HorizontalAlignment="Center" Background="White"/>
-        <Label Grid.Row="3" Content="📝" FontSize="25" Foreground ="SteelBlue" HorizontalAlignment="Center" Background="White"/>
-        <Label Grid.Row="4" Content="⛔" FontSize="25" Foreground ="SteelBlue" HorizontalAlignment="Center" Background="White"/>
-        <Button Grid.Row="5" Content="🗑️" Command ="{Binding OpenDeleteMenu}" FontSize="25" Foreground ="SteelBlue" HorizontalAlignment="Center" Background="White"/>
-        <Button Grid.Column="4" Grid.Row="8" Content="✍" Command="{Binding SendWindow}" Margin="5 5 5 0" FontSize="30" Foreground="Beige" Background="SteelBlue"/>
-        <Button Grid.Column="2" Grid.Row="8" Content="🗑️" Command="{Binding Delete}" Margin="5 5 5 0" FontSize="30" Foreground="Beige" Background="SteelBlue"/>
-        <Button Grid.Column="7" Grid.Row="2" Content="😽" Command="{Binding OpenUserWindow}" FontSize="35" Foreground ="SteelBlue" HorizontalAlignment="Center" Background="White"/>
+        <Button BorderThickness="2" Grid.Row="2" Content="📂" FontSize="25" Foreground ="SteelBlue" HorizontalAlignment="Center" Background="White" Command="{Binding OpenRandomMenu}" BorderBrush="White">
+            <Button.Resources>
+                <Style TargetType="Border" >
+                    <Setter Property="CornerRadius" Value="10" />
+                </Style>
+            </Button.Resources>
+        </Button>
+        <Button BorderThickness="2" Grid.Row="3" Content="📝" FontSize="25" Foreground ="SteelBlue" HorizontalAlignment="Center" Background="White" BorderBrush="White">
+            <Button.Resources>
+                <Style TargetType="Border" >
+                    <Setter Property="CornerRadius" Value="10" />
+                </Style>
+            </Button.Resources>
+        </Button>
+        <Button BorderThickness="2" Grid.Row="4" Content="⛔" FontSize="25" Foreground ="SteelBlue" HorizontalAlignment="Center" Background="White" BorderBrush="White">
+            <Button.Resources>
+                <Style TargetType="Border" >
+                    <Setter Property="CornerRadius" Value="10" />
+                </Style>
+            </Button.Resources>
+        </Button>
+        <Button BorderThickness="2" Grid.Row="5" Content="🗑️" FontSize="25" Foreground ="SteelBlue" HorizontalAlignment="Center" Background="White" Command="{Binding OpenDeleteMenu}" BorderBrush="White">
+            <Button.Resources>
+                <Style TargetType="Border" >
+                    <Setter Property="CornerRadius" Value="10" />
+                </Style>
+            </Button.Resources>
+        </Button>
+        <Button BorderThickness="20" Grid.Column="6" Grid.Row="5" Content="✍" FontSize="25" Foreground ="SteelBlue" HorizontalAlignment="Center" Background="White" Command="{Binding SendWindow}" BorderBrush="SteelBlue">
+            <Button.Resources>
+                <Style TargetType="Border" >
+                    <Setter Property="CornerRadius" Value="10" />
+                </Style>
+            </Button.Resources>
+        </Button>
+        <Button BorderThickness="3" Grid.RowSpan="2" Grid.Row="2" Grid.Column="7" Content="😽"  Command="{Binding OpenUserWindow}" FontSize="35" Foreground ="SteelBlue" Background="White" BorderBrush="">
+            <Button.Resources>
+                <Style TargetType="Border" >
+                    <Setter Property="CornerRadius" Value="20" />
+                </Style>
+            </Button.Resources>
+        </Button>
+        <Button Grid.Column="3" Grid.Row="8" Content="🗑️" Command="{Binding Delete}" Margin="0" FontSize="30" Foreground="Beige" Background="SteelBlue"/>   
     </Grid>
 </Window>

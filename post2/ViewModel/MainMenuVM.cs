@@ -53,7 +53,7 @@ namespace post2.ViewModel
         //    timer.Interval = new TimeSpan(0, 0, 2);
         //    timer.Start();
         //}
-        ///*public void MessageSee(MainMenu mainMenu) //сделай ее пж эт ОЧЕНЬ важно
+        /*public void MessageSee(MainMenu mainMenu) //сделай ее пж эт ОЧЕНЬ важно
         //{
         //    if (SelectedEmail != null)
         //    {
@@ -73,7 +73,7 @@ namespace post2.ViewModel
         public ObservableCollection<EmailMenu> Emaildb { get => emailsdb; set => emailsdb = value; }
         public MainMenuVM()
         {
-            string sql = "SELECT e.ID, ab.Email, e.Subjecct, e.Body, e.DateSend FROM email e join AdressBook ab on e.ID_AdressFrom= ab.ID where ID_StatusEmail is null and ID_AdressTo = " + ActiveUser.Instance.GetUser().IDAddress + ";";
+            string sql = "SELECT e.ID, ab.Email, e.Subjecct, e.Body, e.DateSend FROM email e join AdressBook ab on e.ID_AdressFrom= ab.ID where ID_StatusEmail = '3' and ID_AdressTo = " + ActiveUser.Instance.GetUser().IDAddress + ";";
             Emaildb = new ObservableCollection<EmailMenu>(PostRepository.Instance.GetAllPOPEmails(sql));
             UpgratePost = new CommandVm(() =>
             {
@@ -123,11 +123,33 @@ namespace post2.ViewModel
             {
                 DeleteMenu deletemenu = new DeleteMenu();
                 deletemenu.Show();
+                CloseWindow(mainMenu);
                 Signal();
             });
             OpenRandomMenu = new CommandVm(() =>
             {
-
+                if (SelectedEmail == null)
+                {
+                    MessageBox.Show("Обьект не выбран"); return;
+                }
+                else
+                {
+                    try
+                    {
+                        SelectedEmail.ID_StatusEmail = 2;
+                        PostRepository.Instance.UpdatePOPEmail(SelectedEmail);
+                        Emaildb.Remove(SelectedEmail);
+                        Signal();
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show($"Ошибка: {ex.Message}");
+                    }
+                    RandomMenu randomMenu = new RandomMenu();
+                    randomMenu.Show();
+                    CloseWindow(mainMenu);
+                    Signal();
+                }
             }
             );
 
@@ -213,19 +235,18 @@ namespace post2.ViewModel
                     });
                 } 
                             
-                mainMenu.Dispatcher.Invoke(() =>
-                {
-                    if (first)
-                        Email.Add(email);
-                    else
-                        Email.Insert(0, email);
-                });  
-                PostRepository.Instance.AddPOPEmail(email);
-                //counter++;
+                    mainMenu.Dispatcher.Invoke(() =>
+                    {
+                        if (first)
+                            Email.Add(email);
+                        else
+                            Email.Insert(0, email);
+                    });
+                email.ID_Statusemail = 3; 
+                PostRepository.Instance.AddPOPEmail(email);            
                 i--;
-            }
-            //string sql = "SELECT e.ID, ab.Email, e.Subjecct, e.Body, e.DateSend FROM email e join AdressBook ab on e.ID_AdressFrom= ab.ID where ID_StatusEmail is null and ID_AdressTo = " + ActiveUser.Instance.GetUser().IDAddress + ";";
-            //Emaildb = new ObservableCollection<EmailMenu>(PostRepository.Instance.GetAllPOPEmails(sql));
+              }
+            
 
             first = false;
             try
@@ -240,7 +261,11 @@ namespace post2.ViewModel
         internal void SetWindow(MainMenu mainMenu) //привязка окна к вм
         {
             this.mainMenu = mainMenu;
-        }       
+        }
+        internal void CloseWindow(MainMenu mainMenu) //закрытие окна 
+        {
+            this.mainMenu.Close();
+        }
     }
 }
 

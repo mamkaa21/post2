@@ -1,4 +1,5 @@
-﻿using System;
+﻿using post2.ViewModel;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -22,6 +23,7 @@ namespace post2.view
         public RandomMenu()
         {
             InitializeComponent();
+            ((RandomMenuVM)this.DataContext).SetWindow(this);
         }
     }
 }
