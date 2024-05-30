@@ -35,6 +35,7 @@ namespace post2.ViewModel
         public CommandVm OpenRandomMenu { get; }
         public CommandVm OpenDeleteMenu { get; }
         public CommandVm OpenUserWindow { get; }
+        public CommandVm OpenSpamWindow { get; }
         private DispatcherTimer timer = null;     
         public EmailMenu SelectedEmail
         {
@@ -128,6 +129,9 @@ namespace post2.ViewModel
             });
             OpenRandomMenu = new CommandVm(() =>
             {
+                RandomMenu randomMenu = new RandomMenu();
+                    randomMenu.Show();
+                    CloseWindow(mainMenu);
                 if (SelectedEmail == null)
                 {
                     MessageBox.Show("Обьект не выбран"); return;
@@ -145,14 +149,36 @@ namespace post2.ViewModel
                     {
                         MessageBox.Show($"Ошибка: {ex.Message}");
                     }
-                    RandomMenu randomMenu = new RandomMenu();
-                    randomMenu.Show();
-                    CloseWindow(mainMenu);
+                    
                     Signal();
                 }
-            }
-            );
-
+            });
+            OpenSpamWindow = new CommandVm(() =>
+            {
+                SpamMenu spamMenu = new SpamMenu();
+                    spamMenu.Show();
+                    CloseWindow(mainMenu);
+                if (SelectedEmail == null)
+                {
+                    MessageBox.Show("Обьект не выбран"); return;
+                }
+                else
+                {
+                    try
+                    {
+                        SelectedEmail.ID_StatusEmail = 4;
+                        PostRepository.Instance.UpdatePOPEmail(SelectedEmail);
+                        Emaildb.Remove(SelectedEmail);
+                        Signal();
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show($"Ошибка: {ex.Message}");
+                    }
+                    
+                    Signal();
+                }
+            });
         }
         private void AddPOPEmail() { }
         //private void GetCoutMessage() {

@@ -46,8 +46,26 @@
                 </GridView>
             </ListView.View>
         </ListView>
-        <Button Grid.Row="1" Content="←" Margin="30 2 30 2" Foreground="SteelBlue" Background="White" FontSize="30" Command="{Binding Back}"/>
-        <Button Grid.Row="4" Grid.Column="5" Content="🗑️" Margin="30 2 30 2" Foreground="SteelBlue" Background="White" FontSize="30" Command="{Binding Delete}"/>
-        <Button Grid.Column="5" Grid.Row="5" Content="↺" Margin="30 2 30 2" Foreground="SteelBlue" Background="White" FontSize="32" Command="{Binding Return}"/>
+        <Button BorderThickness="1" Grid.Row="1" Content="←" FontSize="30" Foreground ="SteelBlue" Background="White" Command="{Binding Back}" BorderBrush="White">
+            <Button.Resources>
+                <Style TargetType="Border" >
+                    <Setter Property="CornerRadius" Value="40" />
+                </Style>
+            </Button.Resources>
+        </Button>
+        <Button BorderThickness="1" Grid.Row="4" Grid.Column="5" Content="🗑️" FontSize="30" Foreground ="SteelBlue" Background="White" Command="{Binding Delete}" BorderBrush="White">
+            <Button.Resources>
+                <Style TargetType="Border" >
+                    <Setter Property="CornerRadius" Value="40" />
+                </Style>
+            </Button.Resources>
+        </Button>
+        <Button BorderThickness="1" Grid.Column="5" Grid.Row="5" Content="↺" FontSize="39" Foreground ="SteelBlue" Background="White" Command="{Binding Return}" BorderBrush="White">
+            <Button.Resources>
+                <Style TargetType="Border" >
+                    <Setter Property="CornerRadius" Value="40" />
+                </Style>
+            </Button.Resources>
+        </Button>
     </Grid>
 </Window>

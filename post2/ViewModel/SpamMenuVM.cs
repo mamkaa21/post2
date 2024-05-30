@@ -1,16 +1,16 @@
-﻿using System;
+﻿using post2.model;
+using post2.view;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
-using post2.model;
-using post2.view;
 
 namespace post2.ViewModel
 {
-    public class RandomMenuVM: BaseVM
+    public class SpamMenuVM : BaseVM
     {
         private ObservableCollection<EmailMenu> emaildb;
         public EmailMenu selectedEmail = new();
@@ -27,15 +27,15 @@ namespace post2.ViewModel
                 Signal();
             }
         }
-        public RandomMenuVM()
+        public SpamMenuVM()
         {
-            string sql = "SELECT e.ID, ab.Email, e.Subjecct, e.Body, e.DateSend FROM email e join AdressBook ab on e.ID_AdressFrom = ab.ID where ID_StatusEmail ='2' and ID_AdressTo = " + ActiveUser.Instance.GetUser().IDAddress + ";";
+            string sql = "SELECT e.ID, ab.Email, e.Subjecct, e.Body, e.DateSend FROM email e join AdressBook ab on e.ID_AdressFrom = ab.ID where ID_StatusEmail ='4' and ID_AdressTo = " + ActiveUser.Instance.GetUser().IDAddress + ";";
             Emaildb = new ObservableCollection<EmailMenu>(PostRepository.Instance.GetDelPOPEmail(sql));
             Back = new CommandVm(() =>
             {
                 MainMenu mainMenu = new MainMenu();
                 mainMenu.Show();
-                CloseWindow(randomMenu);
+                CloseWindow(spamMenu);
                 Signal();
             });
             Delete = new CommandVm(() =>
@@ -72,14 +72,14 @@ namespace post2.ViewModel
                 }
             });
         }
-        RandomMenu randomMenu;
-        internal void SetWindow(RandomMenu randomMenu) //привязка окна к вм
+        SpamMenu spamMenu;
+        internal void SetWindow(SpamMenu spamMenu) //привязка окна к вм
         {
-            this.randomMenu = randomMenu;
+            this.spamMenu = spamMenu;
         }
-        internal void CloseWindow(RandomMenu randomMenu) //закрытие окна 
+        internal void CloseWindow(SpamMenu spamMenu) //закрытие окна 
         {
-            this.randomMenu.Close();
+            this.spamMenu.Close();
         }
     }
 }
