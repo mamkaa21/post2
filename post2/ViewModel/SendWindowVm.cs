@@ -21,7 +21,7 @@ namespace post2.ViewModel
     public class SendWindowVm : BaseVM
     {
         private MainMenuVM mainMenuVM;
-        public string Adress { get; set; }
+        public string Email { get; set; }
         public string bbody { get; set; }
         public string ssubject { get; set; }
 
@@ -37,16 +37,13 @@ namespace post2.ViewModel
                 Sending(this, null);              
                 Signal();
             });
-
             Image = new CommandVm(() =>
             {
                 SelectImage(this, null);
                 Signal();
             });
             Back = new CommandVm(() => 
-            {
-                MainMenu mainMenu = new MainMenu();
-                mainMenu.Show();
+            {             
                 CloseWindow(sendWindow);
                 Signal();
             }
@@ -55,7 +52,7 @@ namespace post2.ViewModel
         private void Sending(object sender, EventArgs e) //отправка письма
         {
             MailAddress fromAdress = new MailAddress("alina1125@suz-ppk.ru", "Alina");
-            MailAddress toAdress = new MailAddress(Adress);
+            MailAddress toAdress = new MailAddress(Email);
             MailMessage message = new MailMessage(fromAdress, toAdress);
             message.Body = bbody;
             message.Subject = ssubject;
@@ -67,7 +64,7 @@ namespace post2.ViewModel
             smtpClient.Credentials = new NetworkCredential(fromAdress.Address, "D35de%TJ");
             if(!string.IsNullOrEmpty(selectedImagePath))
                 message.Attachments.Add(new Attachment(selectedImagePath)); 
-            smtpClient.Send(message); 
+            smtpClient.Send(message);          
             CloseWindow(sendWindow);
         }
         

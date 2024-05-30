@@ -30,7 +30,7 @@ namespace post2.ViewModel
             }
         }
         public DeleteMenuVm()
-        {   string sql = "select e.ID, ab.Email, e.Subjecct, e.Body FROM Email e, adressbook ab WHERE ID_StatusEmail = '1' and ID_AdressTo = " + ActiveUser.Instance.GetUser().IDAddress + "; ";
+        {   string sql = "SELECT e.ID, ab.Email, e.Subjecct, e.Body, e.DateSend FROM email e join AdressBook ab on e.ID_AdressFrom = ab.ID where ID_StatusEmail ='1' and ID_AdressTo = " + ActiveUser.Instance.GetUser().IDAddress + ";";
             Emaildb = new ObservableCollection<EmailMenu>(PostRepository.Instance.GetDelPOPEmail(sql));
             Back = new CommandVm(() =>
             {
@@ -39,6 +39,18 @@ namespace post2.ViewModel
             });
             Delete = new CommandVm(() =>
             {
+                if (SelectedEmail == null)
+                {
+                    MessageBox.Show("Обьект не выбран"); return;
+                }
+                else
+                {
+                    PostRepository.Instance.RemovePOPEmail(selectedEmail);
+                    Emaildb.Remove(SelectedEmail);
+                }              
+            });
+            Return = new CommandVm(() =>
+            {
                 //if (SelectedEmail == null)
                 //{
                 //    MessageBox.Show("Обьект не выбран"); return;
@@ -46,9 +58,10 @@ namespace post2.ViewModel
                 //else
                 //{
                 //    try
-                //    {
-                //        SelectedEmail.ID_StatusEmail = 1;
+                //    {                      
+                //        SelectedEmail.ID_StatusEmail = 0;
                 //        PostRepository.Instance.UpdatePOPEmail(SelectedEmail);
+                //        Emaildb.Remove(SelectedEmail);
                 //        Signal();
                 //    }
                 //    catch (Exception ex)
@@ -56,37 +69,8 @@ namespace post2.ViewModel
                 //        MessageBox.Show($"Ошибка: {ex.Message}");
                 //    }
                 //}
-                //DeletePost();
             });
-            Return = new CommandVm(() =>
-            {
-                
-            });
-        }
-      
-        private void DeletePost()
-        {
-            if (SelectedEmail == null)
-            {
-                MessageBox.Show("Не выбран обьект");
-                return;
-            }
-            try
-            {
-                //pop3Client = ConnectMail();
-                //PostRepository.Instance.RemovePOPEmail(selectedEmail);
-                //pop3Client.DeleteMessage(SelectedEmail.MessageNumber);
-                //pop3Client.Disconnect();
-                //var index = SelectedEmail.MessageNumber;
-                Emaildb.Remove(selectedEmail);
-                //var sort = Email.ToArray();
-                //Array.Sort(sort, (x, y) => y.DateSend.CompareTo(x.DateSend));
-                //for (int i = 0; i < sort.Length; i++)
-                //    sort[i].MessageNumber = i + 1;
-            }
-            catch { }
-            //PostRepository.Instance.UpdatePOPEmail(selectedEmail);
-        }
+        }     
         DeleteMenu deleteMenu;
         internal void SetWindow(DeleteMenu deleteMenu) //привязка окна к вм
         {

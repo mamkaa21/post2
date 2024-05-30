@@ -17,6 +17,7 @@ using System.Web;
 using System.Windows;
 using System.Windows.Threading;
 using MySqlConnector;
+using System.Runtime.CompilerServices;
 
 namespace post2.ViewModel
 {
@@ -31,6 +32,7 @@ namespace post2.ViewModel
         public CommandVm Edit { get; }
         public CommandVm Delete { get; }
         public CommandVm SendWindow { get; }
+        public CommandVm OpenRandomMenu { get; }
         public CommandVm OpenDeleteMenu { get; }
         public CommandVm OpenUserWindow { get; }
         private DispatcherTimer timer = null;     
@@ -76,7 +78,8 @@ namespace post2.ViewModel
             UpgratePost = new CommandVm(() =>
             {
                 GetMail(Email);
-                Signal();
+                Emaildb = new ObservableCollection<EmailMenu>(PostRepository.Instance.GetAllPOPEmails(sql));
+                Signal(nameof(Emaildb));
             });
             Delete = new CommandVm(() => {
                 if (SelectedEmail == null)
@@ -90,7 +93,6 @@ namespace post2.ViewModel
                         //SelectedEmail.DateSend = DateTime.Now;
                         SelectedEmail.ID_StatusEmail = 1;                       
                         PostRepository.Instance.UpdatePOPEmail(SelectedEmail);
-                   
                         Emaildb.Remove(SelectedEmail);
                         Signal();                     
                     }
@@ -123,6 +125,12 @@ namespace post2.ViewModel
                 deletemenu.Show();
                 Signal();
             });
+            OpenRandomMenu = new CommandVm(() =>
+            {
+
+            }
+            );
+
         }
         private void AddPOPEmail() { }
         //private void GetCoutMessage() {
@@ -216,7 +224,9 @@ namespace post2.ViewModel
                 //counter++;
                 i--;
             }
-            
+            //string sql = "SELECT e.ID, ab.Email, e.Subjecct, e.Body, e.DateSend FROM email e join AdressBook ab on e.ID_AdressFrom= ab.ID where ID_StatusEmail is null and ID_AdressTo = " + ActiveUser.Instance.GetUser().IDAddress + ";";
+            //Emaildb = new ObservableCollection<EmailMenu>(PostRepository.Instance.GetAllPOPEmails(sql));
+
             first = false;
             try
             {
@@ -224,6 +234,8 @@ namespace post2.ViewModel
             }
             catch { }
         }
+
+
         MainMenu mainMenu;
         internal void SetWindow(MainMenu mainMenu) //привязка окна к вм
         {

@@ -37,17 +37,17 @@
              FontSize="35" Foreground="Beige"/>
         <Label Grid.Column="3" Grid.ColumnSpan="2" Grid.Row="1" Content="Ваш Профиль" FontSize="30" Foreground ="SteelBlue" HorizontalAlignment="Left"/>
        <!--listbox binding user+image-->
-        <StackPanel Grid.Column="1" Grid.Row="2" Grid.ColumnSpan="3" Grid.RowSpan="3" DataContext="{Binding Users}">
+        <StackPanel Grid.Column="1" Grid.Row="2" Grid.ColumnSpan="3" Grid.RowSpan="4" DataContext="{Binding Users}">
             <Label Content="Имя:" Foreground="CornflowerBlue" FontSize="20"/>
-            <Label Content="{Binding NickName}" Height="21"/>
+            <TextBox Text="{Binding NickName}" Height="25"/>
             <Label Content="Логин:" Foreground="CornflowerBlue" FontSize="20"/>
-            <Label Content="{Binding Login}" Height="21"/>
+            <TextBox Text="{Binding Login}" Height="25"/>
             <Label Content="Пароль:" Foreground="CornflowerBlue" FontSize="20"/>
-            <Label Content="{Binding Password}" Height="21"/>
+            <TextBox Text="{Binding Password}" Height="25"/>
         </StackPanel>
         <Label Grid.Row="2" Grid.Column="5" Grid.ColumnSpan="2" Content="Фото:" HorizontalAlignment="Center" Foreground="CornflowerBlue" FontSize="20"/>
         <Image Grid.ColumnSpan="2" Grid.Column="5" Grid.RowSpan="3" Grid.Row="3" x:Name="selectedImageUser" Source="{Binding Image}"/>
-        <Button Grid.Column="2" Grid.Row="6" Content="OK" Margin="5" FontSize="30" Foreground="Beige" Background="SteelBlue" Command="{Binding Ok}"/>
-       <!--<Button Grid.Column="3" Grid.Row="8" Content="✖️" Margin="5" FontSize="35" Foreground="Beige" Background="SteelBlue" Command="{Binding ImageAdd}"/>-->
+        <Button Grid.Column="2" Grid.Row="6" Content="OK" Margin="0" FontSize="32" Foreground="Beige" Background="SteelBlue" Command="{Binding Ok}"/>
+       <Button Grid.Column="5" Grid.Row="6" Grid.ColumnSpan="2" Content="✖️" Margin="50 0 50 0"  FontSize="32" Foreground="Beige" Background="SteelBlue" Command="{Binding ImageAdd}"/>
     </Grid>
 </Window>

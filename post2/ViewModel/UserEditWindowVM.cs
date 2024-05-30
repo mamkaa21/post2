@@ -21,13 +21,14 @@ namespace post2.ViewModel
 {
    public class UserEditWindowVM : BaseVM
     {
-       
+        private User user = new();
         string selectedImagePath = "";
         public CommandVm Ok { get; }
         public CommandVm ImageAdd { get; }
-
+        public User Users { get => user; set => user = value; }
         public UserEditWindowVM()
         {
+            Users = ActiveUser.Instance.GetUser();
             Ok = new CommandVm(() =>
             {
                 //MemoryStream ms = new MemoryStream();
@@ -38,7 +39,8 @@ namespace post2.ViewModel
                 //if (connect == null)
                 //    return;
                 //using (var mc = new MySqlCommand(insertQuery, connect))
-                //{ mc.Parameters.Add("@image", MySqlDbType.MediumBlob); }                           
+                //{ mc.Parameters.Add("@image", MySqlDbType.MediumBlob); }
+                UserRepository.Instance.UpdateUser(user);
                 CloseWindow(userEditWindow);
                 Signal();
             });
@@ -49,6 +51,11 @@ namespace post2.ViewModel
             });
         }
         UserEditWindow userEditWindow;
+        //internal void Updateuser(UserEditWindow userEditWindow) 
+        //{
+        //    this.userEditWindow = userEditWindow;
+        //    UserRepository.Instance.UpdateUser(user);
+        //}
         internal void SetWindow(UserEditWindow userEditWindow) //привязка окна к вм
         {
             this.userEditWindow = userEditWindow;

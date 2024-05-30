@@ -26,11 +26,10 @@ namespace post2.ViewModel
         private User user = new ();
         public CommandVm Back { get; }
         public CommandVm Edit { get; }
-        public User Users { get => user; set => user = value; }
-    
+        public User Users { get => user; set => user = value; }  
         public UserWindowVm()
         {           
-            string sql = "SELECT u.ID, u.NickName, u.Login, u.Image, ab.Email, ab.Title, ab.ID AS idAddress FROM User u, AdressBook ab WHERE ab.ID_User = u.ID and u.ID = " + ActiveUser.Instance.GetUser().ID;
+           
             Users = ActiveUser.Instance.GetUser();
 
             Edit = new CommandVm(() =>

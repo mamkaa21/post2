@@ -49,33 +49,7 @@ namespace post2.model
                 }
                 return result;
             }
-        }
-       /* internal IEnumerable<User> GetUser(string sql) //нерабочее простое полчение юзера
-        {
-            ObservableCollection<User> result = new ObservableCollection<User>();
-            var connect = MySqlDB.Instance.GetConnection();
-            if (connect == null)
-                return result;
-            sql = "SELECT u.ID, u.NickName, u.Login, u.Image, ab.Email, ab.Title, ab.ID AS idAddress FROM User u, AdressBook ab WHERE u.Login = @login AND u.Password = " + Hash.HashPassword(password) + "AND ab.ID_User = u.ID";
-            using (var mc = new MySqlCommand(sql, connect))
-            {
-                using (var reader = mc.ExecuteReader())
-                {
-                    while (reader.Read())
-                    {
-                        var user = new User();
-                        user.ID = reader.GetInt32("id");
-                        user.NickName = reader.GetString("NickName");
-                        user.Email = reader.GetString("Email");
-                        user.EmailTitle = reader.GetString("Title");
-                        user.Login = reader.GetString("Login");
-                        user.IDAddress = reader.GetInt32("idAddress");
-                        result.Add(user);
-                    }
-                }
-                return result;
-            }
-        }*/
+        }     
         internal User AddUserByLoginPassword(string nickname, string login, string password) //добавление юзера в бд
         {
             User result = new User();
@@ -119,13 +93,33 @@ namespace post2.model
         //    }
         //    return result;
         //}
-            internal User DeleteUser(User user) //удаление юзера
+        internal void UpdateUser(User user) 
+        {
+            User result = new User();
+            var connect = MySqlDB.Instance.GetConnection();
+            if (connect == null)
+                return;
+            string sql = "update user set NickName = @nickname, Login = @login, Password = @password where id = " + ActiveUser.Instance.GetUser().ID + ";";
+            using (var mc = new MySqlCommand(sql, connect))
+            {
+                mc.Parameters.Add(new MySqlParameter("nickname", user.NickName));
+                mc.Parameters.Add(new MySqlParameter("login", user.Login));
+                mc.Parameters.Add(new MySqlParameter("password", user.Password));
+                mc.ExecuteNonQuery();
+            
+            //mc.Parameters.Add(new MySqlParameter("image", user.Image));
+            return;
+            }
+        }
+    
+        internal User DeleteUser(User user) //удаление юзера
             {
             var connect = MySqlDB.Instance.GetConnection();
             if (connect == null) return user;
             string sql = "DELETE FROM User WHERE id = ' " + user.ID + "';";
             using (var mc = new MySqlCommand(sql, connect))
                 mc.ExecuteNonQuery();
+
             return user;
             }
     }

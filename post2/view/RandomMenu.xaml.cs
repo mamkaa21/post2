@@ -12,20 +12,16 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 
-namespace post2.ViewModel
+namespace post2.view
 {
     /// <summary>
-    /// Логика взаимодействия для UserEditWindowVM.xaml
+    /// Логика взаимодействия для RandomMenu.xaml
     /// </summary>
-    public partial class UserEditWindow : Window
+    public partial class RandomMenu : Window
     {
-        public UserEditWindow()
+        public RandomMenu()
         {
             InitializeComponent();
-            ((UserEditWindowVM)this.DataContext).SetWindow(this);
-            //((UserEditWindowVM)this.DataContext).Updateuser(this);
-            //var vm = DataContext as UserEditWindowVM;
-            //vm.SetImage(SelectedImage);
         }
     }
 }

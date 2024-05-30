@@ -38,13 +38,13 @@
         <Label Grid.Column="2" Grid.ColumnSpan="2" Grid.Row="1" Content="Ваш Профиль" FontSize="30" Foreground ="SteelBlue" HorizontalAlignment="Left"/>
         <StackPanel Grid.Column="2" Grid.Row="2" Grid.ColumnSpan="3" Grid.RowSpan="6" DataContext="{Binding Users}">
             <Label Content="Имя:" Foreground="CornflowerBlue" FontSize="20"/>
-            <TextBox Text="{Binding NickName}"/>
+            <Label Content="{Binding NickName}"/>
             <Label Content="Фото:" Foreground="CornflowerBlue" FontSize="20"/>
         </StackPanel>
         <StackPanel Grid.Column="2" Grid.Row="4" Grid.ColumnSpan="3" Grid.RowSpan="4">
             <Image Source="{Binding Image}" x:Name="SelectedImageUser"/>
         </StackPanel>
-        <Button Grid.Row="2" Content="←" Margin="30 2 30 2" Foreground="SteelBlue" Background="White" FontSize="30" Command="{Binding Back}"/>
+        <Button Grid.Row="2" Content="←" Margin="30 2 30 2" Foreground="SteelBlue" Background="White" FontSize="35" Command="{Binding Back}"/>
         <Button Grid.Column="3" Grid.Row="8" Content="Edit"  Margin="5 5 5 0" FontSize="30" Foreground="Beige" Background="SteelBlue" Command="{Binding Edit}"/>
     </Grid>
 </Window>

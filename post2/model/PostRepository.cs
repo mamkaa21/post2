@@ -25,11 +25,9 @@ namespace post2.model
         internal IEnumerable<EmailMenu> GetAllPOPEmails(string sql) //получение писем с бд
         {
             ObservableCollection<EmailMenu> result = new ObservableCollection<EmailMenu>();
-            var connect = MySqlDB.Instance.GetConnection(); //коннект к бд
-             
+            var connect = MySqlDB.Instance.GetConnection(); //коннект к бд            
             if (connect == null)
-                return result;
-            //sql = "SELECT e.ID, ab.Email, e.Subjecct, e.Body, e.DateSend FROM email e, AdressBook ab where ID_StatusEmail is null and ID_AdressTo = " + ActiveUser.Instance.GetUser().IDAddress + ";"; //запрос
+                return result;        
             using (var mc = new MySqlCommand(sql, connect))
             using (var reader = mc.ExecuteReader())
             {
@@ -135,8 +133,7 @@ namespace post2.model
         { 
             ObservableCollection<EmailMenu> result = new ObservableCollection<EmailMenu>();
             var connect = MySqlDB.Instance.GetConnection(); 
-            if (connect == null) return result;
-            sql = "select e.ID, ab.email, e.Subjecct, e.Body FROM Email e, adressbook ab WHERE ID_StatusEmail = '1' and ID_AdressTo = " + ActiveUser.Instance.GetUser().IDAddress + ";";
+            if (connect == null) return result;           
             using (var mc = new MySqlCommand(sql, connect))
             using (var reader = mc.ExecuteReader())
             {
@@ -178,29 +175,17 @@ namespace post2.model
             var connect = MySqlDB.Instance.GetConnection();
             {
                 if (connect == null) return;
-                string sql = "update Email set ID_StatusEmail = @ID_StatusEmail where ID = @id";
+                string sql = "update Email set ID_StatusEmail = @ID_StatusEmail where ID = " + menuemail.ID +";";
                 using (var mc = new MySqlCommand(sql, connect))
                 {
-                    mc.Parameters.AddWithValue("@ID_StatusEmail", menuemail.ID_StatusEmail);
-                    //mc.Parameters.AddWithValue("@Datedelete", menuemail.DateDelete);
-                    mc.Parameters.AddWithValue("@ID", menuemail.ID);
-                    mc.ExecuteNonQuery();
-                    //result.Clear();
-                    //sql += "SELECT e.ID, ab.email, e.Subjecct, e.Body, e.DateSend FROM email e, adressbook ab where ID_StatusEmail is null and ID_AdressTo " +
-                    //    "= " + ActiveUser.Instance.GetUser().IDAddress + ";";
-                    //using (var reader = mc.ExecuteReader())
-                    //{
-                    //    while (reader.Read())
-                    //    {
-                    //        menuemail.ID = reader.GetInt32("id");
-                    //        menuemail.EmailFrom = reader.GetString("email");
-                    //        menuemail.Subject = reader.GetString("Subjecct");
-                    //        menuemail.Body = reader.GetString("Body");
-                    //        menuemail.DateSend = reader.GetDateTime("DateSend");
-                    //        result.Add(menuemail);
-                    //        mc.ExecuteNonQuery();
-                    //    }
-                    //}
+                    //mc.Parameters.AddWithValue("@ID_StatusEmail", menuemail.ID_StatusEmail);
+                    ////mc.Parameters.AddWithValue("@Datedelete", menuemail.DateDelete);
+                    //mc.Parameters.AddWithValue("@ID", menuemail.ID);
+                    //mc.ExecuteNonQuery();                   
+                        mc.Parameters.Add(new MySqlParameter("ID_StatusEmail", menuemail.ID_StatusEmail));                    
+                        mc.ExecuteNonQuery();
+                        //mc.Parameters.Add(new MySqlParameter("image", user.Image));
+                        return;                    
                 }
             }       
         }

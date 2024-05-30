@@ -35,9 +35,9 @@
             <Label Grid.Column="1" Grid.Row="1" Content="Сообщение" FontSize="30" Foreground ="SteelBlue" HorizontalAlignment="Center"/>
             <Label Grid.Column="1" Grid.Row="1" Content="✍" FontSize="25" Foreground="SteelBlue" HorizontalAlignment="Right"   Background="White"/>
             <Label Grid.Column="1" Grid.Row="2" Content="Кому:"/>
-            <TextBox Grid.Column="1" Grid.Row="2" Margin="50 0 0 20" Text="{Binding Adress}"/>
+            <ComboBox Grid.Column="1" Grid.Row="2" Margin="50 0 0 20" Text="{Binding Email}"/>
             <Label Grid.Column="1" Grid.Row="3" Content="От кого:"/>
-            <Label Grid.Column="1" Grid.Row="3" Content="alina1125@suz-ppk.ru"  Margin="50 0 0 20"/>
+            <Label Grid.Column="1" Grid.Row="3" Content="Alina1125@suz-ppk.ru"  Margin="50 0 0 20"/>
             <TextBox Grid.Column="1" Grid.Row="4" Margin="50 0 0 20" Text="{Binding ssubject}"/>
             <Label Grid.Column="1" Grid.Row="4" Content="Тема:"/>
             <TextBox Grid.Column="1" Grid.Row="5" Height="100" Text="{Binding bbody}"  />
