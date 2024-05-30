@@ -3,10 +3,69 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:post2.view"
-        mc:Ignorable="d"
-        Title="SpamWindow" Height="450" Width="800">
+             xmlns:local="clr-namespace:post2.view"
+xmlns:m="clr-namespace:post2.model"
+xmlns:vm ="clr-namespace:post2.ViewModel"
+mc:Ignorable="d"
+ DataContext="{DynamicResource vm}"
+Title="SpamMenu" Height="450" Width="800">
+    <Window.Resources >
+        <vm:SpamMenuVM x:Key ="vm"/>
+    </Window.Resources >
     <Grid>
-        
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <Label Grid.ColumnSpan="9" Background="CornflowerBlue" Content="CATSS" HorizontalContentAlignment="Center"
+ FontSize="35" Foreground="Beige"/>
+        <Label Grid.Column="2" Grid.ColumnSpan="2" Grid.Row="1" Content="Спам ⛔" FontSize="30" Foreground ="SteelBlue" HorizontalAlignment="Left"/>
+        <ListView x:Name="test" Grid.ColumnSpan="3" Grid.Row="2" Grid.Column="2" Grid.RowSpan="7" ItemsSource="{Binding Emaildb}" SelectedItem="{Binding SelectedEmail}">
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn DisplayMemberBinding="{Binding EmailFrom}"/>
+                    <GridViewColumn DisplayMemberBinding="{Binding Subject}"/>
+                    <GridViewColumn DisplayMemberBinding="{Binding Body}"/>
+                    <GridViewColumn DisplayMemberBinding="{Binding DateSend}"/>
+                </GridView>
+            </ListView.View>
+        </ListView>
+        <Button BorderThickness="1" Grid.Row="2" Content="←" FontSize="30" Foreground ="SteelBlue" Background="White" Command="{Binding Back}" BorderBrush="White">
+            <Button.Resources>
+                <Style TargetType="Border" >
+                    <Setter Property="CornerRadius" Value="40" />
+                </Style>
+            </Button.Resources>
+        </Button>
+        <Button BorderThickness="1" Grid.Row="4" Grid.Column="5" Content="🗑️" FontSize="30" Foreground ="SteelBlue" Background="White" Command="{Binding Delete}" BorderBrush="White">
+            <Button.Resources>
+                <Style TargetType="Border" >
+                    <Setter Property="CornerRadius" Value="40" />
+                </Style>
+            </Button.Resources>
+        </Button>
+        <Button BorderThickness="1" Grid.Column="5" Grid.Row="5" Content="↺" FontSize="39" Foreground ="SteelBlue" Background="White" Command="{Binding Return}" BorderBrush="White">
+            <Button.Resources>
+                <Style TargetType="Border" >
+                    <Setter Property="CornerRadius" Value="40" />
+                </Style>
+            </Button.Resources>
+        </Button>
     </Grid>
 </Window>

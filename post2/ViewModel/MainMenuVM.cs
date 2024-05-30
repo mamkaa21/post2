@@ -35,6 +35,7 @@ namespace post2.ViewModel
         public CommandVm OpenRandomMenu { get; }
         public CommandVm OpenDeleteMenu { get; }
         public CommandVm OpenUserWindow { get; }
+        public CommandVm OpenImportantMenu { get; }
         public CommandVm OpenSpamWindow { get; }
         private DispatcherTimer timer = null;     
         public EmailMenu SelectedEmail
@@ -153,6 +154,33 @@ namespace post2.ViewModel
                     Signal();
                 }
             });
+            OpenImportantMenu = new CommandVm(() =>
+            {
+                ImportantMenu importantMenu = new ImportantMenu();
+                importantMenu.Show();
+                CloseWindow(mainMenu);
+                if (SelectedEmail == null)
+                {
+                    MessageBox.Show("Обьект не выбран"); return;
+                }
+                else
+                {
+                    try
+                    {
+                        SelectedEmail.ID_StatusEmail = 5;
+                        PostRepository.Instance.UpdatePOPEmail(SelectedEmail);
+                        Emaildb.Remove(SelectedEmail);
+                        Signal();
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show($"Ошибка: {ex.Message}");
+                    }
+
+                    Signal();
+                }
+            }
+            );
             OpenSpamWindow = new CommandVm(() =>
             {
                 SpamMenu spamMenu = new SpamMenu();

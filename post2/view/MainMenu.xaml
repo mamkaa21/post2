@@ -38,7 +38,7 @@
         <Label Grid.Column="4"  Background="CornflowerBlue" Content="🐾" HorizontalContentAlignment="Center"
                FontSize="30" Foreground="Beige"/>
         <Label Grid.Column="2" Grid.ColumnSpan="2" Grid.Row="1" Content="Входящие  ✉" FontSize="30" Foreground ="SteelBlue" HorizontalAlignment="Left"/>
-        <Button BorderThickness="2" Grid.Column="5" Grid.Row="1" Content="↺" FontSize="20" Margin="-50 10 130 5" Foreground ="SteelBlue" Background="White" Command="{Binding UpgratePost}" BorderBrush="White">
+        <Button BorderThickness="2" Grid.Column="4"  Grid.Row="1" Content="↺" FontSize="35" HorizontalAlignment="Left" Foreground ="SteelBlue" Background="White" Command="{Binding UpgratePost}" BorderBrush="White">
             <Button.Resources>
                 <Style TargetType="Border" >
                     <Setter Property="CornerRadius" Value="10" />
