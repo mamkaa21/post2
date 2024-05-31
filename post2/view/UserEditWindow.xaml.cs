@@ -25,7 +25,7 @@ namespace post2.ViewModel
             ((UserEditWindowVM)this.DataContext).SetWindow(this);
             //((UserEditWindowVM)this.DataContext).Updateuser(this);
             //var vm = DataContext as UserEditWindowVM;
-            //vm.SetImage(SelectedImage);
+            //vm.SetImage(selectedImage);
         }
     }
 }

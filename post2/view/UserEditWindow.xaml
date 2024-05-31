@@ -46,8 +46,23 @@
             <TextBox Text="{Binding Password}" Height="25"/>
         </StackPanel>
         <Label Grid.Row="2" Grid.Column="5" Grid.ColumnSpan="2" Content="Фото:" HorizontalAlignment="Center" Foreground="CornflowerBlue" FontSize="20"/>
-        <Image Grid.ColumnSpan="2" Grid.Column="5" Grid.RowSpan="3" Grid.Row="3" x:Name="selectedImageUser" Source="{Binding Image}"/>
-        <Button Grid.Column="2" Grid.Row="6" Content="OK" Margin="0" FontSize="32" Foreground="Beige" Background="SteelBlue" Command="{Binding Ok}"/>
-       <Button Grid.Column="5" Grid.Row="6" Grid.ColumnSpan="2" Content="✖️" Margin="50 0 50 0"  FontSize="32" Foreground="Beige" Background="SteelBlue" Command="{Binding ImageAdd}"/>
+        <StackPanel Grid.ColumnSpan="2" Grid.Column="5" Grid.RowSpan="3" Grid.Row="3" DataContext="{Binding Users}">
+            <Image   Source="C:\Users\kim1e\Downloads\userphoto.jpg"/>
+        </StackPanel>
+        <!--<Button BorderThickness="2" Grid.Column="5" Grid.ColumnSpan="2" HorizontalAlignment="Center" Grid.Row="6" Content="✖️" FontSize="38" Foreground ="Beige" Background="SteelBlue" Command="{Binding ImageAdd}" BorderBrush="White">
+            <Button.Resources>
+                <Style TargetType="Border" >
+                    <Setter Property="CornerRadius" Value="40" />
+                </Style>
+            </Button.Resources>
+        </Button>-->
+        <Button Grid.Column="2" Grid.Row="6" Content="OK" FontSize="38" Foreground ="Beige" Background="SteelBlue" Command="{Binding Ok}" BorderBrush="SteelBlue">
+            <Button.Resources>
+                <Style TargetType="Border" >
+                    <Setter Property="CornerRadius" Value="40" />
+                </Style>
+            </Button.Resources>
+        </Button>
+      
     </Grid>
 </Window>

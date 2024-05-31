@@ -179,8 +179,7 @@ namespace post2.ViewModel
 
                     Signal();
                 }
-            }
-            );
+            });
             OpenSpamWindow = new CommandVm(() =>
             {
                 SpamMenu spamMenu = new SpamMenu();
@@ -207,12 +206,7 @@ namespace post2.ViewModel
                     Signal();
                 }
             });
-        }
-        private void AddPOPEmail() { }
-        //private void GetCoutMessage() {
-        //    var c = 0;
-        //    var countdb = PostRepository.Instance.GetCoutMessage(c); 
-        //}      
+        }    
         public static Pop3Client ConnectMail() //конект к серверу 
         {
             Pop3Client pop3Client = new Pop3Client();
@@ -241,10 +235,8 @@ namespace post2.ViewModel
             }
             catch { return; }
             int countdb = 0;
-            countdb = PostRepository.Instance.GetCoutMessage();                            
-            //int counter = 0;
+            countdb = PostRepository.Instance.GetCoutMessage();                                      
             Message message;
-            //for (int i = count; countdb < i; i--) 
             int i = count;
               while (countdb < i) 
               {
@@ -300,8 +292,6 @@ namespace post2.ViewModel
                 PostRepository.Instance.AddPOPEmail(email);            
                 i--;
               }
-            
-
             first = false;
             try
             {
@@ -309,8 +299,6 @@ namespace post2.ViewModel
             }
             catch { }
         }
-
-
         MainMenu mainMenu;
         internal void SetWindow(MainMenu mainMenu) //привязка окна к вм
         {

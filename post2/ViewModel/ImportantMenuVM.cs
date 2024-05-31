@@ -35,7 +35,7 @@ namespace post2.ViewModel
             {
                 MainMenu mainMenu = new MainMenu();
                 mainMenu.Show();
-                CloseWindow(spamMenu);
+                CloseWindow(importantMenu);
                 Signal();
             });
             Delete = new CommandVm(() =>

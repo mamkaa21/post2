@@ -41,10 +41,23 @@
             <Label Content="{Binding NickName}"/>
             <Label Content="Фото:" Foreground="CornflowerBlue" FontSize="20"/>
         </StackPanel>
-        <StackPanel Grid.Column="2" Grid.Row="4" Grid.ColumnSpan="3" Grid.RowSpan="4">
-            <Image Source="{Binding Image}" x:Name="SelectedImageUser"/>
+        <StackPanel Grid.Column="2" Grid.Row="4" Grid.ColumnSpan="3" Grid.RowSpan="4" DataContext="{Binding Users}">
+            <Image Source="C:\Users\kim1e\Downloads\userphoto.jpg" Height="194" />
         </StackPanel>
-        <Button Grid.Row="2" Content="←" Margin="30 2 30 2" Foreground="SteelBlue" Background="White" FontSize="35" Command="{Binding Back}"/>
-        <Button Grid.Column="3" Grid.Row="8" Content="Edit"  Margin="5 5 5 0" FontSize="30" Foreground="Beige" Background="SteelBlue" Command="{Binding Edit}"/>
+        <Button BorderThickness="2" Grid.Row="2" Content="←" FontSize="40" Foreground ="SteelBlue" HorizontalAlignment="Center" Background="White" Command="{Binding Back}" BorderBrush="White">
+            <Button.Resources>
+                <Style TargetType="Border" >
+                    <Setter Property="CornerRadius" Value="10" />
+                </Style>
+            </Button.Resources>
+        </Button>
+        <Button Grid.Column="3" Grid.Row="8" Content="⚙" FontSize="30" Foreground ="Beige" Background="SteelBlue" Command="{Binding Edit}" BorderBrush="SteelBlue">
+            <Button.Resources>
+                <Style TargetType="Border" >
+                    <Setter Property="CornerRadius" Value="40" />
+                </Style>
+            </Button.Resources>
+        </Button>
+       
     </Grid>
 </Window>

@@ -12,39 +12,61 @@
     <Window.Resources >
         <vm:SendWindowVm x:Key ="vm"/>
     </Window.Resources >
-    <ScrollViewer VerticalScrollBarVisibility="Auto">
-        <Grid>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="1*"/>
-                <ColumnDefinition Width="1.5*"/>
-                <ColumnDefinition Width="1*"/>
-            </Grid.ColumnDefinitions>
-            <Grid.RowDefinitions>
-                <RowDefinition/>
-                <RowDefinition/>
-                <RowDefinition/>
-                <RowDefinition/>
-                <RowDefinition/>
-                <RowDefinition/>
-                <RowDefinition/>
-                <RowDefinition/>
-                <RowDefinition/>
-            </Grid.RowDefinitions>
-            <Label Grid.ColumnSpan="7" Background="CornflowerBlue" Content="CATSS" HorizontalContentAlignment="Center"
+
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition />
+            <ColumnDefinition />
+            <ColumnDefinition />
+            <ColumnDefinition />
+            <ColumnDefinition />
+            <ColumnDefinition />
+            <ColumnDefinition />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <Label Grid.ColumnSpan="7" Background="CornflowerBlue" Content="CATSS" HorizontalContentAlignment="Center"
               FontSize="35" Foreground="Beige"/>
-            <Label Grid.Column="1" Grid.Row="1" Content="Сообщение" FontSize="30" Foreground ="SteelBlue" HorizontalAlignment="Center"/>
-            <Label Grid.Column="1" Grid.Row="1" Content="✍" FontSize="25" Foreground="SteelBlue" HorizontalAlignment="Right"   Background="White"/>
-            <Label Grid.Column="1" Grid.Row="2" Content="Кому:"/>
-            <ComboBox Grid.Column="1" Grid.Row="2" Margin="50 0 0 20" Text="{Binding Email}"/>
-            <Label Grid.Column="1" Grid.Row="3" Content="От кого:"/>
-            <Label Grid.Column="1" Grid.Row="3" Content="Alina1125@suz-ppk.ru"  Margin="50 0 0 20"/>
-            <TextBox Grid.Column="1" Grid.Row="4" Margin="50 0 0 20" Text="{Binding ssubject}"/>
-            <Label Grid.Column="1" Grid.Row="4" Content="Тема:"/>
-            <TextBox Grid.Column="1" Grid.Row="5" Height="100" Text="{Binding bbody}"  />
-            <Image Grid.Column="1" Grid.Row="6"  x:Name="SelectedImage" Stretch="UniformToFill" Margin="1,0,0,0"/>
-            <Button Grid.Column="1" Grid.Row="7" Content="🧷" Margin="5 5 5 0" Foreground="Beige" Background="SteelBlue" Command="{Binding Image}"/>
-            <Button  Grid.Column="1" Grid.Row="8" Content="Отправить" FontSize="20" Foreground="Beige" Background="SteelBlue" Margin="5 5 5 0" Command="{Binding SendPost}"/>
-            <Button Grid.Row="2" Content="←" Margin="70 0 70 0" Foreground="SteelBlue" Background="White" FontSize="30" Command="{Binding Back}"/>
-        </Grid>
-    </ScrollViewer>
+        <Label Grid.Column="1" Grid.ColumnSpan="2" Grid.Row="1" Content="Сообщение" FontSize="30" Foreground ="SteelBlue" HorizontalAlignment="Center"/>
+        <Label Grid.Column="3" Grid.Row="1" Content="✍" FontSize="25" Foreground="SteelBlue" HorizontalAlignment="Left"   Background="White"/>
+        <Label Grid.Column="1" Grid.Row="2" Content="Кому:"/>
+        <TextBox Grid.Column="1" Grid.Row="2" Grid.ColumnSpan="3" Margin="50 0 0 20" Text="{Binding Adress}"/>
+        <Label Grid.Column="1" Grid.Row="3" Content="От кого:"/>
+        <Label Grid.Column="2" Grid.ColumnSpan="2" Grid.Row="3" Content="Alina1125@suz-ppk.ru"  Margin="-50 0 0 20"/>
+        <TextBox Grid.Column="1" Grid.Row="4" Grid.ColumnSpan="3" Margin="50 0 0 20" Text="{Binding ssubject}"/>
+        <Label Grid.Column="1" Grid.Row="4" Content="Тема:"/>
+        <TextBox Grid.ColumnSpan="4" Grid.Row="4" Text="{Binding bbody}" Margin="114,48,0,48" Grid.RowSpan="4"  />
+        <Image Grid.Column="4" Grid.Row="2" Grid.ColumnSpan="3" Grid.RowSpan="4"  x:Name="SelectedImage" Stretch="UniformToFill" Margin="1,0,0,0"/>
+        <Button Grid.Column="5" Grid.Row="7" Content="🧷" FontSize="28" Foreground ="Beige" Background="SteelBlue" Command="{Binding Image}" BorderBrush="SteelBlue">
+            <Button.Resources>
+                <Style TargetType="Border" >
+                    <Setter Property="CornerRadius" Value="40" />
+                </Style>
+            </Button.Resources>
+        </Button>
+        <Button  Grid.Column="2" Grid.Row="7" Content="📨"  FontSize="30" Foreground ="Beige" Background="SteelBlue" Command="{Binding SendPost}" BorderBrush="SteelBlue">
+            <Button.Resources>
+                <Style TargetType="Border" >
+                    <Setter Property="CornerRadius" Value="40" />
+                </Style>
+            </Button.Resources>
+        </Button>
+        <Button BorderThickness="2" Grid.Row="2" Content="←" FontSize="40" Foreground ="SteelBlue" HorizontalAlignment="Center" Background="White" Command="{Binding Back}" BorderBrush="White">
+            <Button.Resources>
+                <Style TargetType="Border" >
+                    <Setter Property="CornerRadius" Value="10" />
+                </Style>
+            </Button.Resources>
+        </Button>
+    </Grid>
+
 </Window>
